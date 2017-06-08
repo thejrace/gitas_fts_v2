@@ -1,0 +1,143 @@
+.root {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-box-border: transparent;
+
+}
+.date-picker {
+    -fx-border-color:#d3d3d3;
+    -fx-focus-color: transparent;
+        -fx-faint-focus-color: transparent;
+        -fx-box-border: transparent;
+}
+
+.filo-table-thead {
+	-fx-text-align:center;
+	-fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-padding:10 0 10 0;
+    -fx-text-fill: #7b7b7b;
+    -fx-border-width: 1 0 0 0;
+	-fx-border-color: #d3d3d3;
+	-fx-font-family:"Montserrat-Medium";
+}
+.filo-table-tbody-main {
+	-fx-text-align: center;
+	-fx-padding:5 0 5 0;
+    -fx-font-size: 12;
+}
+
+
+.filo-table-item {
+	-fx-pref-width:800;
+	-fx-max-width:800;
+	-fx-padding:10;
+}
+
+.filo-table-tr {
+    -fx-padding:5 0;
+}
+.filo-table-tr-tamam{
+	-fx-background-color: #e6e6e6;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: #a0a0a0;
+}
+.filo-table-tr-bekleyen {
+	-fx-background-color: #fff;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: #b1b1b1;
+}
+.filo-table-tr-aktif{
+	-fx-background-color: #caeaae;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: #98aa89;
+}
+.filo-table-tr-iptal {
+	-fx-background-color: #f4bcbc;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: #b28d8d;
+}
+.filo-table-tr-yarim {
+	-fx-background-color: #ffe8e8;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: #ffa5a5;
+}
+.filo-table-header{
+    -fx-padding: 10 0 10 10;
+    -fx-font-weight: bold;
+    -fx-background-color:#ffffff;
+    -fx-border-width: 2 0 0 0;
+	-fx-border-color: #c35757;
+}
+.filo-table-details {
+    -fx-border-width: 0 0 2 0;
+	-fx-border-color: #c35757;
+	-fx-background-color:#fff;
+	-fx-pref-height:50;
+	-fx-padding-top:20;
+}
+.filo-table-bottom-nav {
+    -fx-cursor:hand;
+}
+
+.filo-table-tr-eksefer {
+	-fx-background-color: #f2e5b7;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: #a69660;
+}
+
+.eksefer-oneri-table {
+	-fx-background-color:#fdfdfd;
+}
+
+.filo-table-height-cont {
+    -fx-background-color:#fff;
+}
+
+.otobus-data-header {
+	-fx-font-size: 16px;
+    -fx-text-fill: #c35757;
+}
+
+.filo-td-80 {
+	-fx-pref-width:80;
+	-fx-max-width:80;
+}
+.filo-td-64 {
+	-fx-pref-width:64;
+	-fx-max-width:64;
+}
+.filo-td-78 {
+	-fx-pref-width:78;
+	-fx-max-width:78;
+}
+.filo-td-37 {
+    -fx-pref-width:37;
+    -fx-max-width:37;
+}
+
+.filo-td-60 {
+    -fx-pref-width:60;
+    -fx-max-width:60;
+}
+.filo-td-150 {
+    -fx-pref-width:150;
+    -fx-max-width:150;
+}
+
+.btn-gri-kucuk {
+	-fx-background-color:#272626;
+	-fx-font-size:10;
+	-fx-text-alignment:center;
+	-fx-text-fill:#d1d1d1;
+	-fx-cursor:hand;
+	-fx-padding:5 10;
+}
+
+.tbold{
+    -fx-font-weight:bold;
+}
+
+.filo-table-row-button {
+    -fx-font-size:10;
+}

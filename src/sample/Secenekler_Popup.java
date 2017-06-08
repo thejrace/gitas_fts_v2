@@ -1,0 +1,467 @@
+package sample;
+
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by Jeppe on 11.03.2017.
+ */
+public class Secenekler_Popup {
+
+    private TabPane secenekler_tab;
+    private Obarey_Popup secenekler_popup;
+
+    private int EKSEFER_ONERI_DONE = 0;
+    private Map<String, ArrayList<Oneri_Sefer_Data>> EKSEFER_TABS = new HashMap<>();
+    private GButton eksefer_btn;
+    private Node root;
+    private double x,y;
+
+    public void init( Node root ){
+
+        this.root = root;
+        secenekler_tab = new TabPane();
+        if( User_Config.izin_kontrol(User_Config.ISE_EXCEL) ) secenekler_tab.getTabs().add( excel_rapor_init() );
+        if( User_Config.izin_kontrol(User_Config.ISE_EKSEFERONERI) ) secenekler_tab.getTabs().add( eksefer_oneri_init() );
+        if( User_Config.izin_kontrol(User_Config.ISE_ISTATISTIK_RAPOR) ) secenekler_tab.getTabs().add( istatistik_rapor_init() );
+        secenekler_tab.getTabs().add( geribildirim_init() );
+        secenekler_popup = new Obarey_Popup("Seçenekler", root );
+        secenekler_popup.init( true );
+        secenekler_popup.set_content( ( secenekler_tab ));
+
+    }
+
+    public void show( double x, double y ){
+        this.x = x;
+        this.y = y;
+        secenekler_popup.show( x, y );
+    }
+
+    private Tab geribildirim_init(){
+
+        Tab geribildirim_tab = new Tab("Geri Bildirim");
+        geribildirim_tab.setClosable(false);
+
+        Label geribildirim_tab_header = new Label("Geri Bildirim");
+        geribildirim_tab_header.getStyleClass().addAll("fbold", "cbeyaz", "fs14");
+
+        ScrollPane geribildirim_wrapper  = new ScrollPane();
+        geribildirim_wrapper.setMinWidth(700);
+        geribildirim_wrapper.setPrefHeight(250);
+        VBox geribildirim_tab_cont = new VBox();
+        geribildirim_tab_cont.setMinWidth(700);
+        geribildirim_tab_cont.setPrefHeight(250);
+        geribildirim_tab_cont.setAlignment(Pos.TOP_CENTER);
+        geribildirim_tab_cont.setSpacing(20);
+        geribildirim_tab_cont.getStyleClass().add("secenekler-tab");
+        geribildirim_tab_cont.setPadding(new Insets( 10, 10, 20, 10 ));
+
+        TextArea gb_textarea = new TextArea();
+        final Label info = new Label( "Hata, öneri, istek bildirimi yapın.");
+        info.getStyleClass().addAll("cbeyaz", "fs12");
+        GButton gonder_btn = new GButton("Gönder", GButton.CMORK );
+
+        GInputGrup tip_select = new GInputGrup("Konu", new GTextField(GTextField.UZUN, "") );
+
+        geribildirim_tab_cont.getChildren().addAll( geribildirim_tab_header, info, tip_select, gb_textarea, gonder_btn );
+        geribildirim_wrapper.setContent(geribildirim_tab_cont );
+        geribildirim_tab.setContent( geribildirim_wrapper );
+
+        gonder_btn.setOnAction(ev->{
+            gonder_btn.setText( "Mesaj gönderiliyor..." );
+            gonder_btn.setDisable(true);
+            String  konu = tip_select.get_input_val(),
+                    mesaj = gb_textarea.getText();
+
+
+            if( konu.equals("") || mesaj.equals("") ){
+                info.setText( "Formda eksiklikler var!" );
+                gonder_btn.setText( "Gönder" );
+                gonder_btn.setDisable(false);
+                return;
+            }
+
+            /* TODO Lisans_Kontrol kontrol = new Lisans_Kontrol(User_Config.get_eposta());
+            kontrol.set_req_type("geribildirim");
+            kontrol.set_extra_data("&konu="+konu+"&mesaj="+mesaj);
+
+            Thread th = new Thread( kontrol );
+            th.setDaemon(true);
+            th.start();
+
+            kontrol.setOnSucceeded(evo->{
+                JSONObject output = kontrol.getValue();
+                gonder_btn.setDisable(false);
+                gonder_btn.setText( "Gönder" );
+                int ok = output.getInt("ok");
+                if( ok == 1 ){
+                    info.setText("Mesajınız bize ulaştı teşekkürler." );
+                } else {
+                    info.setText("Bir hata oluştu. Lütfen tekrar deneyin." );
+                }
+            });*/
+
+        });
+
+        return geribildirim_tab;
+
+    }
+
+    private Tab istatistik_rapor_init(){
+
+        Tab km_tab = new Tab("İstatistikler");
+        km_tab.setClosable(false);
+
+        Label km_tab_header = new Label("İstatistikler");
+        km_tab_header.getStyleClass().addAll("fbold", "cbeyaz", "fs14");
+
+        ScrollPane km_wrapper  = new ScrollPane();
+        km_wrapper.setMinWidth(700);
+        km_wrapper.setPrefHeight(250);
+        VBox km_tab_cont = new VBox();
+        km_tab_cont.setMinWidth(700);
+        km_tab_cont.setPrefHeight(250);
+        km_tab_cont.setAlignment(Pos.TOP_CENTER);
+        km_tab_cont.setSpacing(20);
+        km_tab_cont.getStyleClass().add("secenekler-tab");
+        km_tab_cont.setPadding(new Insets( 10, 10, 20, 10 ));
+
+        final Label lbl_notf = new Label("Otobüs istatistiklerini raporla.");
+        lbl_notf.getStyleClass().addAll("fs13");
+
+        VBox tarih_filtre = new VBox();
+        tarih_filtre.setSpacing(20);
+        tarih_filtre.setAlignment(Pos.CENTER);
+
+        VBox gunluk_filtre_item = new VBox();
+        HBox gunluk_filtre_content = new HBox();
+        gunluk_filtre_content.setSpacing(10);
+
+        GButton gunluk_rapor_btn = new GButton("Raporu Oluştur", GButton.CMORK );
+        final DatePicker gunluk_dp = new DatePicker();
+        Label gunluk_filtre_header = new Label("Günlük");
+        gunluk_filtre_header.getStyleClass().addAll("fbold", "cbeyaz", "fs11");
+        gunluk_filtre_item.setSpacing(10);
+        gunluk_filtre_item.setAlignment(Pos.CENTER);
+
+        gunluk_filtre_content.getChildren().addAll( gunluk_dp, gunluk_rapor_btn );
+        gunluk_filtre_content.setAlignment(Pos.CENTER);
+        gunluk_filtre_item.getChildren().addAll( gunluk_filtre_header, gunluk_filtre_content );
+
+
+        VBox aralik_filtre_item = new VBox();
+        HBox aralik_filtre_content = new HBox();
+        aralik_filtre_item.setAlignment(Pos.CENTER);
+        aralik_filtre_content.setAlignment(Pos.CENTER);
+        aralik_filtre_content.setSpacing(10);
+        aralik_filtre_item.setSpacing(10);
+        GButton aralik_rapor_btn = new GButton("Raporu Oluştur", GButton.CMORK );
+        Label aralik_filtre_header = new Label("Tarih Aralığı");
+        aralik_filtre_header.getStyleClass().addAll("fbold", "cbeyaz", "fs11");
+
+        final DatePicker baslangic_dp = new DatePicker();
+        final DatePicker bitis_dp = new DatePicker();
+        aralik_filtre_content.getChildren().addAll( baslangic_dp, bitis_dp, aralik_rapor_btn );
+        aralik_filtre_item.getChildren().addAll( aralik_filtre_header, aralik_filtre_content );
+
+        GButton tum_rapor = new GButton("Tüm Filo Raporu Oluştur", GButton.CMORK );
+
+        tarih_filtre.getChildren().addAll( gunluk_filtre_item, aralik_filtre_item, tum_rapor );
+
+        km_tab_cont.getChildren().addAll( km_tab_header, lbl_notf, tarih_filtre );
+        km_wrapper.setContent( km_tab_cont );
+        km_tab.setContent( km_wrapper );
+
+        gunluk_rapor_btn.setOnMousePressed(ev->{
+            String  gun   = gunluk_dp.getValue().toString();
+            if( gun.equals("") ) return;
+            Rapor_Popup rapor_popup = new Rapor_Popup( Rapor_Box_Toplam.TOPLAM_FILO, "OBAREY", gun, "" );
+            rapor_popup.init( ev.getScreenX(), ev.getScreenY(), root );
+            rapor_popup.show();
+        });
+
+        aralik_rapor_btn.setOnMousePressed(ev->{
+            String  baslangic = baslangic_dp.getValue().toString(),
+                    bitis = bitis_dp.getValue().toString();
+            if( baslangic.equals("") ||  bitis.equals("") ) return;
+            Rapor_Popup rapor_popup = new Rapor_Popup(Rapor_Box_Toplam.TOPLAM_FILO, "OBAREY", baslangic, bitis );
+            rapor_popup.init( ev.getScreenX(), ev.getScreenY(), root );
+            rapor_popup.show();
+        });
+
+        tum_rapor.setOnMousePressed(ev->{
+            Rapor_Popup rapor_popup = new Rapor_Popup( Rapor_Box_Toplam.TOPLAM_FILO, "OBAREY","", "" );
+            rapor_popup.init( ev.getScreenX(), ev.getScreenY(), root );
+            rapor_popup.show();
+        });
+
+        return km_tab;
+    }
+
+    private Tab eksefer_oneri_init(){
+
+        Tab eksefer_tab = new Tab("Ek Sefer Önerileri");
+        eksefer_tab.setClosable(false);
+
+        Label eksefer_tab_header = new Label("Ek Sefer Önerileri");
+        eksefer_tab_header.getStyleClass().addAll("fbold", "cbeyaz", "fs14");
+
+        ScrollPane eksefer_wrapper  = new ScrollPane();
+        eksefer_wrapper.setMinWidth(700);
+        eksefer_wrapper.setPrefHeight(250);
+        VBox eksefer_tab_cont = new VBox();
+        eksefer_tab_cont.setMinWidth(700);
+        eksefer_tab_cont.setPrefHeight(250);
+        eksefer_tab_cont.setAlignment(Pos.TOP_CENTER);
+        eksefer_tab_cont.getStyleClass().add("secenekler-tab");
+        eksefer_tab_cont.setFillWidth(true);
+        eksefer_tab_cont.setPadding(new Insets( 10, 10, 20, 10 ));
+
+        eksefer_btn = new GButton("Önerileri Listele", GButton.CMORB );
+        final Label a_notf = new Label("Beklemede..");
+        final Label b_notf = new Label("Beklemede..");
+        final Label c_notf = new Label("Beklemede..");
+
+        eksefer_tab_cont.setSpacing(20);
+        eksefer_tab_cont.getChildren().addAll(eksefer_tab_header, eksefer_btn,a_notf, b_notf, c_notf );
+
+        eksefer_wrapper.setContent(eksefer_tab_cont );
+        eksefer_tab.setContent( eksefer_wrapper );
+
+        eksefer_btn.setOnAction( event -> {
+           /* eksefer_btn.setText("İŞLEM YAPILIYOR..");
+            eksefer_btn.setDisable(true);
+
+            EKSEFER_ONERI_DONE = 0;
+            EKSEFER_TABS.clear();
+
+            Filo_Eksefer_Oneri_Task ek_oneri_a = new Filo_Eksefer_Oneri_Task("A");
+            Filo_Eksefer_Oneri_Task ek_oneri_b = new Filo_Eksefer_Oneri_Task("B");
+            Filo_Eksefer_Oneri_Task ek_oneri_c = new Filo_Eksefer_Oneri_Task("C");
+            Thread ek_oneri_a_th = new Thread( ek_oneri_a );
+            Thread ek_oneri_b_th = new Thread( ek_oneri_b );
+            Thread ek_oneri_c_th = new Thread( ek_oneri_c );
+
+            ek_oneri_a_th.setDaemon(true);
+            ek_oneri_a_th.start();
+            ek_oneri_b_th.setDaemon(true);
+            ek_oneri_b_th.start();
+            ek_oneri_c_th.setDaemon(true);
+            ek_oneri_c_th.start();
+
+            a_notf.textProperty().bind( ek_oneri_a.messageProperty() );
+            b_notf.textProperty().bind( ek_oneri_b.messageProperty() );
+            c_notf.textProperty().bind( ek_oneri_c.messageProperty() );
+
+
+            ek_oneri_a.setOnSucceeded( ev -> {
+                EKSEFER_ONERI_DONE++;
+                EKSEFER_TABS.put( "A", ek_oneri_a.getValue());
+                eksefer_oneri_cb();
+            });
+
+            ek_oneri_b.setOnSucceeded( ev -> {
+                EKSEFER_ONERI_DONE++;
+                EKSEFER_TABS.put( "B", ek_oneri_b.getValue());
+                eksefer_oneri_cb();
+            });
+
+            ek_oneri_c.setOnSucceeded( ev -> {
+                EKSEFER_ONERI_DONE++;
+                EKSEFER_TABS.put( "C", ek_oneri_c.getValue());
+                eksefer_oneri_cb();
+            });*/
+
+        });
+
+        return eksefer_tab;
+    }
+
+    private void eksefer_oneri_cb(){
+        if( EKSEFER_ONERI_DONE == 3 ){
+           /* eksefer_btn.setText("ÖNERİLER LİSTELENİYOR...");
+            Obarey_Popup oneri_popup = new Obarey_Popup("Ek Sefer Önerileri", root);
+            Thread eksefer_ui_prep = new Thread( new Task<Void>(){
+                @Override
+                protected void succeeded(){
+                    oneri_popup.show(200, 200);
+                    eksefer_btn.setText("EKSEFER ÖNERİLERİ");
+                    eksefer_btn.setDisable(false);
+                }
+                @Override
+                protected Void call(){
+
+                    TabPane tab_cont = new TabPane();
+                    VBox container = new VBox();
+                    oneri_popup.init(true);
+                    GButton excel_out = new GButton("Excel Çıktısı Al", GButton.CMORK);
+                    Label excel_progress = new Label("");
+                    HBox excel_cont = new HBox();
+                    excel_cont.setAlignment(Pos.CENTER);
+                    excel_cont.setPadding(new Insets( 0, 0, 10, 0 ));
+                    HBox.setMargin(excel_progress, new Insets(2, 0, 0, 10 ) );
+                    excel_cont.getChildren().addAll( excel_out, excel_progress );
+                    excel_out.setOnMousePressed( ev -> {
+                        Thread eksefer_excel_out = new Thread( new Runnable(){
+                            @Override
+                            public void run(){
+                                Platform.runLater(new Runnable(){ @Override public void run(){ excel_progress.setText("İşlem yapılıyor.."); }});
+                                Excel_Eksefer_Onerileri excel_out = new Excel_Eksefer_Onerileri( EKSEFER_TABS.get("A"), EKSEFER_TABS.get("B"), EKSEFER_TABS.get("C") );
+                                excel_out.action();
+
+                                Platform.runLater(new Runnable(){ @Override public void run(){ excel_progress.setText("İşlem tamamlandı."); }});
+                            }
+                        });
+                        eksefer_excel_out.setDaemon(true);
+                        eksefer_excel_out.start();
+                    });
+
+                    Filo_Oneri_Sefer_Table a_oneri_table = new Filo_Oneri_Sefer_Table( EKSEFER_TABS.get("A") );
+                    a_oneri_table.init();
+                    Tab a_tab = new Tab();
+                    a_tab.setText( "A Bölgesi");
+                    a_tab.setContent( a_oneri_table.get_ui() );
+                    a_tab.setClosable(false);
+
+                    Filo_Oneri_Sefer_Table b_oneri_table = new Filo_Oneri_Sefer_Table( EKSEFER_TABS.get("B") );
+                    b_oneri_table.init();
+                    Tab b_tab = new Tab();
+                    b_tab.setText( "B Bölgesi");
+                    b_tab.setContent( b_oneri_table.get_ui() );
+                    b_tab.setClosable(false);
+
+                    Filo_Oneri_Sefer_Table c_oneri_table = new Filo_Oneri_Sefer_Table( EKSEFER_TABS.get("C") );
+                    c_oneri_table.init();
+                    Tab c_tab = new Tab();
+                    c_tab.setText( "C Bölgesi");
+                    c_tab.setContent( c_oneri_table.get_ui() );
+                    c_tab.setClosable(false);
+
+                    tab_cont.getTabs().addAll( a_tab, b_tab, c_tab );
+                    container.getChildren().addAll( excel_cont, tab_cont );
+                    oneri_popup.set_content(container);
+                    return null;
+                }
+            });
+            eksefer_ui_prep.setDaemon(true);
+            eksefer_ui_prep.start();*/
+
+        }
+    }
+
+    private Tab excel_rapor_init(){
+
+        Tab excel_tab = new Tab("Excel Çıktı");
+        excel_tab.setClosable(false);
+
+        Label excel_tab_header = new Label("Excel Çıktı");
+        excel_tab_header.getStyleClass().addAll("fbold", "cbeyaz", "fs14");
+
+        ScrollPane excel_wrapper  = new ScrollPane();
+        excel_wrapper.setMinWidth(700);
+        excel_wrapper.setPrefHeight(250);
+        VBox excel_tab_cont = new VBox();
+        excel_tab_cont.setMinWidth(700);
+        excel_tab_cont.setPrefHeight(250);
+        excel_tab_cont.setAlignment(Pos.TOP_CENTER);
+        excel_tab_cont.setSpacing(20);
+        excel_tab_cont.getStyleClass().add("secenekler-tab");
+        excel_tab_cont.setPadding(new Insets( 10, 10, 20, 10 ));
+        final DatePicker excel_dp = new DatePicker();
+        final Label lbl_notf = new Label("Sefer verilerinin excel çıktısını al.");
+        lbl_notf.getStyleClass().addAll("fs13");
+        HBox button_cont = new HBox();
+        button_cont.setAlignment(Pos.CENTER);
+        button_cont.setSpacing(10);
+        GButton excel_btn = new GButton("GÜNLÜK RAPOR", GButton.CMORK);
+        GButton surucu_excel_btn = new GButton( "SÜRÜCÜ RAPOR", GButton.CMORK);
+        button_cont.getChildren().addAll( excel_btn, surucu_excel_btn );
+
+        CheckBox cb_tamam = new CheckBox("Tamam");
+        CheckBox cb_bekleyen = new CheckBox("Bekleyen");
+        CheckBox cb_aktif = new CheckBox("Aktif");
+        CheckBox cb_iptal = new CheckBox("İptal");
+        CheckBox cb_yarim = new CheckBox("Yarım");
+        CheckBox cb_iys = new CheckBox("IYS Ekle");
+        CheckBox cb_gitas_not = new CheckBox("Gitaş Not Ekle");
+        CheckBox cb_plaka = new CheckBox("Plaka Ekle");
+        cb_iys.setSelected(false);
+        cb_gitas_not.setSelected(false);
+        cb_plaka.setSelected(false);
+        cb_tamam.setSelected(true);
+        cb_bekleyen.setSelected(true);
+        cb_aktif.setSelected(true);
+        cb_iptal.setSelected(true);
+        cb_yarim.setSelected(true);
+
+        HBox cb_cont = new HBox( cb_tamam, cb_bekleyen, cb_aktif, cb_iptal, cb_yarim, cb_iys, cb_gitas_not, cb_plaka );
+        cb_cont.setSpacing(15);
+        cb_cont.setAlignment(Pos.CENTER);
+
+        excel_tab_cont.getChildren().addAll( excel_tab_header, lbl_notf, excel_dp, cb_cont, button_cont );
+        excel_wrapper.setContent( excel_tab_cont );
+        excel_tab.setContent( excel_wrapper );
+
+        excel_btn.setOnMousePressed( event -> {
+            if( excel_dp.getValue() == null ) return;
+            Thread th = new Thread( new Task<String>(){
+
+                @Override
+                protected String call(){
+                    /*Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Yapılıyor.."); }});
+                    Excel_Filo_Plan fp = new Excel_Filo_Plan(excel_dp.getValue().toString());
+                    if( fp.init( cb_tamam.isSelected(), cb_bekleyen.isSelected(), cb_aktif.isSelected(), cb_iptal.isSelected(), cb_yarim.isSelected(), cb_iys.isSelected(), cb_gitas_not.isSelected(), cb_plaka.isSelected() ) ){
+                        Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Tamamlandı.."); }});
+                    } else {
+                        Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("Verilen tarihin verisi yok."); }});
+                    }*/
+                    return null;
+                }
+
+
+            });
+            th.setDaemon(true);
+            th.start();
+        });
+
+        surucu_excel_btn.setOnMousePressed( ev -> {
+            if( excel_dp.getValue() == null ) return;
+            Thread th = new Thread( new Task<String>(){
+
+                @Override
+                protected String call(){
+                    /*Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Yapılıyor.."); }});
+                    Excel_Surucu_Rapor fp = new Excel_Surucu_Rapor(excel_dp.getValue().toString());
+                    if( fp.init() ){
+                        Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Tamamlandı.."); }});
+                    } else {
+                        Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("Verilen tarihin verisi yok."); }});
+                    }*/
+                    return null;
+                }
+
+
+            });
+            th.setDaemon(true);
+            th.start();
+        });
+
+
+
+        return excel_tab;
+
+    }
+
+
+}

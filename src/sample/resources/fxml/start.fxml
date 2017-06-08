@@ -1,0 +1,7 @@
+<?import javafx.scene.control.ScrollPane?>
+<?import java.net.URL?>
+<ScrollPane xmlns:fx="http://javafx.com/fxml" >
+   <stylesheets>
+      <URL value="@../css/common.css" />
+   </stylesheets>
+</ScrollPane>

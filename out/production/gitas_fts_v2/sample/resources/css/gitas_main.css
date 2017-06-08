@@ -1,0 +1,350 @@
+
+.wrapper {
+    -fx-background-color:#302e2e;
+}
+
+.button {
+    -fx-cursor:hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.text{
+    -fx-font-smoothing-type: gray;
+}
+.label {
+    -fx-font-smoothing-type: gray;
+}
+
+.vbox {
+	-fx-padding:0;
+}
+.scroll-pane {
+	-fx-padding:0;
+}
+
+.main-header {
+	-fx-background-color:#7b3275;
+	-fx-pref-height:55;
+}
+
+.logo-container {
+	-fx-pref-width:70;
+	-fx-pref-height:42;
+}
+.main-notf {
+	-fx-font-size:11;
+	-fx-text-fill:#fff;
+	-fx-min-width:130;
+}
+
+.alarm-container {
+	-fx-pref-height:200;
+	-fx-min-height:200;
+	-fx-max-height:200;
+	
+}
+
+.alarm-cont-container {
+	-fx-pref-width:1024;
+	-fx-max-width:1024;
+		-fx-pref-height:200;
+	-fx-min-height:200;
+	-fx-max-height:200;
+}
+
+.alarm-content-container {
+	-fx-background-color:#fff;
+	-fx-pref-width:1024;
+	-fx-max-width:1024;
+}
+
+.filo-table-info {
+	-fx-pref-width:1024;
+	-fx-max-width:1024;
+	-fx-max-height:50;
+}
+
+.filo-table-info-rect {
+
+}
+
+.filo-table-info-rect-iptal {
+	-fx-fill: #f4bcbc;
+	-fx-stroke: #ffa5a5;
+}
+
+.filo-table-info-rect-aktif {
+	-fx-fill: #caeaae;
+	-fx-stroke: #98aa89;
+}
+
+.filo-table-info-rect-yarim {
+	-fx-fill: #ffe8e8;
+	-fx-stroke: #ffa5a5;
+}
+
+.filo-table-info-rect-bekleyen {
+	-fx-fill: #fff;
+	-fx-stroke: #b1b1b1;
+}
+
+.filo-table-info-rect-tamam {
+	-fx-fill: #e6e6e6;
+	-fx-stroke: #a0a0a0;
+}
+
+.filo-table-info-rect-eksefer {
+	-fx-fill: #ffedc4;
+	-fx-stroke: #b19045;
+}
+
+.cb-filter{
+	-fx-background-color: #e6e6e6;
+    -fx-padding: 5 10;
+    -fx-border-width:1;
+	-fx-border-color: #d3d3d3;
+    -fx-font-size:12;
+}
+
+.cb-filter-selected {
+	-fx-background-color: #c35757;
+	-fx-text-fill:#fff;
+	-fx-padding: 5 10;
+    -fx-border-width:1;
+	-fx-border-color: #d3d3d3;
+    -fx-font-size:12;
+}
+
+.coklu-filo-tables {
+
+    /* 1620 huseyin amcanin cozunurluk  */
+    -fx-min-width:1024;
+    -fx-pref-width:768;
+}
+
+
+.section-header {
+    -fx-font-size: 22;
+    -fx-text-fill: #fff;
+    /*-fx-font-weight:bold;*/
+    -fx-font-family:"Montserrat SemiBold";
+}
+
+.ust-nav-container {
+	-fx-pref-height:60;
+}
+
+.ust-nav-button {
+	-fx-background-color:#fff;
+	-fx-text-fill:#34495e;
+	-fx-text-align:center;
+	-fx-padding:10 25;
+	-fx-font-weight:bold;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: #34495e;
+	-fx-cursor:hand;
+}
+
+.ust-nav-button:hover {
+	-fx-border-color: #ff3600;
+	-fx-text-fill:#ff3600;
+}
+
+
+
+.otobus-takip-box{
+	-fx-pref-width:300;
+	-fx-pref-height:190;
+	-fx-padding:10;
+}
+
+
+.otobus-takip-box-header {
+	-fx-pref-height:50;
+	/*-fx-background-color:#a13e97;*/
+	/*-fx-background-color: linear-gradient(to top left, #a13e97 0%, #c965bf 75%);*/
+	 -fx-background-image: url("../img/bg_box_header.png");
+	 -fx-background-repeat: stretch;   
+	 -fx-background-size: 310 50;
+    -fx-background-position: center center;
+}
+
+.otobus-takip-box-content {
+	/*-fx-background-color:#fff;*/
+	-fx-background-color: linear-gradient(to bottom right, #fff 0%, #f0f0f0 40%);
+	-fx-pref-height:160;
+}
+
+.durum-led {
+	-fx-stroke-width:0;
+}
+
+.durum-led-default {
+	-fx-fill: #000;
+}
+.durum-led-aktif {
+	-fx-fill: #00ff36;
+}
+.durum-led-tamam{
+	-fx-fill: #c5c5c5;
+}
+.durum-led-bekleyen {
+	-fx-fill: #fff;
+}
+.durum-led-yarim{
+	-fx-fill: #ff8686;
+}
+.durum-led-iptal {
+	-fx-fill: #ff4242;
+}
+
+.default-color0.chart-pie { -fx-pie-color: #c5c5c5; }
+.default-color1.chart-pie { -fx-pie-color: #fff; }
+.default-color2.chart-pie { -fx-pie-color: #00ff36; }
+.default-color3.chart-pie { -fx-pie-color: #ff4242; }
+.default-color4.chart-pie { -fx-pie-color: #ff8686; }
+
+.chart-pie-label-line {
+    -fx-stroke: #8b4513;
+    -fx-fill: #8b4513;
+}
+
+.chart-pie-label {
+    -fx-fill: #fff;
+    -fx-font-family:'Montserrat Bold';
+    -fx-font-size:12;
+}
+
+.otobus-takip-header-label {
+	-fx-font-size:15;
+	-fx-text-fill:#ffffff;
+	-fx-font-family:"Montserrat Bold";
+}
+.box-info {
+	-fx-font-size:11;
+	-fx-text-fill:#656565;
+	-fx-text-alignment:center;
+	
+}
+.box-main-info {
+	-fx-font-size:14;
+	-fx-padding:5 0 0 0;
+}
+.box-ozet-container {
+	-fx-pref-height:42;
+}
+.box-ozet-item {
+	-fx-pref-width:40;
+	-fx-pref-height:28;
+	-fx-border-width:1;
+	-fx-border-color:#e3e3e3;
+	-fx-text-fill:#4e4e4e;
+	-fx-font-weight:bold;
+}
+
+.box-ozet-item-aktif {
+	-fx-background-color:#caeaae;
+}
+.box-ozet-item-tamam {
+	-fx-background-color:#e6e6e6;
+}
+.box-ozet-item-bekleyen {
+	-fx-background-color:#fff;
+}
+.box-ozet-item-yarim {
+	-fx-background-color:#ffe8e8;
+}
+.box-ozet-item-iptal {
+	-fx-background-color:#f4bcbc;
+}
+
+.box-alt-nav-container {
+	-fx-pref-height:28;
+	/*-fx-padding:0 0 5 0;*/
+
+	-fx-padding:0;
+	-fx-background-color:#272626;
+}
+.box-nav-item {
+	-fx-cursor:hand;
+}
+.box-header-plaka,
+ .box-header-plaka-uyari {
+    -fx-font-size:12;
+    -fx-font-family:"Montserrat SemiBold";
+    -fx-background-color:#fff;
+    -fx-border-width:0 0 0 7;
+    -fx-border-color:#009ddb;
+    -fx-padding:2 4 2 3;
+    -fx-cursor:hand;
+
+}
+
+.box-header-plaka .text {
+    -fx-fill:#000;
+}
+.box-header-plaka-uyari .text {
+    -fx-fill:#ff0000;
+}
+
+.box-nav-btn {
+	-fx-pref-width:70;
+	-fx-pref-height:30;
+	-fx-min-height:30;
+	-fx-background-color:#272626;
+	-fx-font-size:10;
+	-fx-text-alignment:center;
+	-fx-text-fill:#d1d1d1;
+	-fx-background-radius:0;
+	-fx-font-family:"Montserrat Light";
+}
+.box-nav-btn:hover {
+	-fx-text-fill:#ff3600;
+	/*-fx-background-color:#ff3600;*/
+}
+
+.header-nav-btn{
+	-fx-pref-height:30;
+	-fx-min-height:30;
+	-fx-background-color:#222220;
+    -fx-font-size:12;
+    -fx-text-alignment:center;
+    -fx-text-fill:#d1d1d1;
+    -fx-cursor:hand;
+    -fx-padding:6 13;
+    -fx-font-family:"Montserrat SemiBold";
+}
+
+.alarm-dialog {
+	
+}
+
+.alarm-dialog-thead {
+	-fx-font-size:13;
+	-fx-font-weight:bold;
+	-fx-padding:0 0 10 0;
+	-fx-text-fill: #848484;
+}
+
+.alarm-dialog-tbody {
+
+	-fx-font-size:13;
+
+}
+.alarm-dialog-row {
+	-fx-padding:5 0;
+}
+
+.alarm-dialog-saat{
+	-fx-font-style:italic;
+	-fx-pref-width:50;
+}
+
+.alarm-dialog-alarm {
+	-fx-pref-width:300;
+}
+.alarm-dialog-sefer_no {
+	-fx-pref-width:50;
+}
