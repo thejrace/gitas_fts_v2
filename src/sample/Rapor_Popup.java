@@ -58,7 +58,7 @@ public class Rapor_Popup {
                 wrapper.setSpacing(10);
 
                 final String params = "&baslangic="+tfrom+"&bitis="+tto;
-                Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=filo_rapor&oto=OBAREY"+params );
+                Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=filo_rapor&oto="+kod+params );
                 request.kullanici_pc_parametreleri_ekle(true);
                 request.action();
                 JSONObject data = new JSONObject(request.get_value()).getJSONObject("data").getJSONObject("rapor_data");
@@ -86,7 +86,7 @@ public class Rapor_Popup {
 
                         surucu_stat_btn.setOnAction( ev -> {
                             if( !surucu_dt_eklendi ){
-                                Rapor_Datatable dt = new Rapor_Datatable(Rapor_Datatable.SURUCU_DT, params );
+                                Rapor_Datatable dt = new Rapor_Datatable(kod, Rapor_Datatable.SURUCU_DT, params );
                                 Thread th = new Thread( dt );
                                 th.setDaemon(true);
                                 th.start();
@@ -104,7 +104,7 @@ public class Rapor_Popup {
 
                         hat_stat_btn.setOnAction( ev -> {
                             if( !hat_dt_eklendi ){
-                                Rapor_Datatable dt = new Rapor_Datatable(Rapor_Datatable.HAT_DT, params );
+                                Rapor_Datatable dt = new Rapor_Datatable(kod, Rapor_Datatable.HAT_DT, params );
                                 Thread th = new Thread( dt );
                                 th.setDaemon(true);
                                 th.start();
@@ -131,7 +131,7 @@ public class Rapor_Popup {
 
                         surucu_stat_btn.setOnAction( ev -> {
                             if( !surucu_dt_eklendi ){
-                                Rapor_Datatable dt = new Rapor_Datatable(Rapor_Datatable.SURUCU_DT, params );
+                                Rapor_Datatable dt = new Rapor_Datatable(kod, Rapor_Datatable.SURUCU_DT, params );
                                 Thread th = new Thread( dt );
                                 th.setDaemon(true);
                                 th.start();
@@ -149,7 +149,7 @@ public class Rapor_Popup {
 
                         hat_stat_btn.setOnAction( ev -> {
                             if( !hat_dt_eklendi ){
-                                Rapor_Datatable dt = new Rapor_Datatable(Rapor_Datatable.HAT_DT, params );
+                                Rapor_Datatable dt = new Rapor_Datatable(kod, Rapor_Datatable.HAT_DT, params );
                                 Thread th = new Thread( dt );
                                 th.setDaemon(true);
                                 th.start();
@@ -167,7 +167,7 @@ public class Rapor_Popup {
 
                         otobus_stat_btn.setOnAction( ev -> {
                             if( !otobus_dt_eklendi ){
-                                Rapor_Datatable dt = new Rapor_Datatable(Rapor_Datatable.OTOBUS_DT, params );
+                                Rapor_Datatable dt = new Rapor_Datatable(kod, Rapor_Datatable.OTOBUS_DT, params );
                                 Thread th = new Thread( dt );
                                 th.setDaemon(true);
                                 th.start();

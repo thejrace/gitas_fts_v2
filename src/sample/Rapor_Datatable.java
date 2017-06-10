@@ -21,11 +21,12 @@ public class Rapor_Datatable extends Task<Void> {
                             SURUCU_DT = "surucu";
     private VBox cont;
     private JSONArray data;
-    private String tip, params;
+    private String tip, params, oto;
 
-    public Rapor_Datatable( String tip, String params ){
+    public Rapor_Datatable( String oto, String tip, String params ){
         this.tip = tip;
         this.params = params;
+        this.oto = oto;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class Rapor_Datatable extends Task<Void> {
         cont.setAlignment(Pos.CENTER);
         cont.setSpacing(10);
 
-        Web_Request dt_request = new Web_Request(Web_Request.SERVIS_URL, "&req=filo_rapor_dt&oto=OBAREY&key="+tip+params );
+        Web_Request dt_request = new Web_Request(Web_Request.SERVIS_URL, "&req=filo_rapor_dt&oto="+oto+"&key="+tip+params );
         dt_request.kullanici_pc_parametreleri_ekle(true);
         dt_request.action();
         JSONArray dt_data = new JSONObject(dt_request.get_value()).getJSONObject("data").getJSONArray("dt_veri");

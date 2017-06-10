@@ -32,12 +32,16 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Text;
 public class Filo_Table {
 
     private VBox table;
-    private HBox thead;
-    private VBox height_cont;
+    private HBox thead, versiyon_cont;
+    private VBox height_cont, ust_cont;
     private HBox dp_container;
     private ArrayList<HBox> rows = new ArrayList<>();
     private String kod;
     private boolean eski_veri_goruntuleniyor = false;
+    private JSONArray versiyonlar;
+    private boolean versiyon_birden_fazla;
+    private int versiyon = 0;
+    private boolean dp_gizle = false;
 
     // eski veriler incelendikten sonra aktif gune dondugu zaman db den almiyoruz veriyi
     // cunku 1 saat kadar gecmis olabilir db senkrona gore
@@ -52,26 +56,70 @@ public class Filo_Table {
     public void update_ui(){
         try {
             height_cont.getChildren().clear();
+            versiyon_cont.getChildren().clear();
             //height_cont.getChildren().addAll(dp_container, thead);
             for( int j = 0; j < rows.size(); j++ ) height_cont.getChildren().add( rows.get(j) );
+            if( versiyon_birden_fazla ){
+                for( int k = 1; k <= versiyonlar.length() ; k++ ){
+                    final int k_ref = k;
+                    GButton vb =  new GButton("VER."+k, GButton.CMORB );
+                    vb.setPadding(new Insets(10, 0, 10, 0) );
+                    vb.setOnMousePressed( ev -> {
+
+                        Obarey_Popup sefer_popup = new Obarey_Popup(kod + " Sefer Planı VERSİYON " + k_ref , table.getScene().getRoot());
+                        sefer_popup.init(true);
+
+                        Filo_Table sefer_plan_table = new Filo_Table( kod );
+                        sefer_plan_table.dp_gizle();
+                        sefer_plan_table.init();
+                        sefer_plan_table.versiyon_sec( k_ref );
+                        sefer_plan_table.update_data( son_aktif_data, new JSONArray(), false );
+                        sefer_plan_table.update_ui();
+                        sefer_popup.set_content( sefer_plan_table.get() );
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                sefer_popup.show( ev.getScreenX(), ev.getScreenY() );
+                            }
+                        });
+                    });
+                    versiyon_cont.getChildren().add(vb);
+
+                }
+            }
         } catch( Exception e ){
             e.printStackTrace();
         }
     }
 
+    public void versiyon_sec( int ver ){
+        versiyon = ver;
+    }
+    public void dp_gizle(){
+        dp_gizle = true;
+    }
     public boolean get_eski_veri_goruntuleniyor(){
         return eski_veri_goruntuleniyor;
     }
-
-    public void update_data( JSONArray oto, boolean gecmis_data  ){
+    public void update_data( JSONArray oto, JSONArray versiyon_data, boolean gecmis_data  ){
 
         // db den degil direk orer requestten gelen taze veriyi tutuyoruz
         if( !gecmis_data ) son_aktif_data = oto;
 
         JSONObject sefer, onceki_sefer = new JSONObject();
         rows.clear();
+        versiyonlar = versiyon_data;
+        versiyon_birden_fazla = false;
+        if( versiyon_data.length() > 1 ){
+            versiyon_birden_fazla = true;
+        }
+
+
         for( int x = 0; x < oto.length(); x++ ){
             sefer = oto.getJSONObject(x);
+            if( versiyon_birden_fazla && sefer.getInt("versiyon") != versiyon_data.getInt(versiyon_data.length()-1) ) continue;
+            if( versiyon != 0 && sefer.getInt("versiyon") != versiyon ) continue;
+
             if( !oto.isNull(x-1) ) onceki_sefer = oto.getJSONObject(x-1);
             HBox sefer_row = new HBox();
             sefer_row.setPadding( new Insets( 2, 0 ,2, 0));
@@ -107,7 +155,8 @@ public class Filo_Table {
                     new Filo_Table_Sefer_Label( sefer.getString("tahmin"), Filo_Table_Sefer_Label.WTD_60 ).get(),
                     new Filo_Table_Sefer_Label( sefer.getString("bitis"), Filo_Table_Sefer_Label.WTD_60 ).get(),
                     new Filo_Table_Sefer_Label( sefer.getString("durum_kodu"), Filo_Table_Sefer_Label.WTD_37 ).get(),
-                    new Filo_Table_Sefer_Label( String.valueOf(Sefer_Sure.hesapla( sefer.getString("gidis"), sefer.getString("bitis") ) )+ " DK", Filo_Table_Sefer_Label.WTD_60 ).get()
+                    new Filo_Table_Sefer_Label( String.valueOf(Sefer_Sure.hesapla( sefer.getString("gidis"), sefer.getString("bitis") ) )+ " DK", Filo_Table_Sefer_Label.WTD_60 ).get(),
+                    new Filo_Table_Sefer_Label( String.valueOf(sefer.getInt("versiyon")), Filo_Table_Sefer_Label.WTD_37 ).get()
             );
             rows.add(sefer_row);
         }
@@ -120,15 +169,53 @@ public class Filo_Table {
         table.getStyleClass().add( "filo-table-item" );
         //table.setId(kod);
 
+        ust_cont = new VBox();
+        versiyon_cont = new HBox();
+        versiyon_cont.setSpacing(10);
+        versiyon_cont.setAlignment(Pos.CENTER);
+
         table.getStylesheets().addAll( Filo_Table.class.getResource("resources/css/common.css").toExternalForm() );
         dp_container = new HBox();
-        dp_container.setAlignment(Pos.CENTER);
-        dp_container.setPadding(new Insets(0, 0, 10, 0 ));
-        DatePicker dp = new DatePicker();
+        if( !dp_gizle ){
+            dp_container.setAlignment(Pos.CENTER);
+            dp_container.setPadding(new Insets(0, 0, 10, 0 ));
+            DatePicker dp = new DatePicker();
 
-        GButton dp_getir = new GButton("GETİR", GButton.CMORK );
-        dp_container.getChildren().addAll( dp, dp_getir);
-        HBox.setMargin( dp_getir, new Insets(0, 0 , 0, 20 ) );
+            GButton dp_getir = new GButton("GETİR", GButton.CMORK );
+            dp_container.getChildren().addAll( dp, dp_getir);
+            ust_cont.getChildren().addAll( dp_container, versiyon_cont );
+            HBox.setMargin( dp_getir, new Insets(0, 0 , 0, 20 ) );
+
+            dp_getir.setOnMousePressed(ev -> {
+                try {
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String dp_val = dp.getValue().toString();
+                            Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto="+kod+"&baslangic="+dp_val+"&bitis=" );
+                            request.kullanici_pc_parametreleri_ekle(true);
+                            request.action();
+                            JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
+                            update_data( data.getJSONArray("orer_data"), data.getJSONArray("orer_versiyon_data"),true );
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    update_ui();
+                                }
+                            });
+
+                        }
+                    });
+                    thread.setDaemon(true);
+                    thread.start();
+                } catch( NullPointerException e ){
+                    e.printStackTrace();
+                }
+            });
+
+        }
+
+
         height_cont = new VBox(); // row 2
         height_cont.getStyleClass().add( "filo-table-height-cont" );
 
@@ -147,39 +234,14 @@ public class Filo_Table {
                 new Filo_Table_Sefer_Thead_Label( "TAHMİN", Filo_Table_Sefer_Label.WTD_60 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "BİTİŞ", Filo_Table_Sefer_Label.WTD_60 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "DKODU", Filo_Table_Sefer_Label.WTD_37 ).get(),
-                new Filo_Table_Sefer_Thead_Label( "SÜRE", Filo_Table_Sefer_Label.WTD_60 ).get()
+                new Filo_Table_Sefer_Thead_Label( "SÜRE", Filo_Table_Sefer_Label.WTD_60 ).get(),
+                new Filo_Table_Sefer_Thead_Label( "VER", Filo_Table_Sefer_Label.WTD_60 ).get()
         );
-        thead_container.getChildren().addAll( dp_container, thead );
+        thead_container.getChildren().addAll( ust_cont, thead );
         //height_cont.getChildren().add(thead);
 
         table.getChildren().addAll( thead_container, height_cont );
-        dp_getir.setOnMousePressed(ev -> {
-            try {
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String dp_val = dp.getValue().toString();
-                        Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto="+kod+"&baslangic="+dp_val+"&bitis=" );
-                        request.kullanici_pc_parametreleri_ekle(true);
-                        request.action();
-                        update_data( new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("orer_data"), true );
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                update_ui();
-                            }
-                        });
 
-                    }
-                });
-                thread.setDaemon(true);
-                thread.start();
-            } catch( NullPointerException e ){
-                e.printStackTrace();
-            }
-
-
-        });
 
     }
 

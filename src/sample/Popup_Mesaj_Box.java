@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 public class Popup_Mesaj_Box extends ScrollPane {
 
     private String oto;
-    private ArrayList<Filo_Mesaj_Data> mesajlar = new ArrayList<>();
+    private JSONArray mesajlar;
     private Label notf_lbl;
     private VBox mesaj_ul;
 
@@ -61,7 +63,7 @@ public class Popup_Mesaj_Box extends ScrollPane {
         main.getChildren().addAll( dp_container, mesaj_ul );
         setContent(main);
 
-        //update_data( "AKTIF");
+        update_data( "AKTIF");
         update_ui();
 
         getir_btn.setOnMousePressed(ev -> {
@@ -79,7 +81,7 @@ public class Popup_Mesaj_Box extends ScrollPane {
                 }
                 @Override
                 protected String call(){
-                    //update_data( dp.getValue().toString() );
+                    update_data( dp.getValue().toString() );
                     return null;
                 }
             });
@@ -90,7 +92,7 @@ public class Popup_Mesaj_Box extends ScrollPane {
     }
 
     public void update_ui(){
-        if( mesajlar.size() == 0 ) {
+        if( mesajlar.length() == 0 ) {
             notf_lbl.setText("Veri yok.");
         }
         mesaj_ul.getChildren().clear();
@@ -98,18 +100,19 @@ public class Popup_Mesaj_Box extends ScrollPane {
             ImageView ico;
             Label mesaj, tarih;
             AnchorPane mesaj_li;
-            //Tooltip kaynak_tt;
-            for( Filo_Mesaj_Data data: mesajlar ){
+            JSONObject item;
+            for( int x = 0; x < mesajlar.length(); x++ ){
+               item = mesajlar.getJSONObject(x);
                mesaj_li = new AnchorPane();
                mesaj_li.getStyleClass().add("li");
                ico = new ImageView( new Image(getClass().getResourceAsStream("resources/img/ico_obareybox_mesaj.png")));
-               mesaj = new Label(data.get_mesaj());
+               mesaj = new Label(item.getString("mesaj"));
                mesaj.getStyleClass().addAll("fs12", "flight");
                mesaj.setMaxWidth(400);
                mesaj.setWrapText(true);
-               tarih = new Label(data.get_tarih() + " ( "+data.get_kaynak()+" )");
+               tarih = new Label(item.getString("saat") + " ( "+item.getString("kaynak")+" )");
 
-               tarih.setTooltip( new Tooltip(data.get_kaynak()) );
+               tarih.setTooltip( new Tooltip(item.getString("kaynak")) );
                tarih.getStyleClass().addAll("fs10", "flight");
                mesaj_li.getChildren().addAll( ico, mesaj, tarih );
                AnchorPane.setLeftAnchor(ico, 5.0);
@@ -126,40 +129,20 @@ public class Popup_Mesaj_Box extends ScrollPane {
 
             notf_lbl.setText("");
             System.out.println(mesajlar);
-            mesajlar.clear();
+            mesajlar = new JSONArray();
         } catch( Exception e ){
             e.printStackTrace();
         }
     }
 
-    /*public void update_data( String tarih ){
-        Connection con = null;
-        Statement st = null;
-        ResultSet res = null;
+    public void update_data( String tarih ){
 
-        String db_tarih;
-        if( tarih.equals("AKTIF") ){
-            Filo_Senkronizasyon.aktif_gun_hesapla();
-            db_tarih = Filo_Senkronizasyon.get_aktif_gun();
-            if( db_tarih.equals("BEKLEMEDE") ) db_tarih = Common.get_yesterday_date();
-        } else {
-            db_tarih = tarih;
-        }
+        Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=mesaj_download&oto="+oto+"&tarih="+tarih );
+        request.kullanici_pc_parametreleri_ekle(true);
+        request.action();
+        JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
+        mesajlar = data.getJSONArray("mesaj_data");
 
-        try {
-            con = DBC.getInstance().getConnection();
-            st = con.createStatement();
-            res = st.executeQuery("SELECT * FROM " + GitasDBT.FILO_MESAJLAR + " WHERE ( oto = '"+oto+"' && tarih = '"+db_tarih+"' ) ORDER BY saat DESC");
-            while( res.next() ){
-                mesajlar.add( new Filo_Mesaj_Data( res.getString("kaynak"), res.getString("saat"),  res.getString("mesaj") ) );
-            }
-        } catch( SQLException e ){ e.printStackTrace(); }
-
-        try {
-            if( res != null ) res.close();
-            if( st != null ) st.close();
-            if( con != null ) con.close();
-        } catch( SQLException e ) { e.printStackTrace(); }
-    }*/
+    }
 
 }
