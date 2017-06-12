@@ -90,14 +90,14 @@ public class Sefer_Sure {
             from_dk = to_dk_temp;
             //eksi = true;
         }
-       boolean ileri = false;
-       int  from_index = 0;
-       for( int j = 0; j < saat_liste.length; j++ ){
-           if( saat_liste[j] == from_saat ){
-               from_index = j;
-               break;
-           }
-       }
+        boolean ileri = false;
+        int  from_index = 0;
+        for( int j = 0; j < saat_liste.length; j++ ){
+            if( saat_liste[j] == from_saat ){
+                from_index = j;
+                break;
+            }
+        }
 
         for( int x = from_index; x < 24 ; x++ ){
             if( saat_liste[x] == to_saat ){

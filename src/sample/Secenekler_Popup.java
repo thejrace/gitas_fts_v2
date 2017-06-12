@@ -393,11 +393,7 @@ public class Secenekler_Popup {
         CheckBox cb_aktif = new CheckBox("Aktif");
         CheckBox cb_iptal = new CheckBox("İptal");
         CheckBox cb_yarim = new CheckBox("Yarım");
-        CheckBox cb_iys = new CheckBox("IYS Ekle");
-        CheckBox cb_gitas_not = new CheckBox("Gitaş Not Ekle");
         CheckBox cb_plaka = new CheckBox("Plaka Ekle");
-        cb_iys.setSelected(false);
-        cb_gitas_not.setSelected(false);
         cb_plaka.setSelected(false);
         cb_tamam.setSelected(true);
         cb_bekleyen.setSelected(true);
@@ -405,7 +401,7 @@ public class Secenekler_Popup {
         cb_iptal.setSelected(true);
         cb_yarim.setSelected(true);
 
-        HBox cb_cont = new HBox( cb_tamam, cb_bekleyen, cb_aktif, cb_iptal, cb_yarim, cb_iys, cb_gitas_not, cb_plaka );
+        HBox cb_cont = new HBox( cb_tamam, cb_bekleyen, cb_aktif, cb_iptal, cb_yarim, cb_plaka );
         cb_cont.setSpacing(15);
         cb_cont.setAlignment(Pos.CENTER);
 
@@ -419,13 +415,13 @@ public class Secenekler_Popup {
 
                 @Override
                 protected String call(){
-                    /*Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Yapılıyor.."); }});
+                    Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Yapılıyor.."); }});
                     Excel_Filo_Plan fp = new Excel_Filo_Plan(excel_dp.getValue().toString());
-                    if( fp.init( cb_tamam.isSelected(), cb_bekleyen.isSelected(), cb_aktif.isSelected(), cb_iptal.isSelected(), cb_yarim.isSelected(), cb_iys.isSelected(), cb_gitas_not.isSelected(), cb_plaka.isSelected() ) ){
+                    if( fp.init( cb_tamam.isSelected(), cb_bekleyen.isSelected(), cb_aktif.isSelected(), cb_iptal.isSelected(), cb_yarim.isSelected(), cb_plaka.isSelected() ) ){
                         Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Tamamlandı.."); }});
                     } else {
                         Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("Verilen tarihin verisi yok."); }});
-                    }*/
+                    }
                     return null;
                 }
 
@@ -438,20 +434,17 @@ public class Secenekler_Popup {
         surucu_excel_btn.setOnMousePressed( ev -> {
             if( excel_dp.getValue() == null ) return;
             Thread th = new Thread( new Task<String>(){
-
                 @Override
                 protected String call(){
-                    /*Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Yapılıyor.."); }});
+                    Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Yapılıyor.."); }});
                     Excel_Surucu_Rapor fp = new Excel_Surucu_Rapor(excel_dp.getValue().toString());
                     if( fp.init() ){
                         Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Tamamlandı.."); }});
                     } else {
                         Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("Verilen tarihin verisi yok."); }});
-                    }*/
+                    }
                     return null;
                 }
-
-
             });
             th.setDaemon(true);
             th.start();
