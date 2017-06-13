@@ -240,7 +240,7 @@ public class Secenekler_Popup {
         eksefer_tab.setContent( eksefer_wrapper );
 
         eksefer_btn.setOnAction( event -> {
-           /* eksefer_btn.setText("İŞLEM YAPILIYOR..");
+            eksefer_btn.setText("İŞLEM YAPILIYOR..");
             eksefer_btn.setDisable(true);
 
             EKSEFER_ONERI_DONE = 0;
@@ -264,7 +264,6 @@ public class Secenekler_Popup {
             b_notf.textProperty().bind( ek_oneri_b.messageProperty() );
             c_notf.textProperty().bind( ek_oneri_c.messageProperty() );
 
-
             ek_oneri_a.setOnSucceeded( ev -> {
                 EKSEFER_ONERI_DONE++;
                 EKSEFER_TABS.put( "A", ek_oneri_a.getValue());
@@ -281,7 +280,7 @@ public class Secenekler_Popup {
                 EKSEFER_ONERI_DONE++;
                 EKSEFER_TABS.put( "C", ek_oneri_c.getValue());
                 eksefer_oneri_cb();
-            });*/
+            });
 
         });
 
@@ -290,7 +289,7 @@ public class Secenekler_Popup {
 
     private void eksefer_oneri_cb(){
         if( EKSEFER_ONERI_DONE == 3 ){
-           /* eksefer_btn.setText("ÖNERİLER LİSTELENİYOR...");
+            eksefer_btn.setText("ÖNERİLER LİSTELENİYOR...");
             Obarey_Popup oneri_popup = new Obarey_Popup("Ek Sefer Önerileri", root);
             Thread eksefer_ui_prep = new Thread( new Task<Void>(){
                 @Override
@@ -355,7 +354,7 @@ public class Secenekler_Popup {
                 }
             });
             eksefer_ui_prep.setDaemon(true);
-            eksefer_ui_prep.start();*/
+            eksefer_ui_prep.start();
 
         }
     }
