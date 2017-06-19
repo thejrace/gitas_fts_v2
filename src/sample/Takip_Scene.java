@@ -15,10 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -96,7 +92,7 @@ public class Takip_Scene extends Application {
                     kutu = entry.getValue();
                     otobus_data = seferler.getJSONObject(entry.getKey());
                     try{
-                        kutu.update( otobus_data.getJSONArray("orer"), otobus_data.getString("durak_bilgisi"), otobus_data.getJSONObject("alarmlar") );
+                        kutu.update( otobus_data.getJSONArray("orer"), otobus_data.getString("durak_bilgisi"), otobus_data.getJSONObject("alarmlar"), otobus_data.getJSONObject("km_data") );
                     } catch( Exception e ){
                         e.printStackTrace();
                     }
@@ -190,7 +186,6 @@ public class Takip_Scene extends Application {
     private void gunluk_ozet(){
 
         if( OTOBUS_SAYAC == otobus_kutular.size() ){
-            System.out.println( orer_alarmlar );
             controller.alarm_popup( orer_alarmlar );
             otobus_kutular_filtre( prev_filtre_kapi, prev_filtre_data );
             controller.header_ozet_guncelle( header_rapor_data, canli_durum, filo_header_data );
@@ -227,6 +222,7 @@ public class Takip_Scene extends Application {
                         if( box_item.get_filtre_data(Otobus_Box_Filtre.FD_IYS) ) filo_header_data.ekle( Otobus_Box_Filtre.FD_IYS, box_item.get_ekstra_ozet().get(Otobus_Box_Filtre.FD_IYS));
                         if( box_item.get_filtre_data(Otobus_Box_Filtre.FD_PLAKA) ) filo_header_data.arttir( Otobus_Box_Filtre.FD_PLAKA);
                         canli_durum.arttir( box_item.get_durum() );
+                        header_rapor_data.km_arttir(box_item.get_gitas_km(), box_item.get_iett_km());
                         OTOBUS_SAYAC++;
                         gunluk_ozet();
                     }

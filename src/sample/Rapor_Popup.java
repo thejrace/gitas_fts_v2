@@ -80,12 +80,13 @@ public class Rapor_Popup {
                         GButton surucu_stat_btn = new GButton("SÜRÜCÜ İSTATİSTİKLERİ", GButton.CMORK);
                         alt_buton_cont.getChildren().addAll( otobus_stat_btn, surucu_stat_btn );
                     } else if( tip == Rapor_Box_Toplam.TOPLAM_OTOBUS ){
-                        GButton hat_stat_btn = new GButton("HAT İSTATİSTİKLERİ", GButton.CMORK);
-                        GButton surucu_stat_btn = new GButton("SÜRÜCÜ İSTATİSTİKLERİ", GButton.CMORK);
+                        final GButton hat_stat_btn = new GButton("HAT İSTATİSTİKLERİ", GButton.CMORK);
+                        final GButton surucu_stat_btn = new GButton("SÜRÜCÜ İSTATİSTİKLERİ", GButton.CMORK);
                         alt_buton_cont.getChildren().addAll( hat_stat_btn, surucu_stat_btn );
 
                         surucu_stat_btn.setOnAction( ev -> {
                             if( !surucu_dt_eklendi ){
+                                surucu_stat_btn.setDisable(true);
                                 Rapor_Datatable dt = new Rapor_Datatable(kod, Rapor_Datatable.SURUCU_DT, params );
                                 Thread th = new Thread( dt );
                                 th.setDaemon(true);
@@ -95,6 +96,7 @@ public class Rapor_Popup {
                                         if( wrapper.getChildren().get(3) != null ) wrapper.getChildren().remove(3);
                                     } catch( IndexOutOfBoundsException e ) { e.printStackTrace(); }
                                     wrapper.getChildren().add(3, dt.get_table() );
+                                    surucu_stat_btn.setDisable(false);
                                 });
                                 //main_container.setPrefHeight( 750 );
                                 surucu_dt_eklendi = true;
@@ -104,6 +106,7 @@ public class Rapor_Popup {
 
                         hat_stat_btn.setOnAction( ev -> {
                             if( !hat_dt_eklendi ){
+                                hat_stat_btn.setDisable(true);
                                 Rapor_Datatable dt = new Rapor_Datatable(kod, Rapor_Datatable.HAT_DT, params );
                                 Thread th = new Thread( dt );
                                 th.setDaemon(true);
@@ -113,6 +116,7 @@ public class Rapor_Popup {
                                         if( wrapper.getChildren().get(3) != null ) wrapper.getChildren().remove(3);
                                     } catch( IndexOutOfBoundsException e ) { e.printStackTrace(); }
                                     wrapper.getChildren().add(3, dt.get_table() );
+                                    hat_stat_btn.setDisable(false);
                                 });
                                 hat_dt_eklendi = true;
                                 surucu_dt_eklendi = false;
@@ -124,13 +128,14 @@ public class Rapor_Popup {
                         GButton hat_stat_btn = new GButton("HAT İSTATİSTİKLERİ", GButton.CMORK);
                         alt_buton_cont.getChildren().addAll( otobus_stat_btn, hat_stat_btn );
                     } else if( tip == Rapor_Box_Toplam.TOPLAM_FILO ){
-                        GButton otobus_stat_btn = new GButton("OTOBÜS İSTATİSTİKLERİ", GButton.CMORK);
-                        GButton hat_stat_btn = new GButton("HAT İSTATİSTİKLERİ", GButton.CMORK);
-                        GButton surucu_stat_btn = new GButton("SÜRÜCÜ İSTATİSTİKLERİ", GButton.CMORK);
+                        final GButton otobus_stat_btn = new GButton("OTOBÜS İSTATİSTİKLERİ", GButton.CMORK);
+                        final GButton hat_stat_btn = new GButton("HAT İSTATİSTİKLERİ", GButton.CMORK);
+                        final GButton surucu_stat_btn = new GButton("SÜRÜCÜ İSTATİSTİKLERİ", GButton.CMORK);
                         alt_buton_cont.getChildren().addAll( otobus_stat_btn, hat_stat_btn, surucu_stat_btn );
 
                         surucu_stat_btn.setOnAction( ev -> {
                             if( !surucu_dt_eklendi ){
+                                surucu_stat_btn.setDisable(true);
                                 Rapor_Datatable dt = new Rapor_Datatable(kod, Rapor_Datatable.SURUCU_DT, params );
                                 Thread th = new Thread( dt );
                                 th.setDaemon(true);
@@ -140,6 +145,7 @@ public class Rapor_Popup {
                                         if( wrapper.getChildren().get(3) != null ) wrapper.getChildren().remove(3);
                                     } catch( IndexOutOfBoundsException e ) { e.printStackTrace(); }
                                     wrapper.getChildren().add(3, dt.get_table() );
+                                    surucu_stat_btn.setDisable(false);
                                 });
                                 surucu_dt_eklendi = true;
                                 otobus_dt_eklendi = false;
@@ -149,6 +155,7 @@ public class Rapor_Popup {
 
                         hat_stat_btn.setOnAction( ev -> {
                             if( !hat_dt_eklendi ){
+                                hat_stat_btn.setDisable(true);
                                 Rapor_Datatable dt = new Rapor_Datatable(kod, Rapor_Datatable.HAT_DT, params );
                                 Thread th = new Thread( dt );
                                 th.setDaemon(true);
@@ -158,6 +165,7 @@ public class Rapor_Popup {
                                         if( wrapper.getChildren().get(3) != null ) wrapper.getChildren().remove(3);
                                     } catch( IndexOutOfBoundsException e ) { e.printStackTrace(); }
                                     wrapper.getChildren().add(3, dt.get_table() );
+                                    hat_stat_btn.setDisable(false);
                                 });
                                 hat_dt_eklendi = true;
                                 otobus_dt_eklendi = false;
@@ -167,6 +175,7 @@ public class Rapor_Popup {
 
                         otobus_stat_btn.setOnAction( ev -> {
                             if( !otobus_dt_eklendi ){
+                                otobus_stat_btn.setDisable(true);
                                 Rapor_Datatable dt = new Rapor_Datatable(kod, Rapor_Datatable.OTOBUS_DT, params );
                                 Thread th = new Thread( dt );
                                 th.setDaemon(true);
@@ -176,6 +185,7 @@ public class Rapor_Popup {
                                         if( wrapper.getChildren().get(3) != null ) wrapper.getChildren().remove(3);
                                     } catch( IndexOutOfBoundsException e ) { e.printStackTrace(); }
                                     wrapper.getChildren().add(3, dt.get_table() );
+                                    otobus_stat_btn.setDisable(false);
                                 });
                                 otobus_dt_eklendi = true;
                                 hat_dt_eklendi = false;

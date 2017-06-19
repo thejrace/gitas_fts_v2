@@ -68,6 +68,13 @@ public class Main extends Application {
                 int kontrol = User_Config.baslangic_config_kontrol();
                 if( kontrol == User_Config.CONFIG_YOK_MOD ){
                     System.out.println("[ BAŞLANGIÇ KULLANICI KONTROLÜ ] CONFIG DOSYASI YOK");
+                    User_Config.config_dosyasi_olustur();
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            form_olustur();
+                        }
+                    });
                     // alert + system exit
                 } else if( kontrol == User_Config.GIRIS_MOD ) {
                     System.out.println("[ BAŞLANGIÇ KULLANICI KONTROLÜ ] GİRİŞ YAP");

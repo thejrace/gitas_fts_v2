@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +25,8 @@ public class Secenekler_Popup {
 
     private int EKSEFER_ONERI_DONE = 0;
     private Map<String, ArrayList<Oneri_Sefer_Data>> EKSEFER_TABS = new HashMap<>();
-    private GButton eksefer_btn;
+    private GButton eksefer_btn, surucu_rapor_btn, zayiat_rapor_btn, hat_rapor_btn, otobus_rapor_btn, plaka_rapor_btn;
     private Node root;
-    private double x,y;
 
     public void init( Node root ){
 
@@ -35,6 +35,7 @@ public class Secenekler_Popup {
         if( User_Config.izin_kontrol(User_Config.ISE_EXCEL) ) secenekler_tab.getTabs().add( excel_rapor_init() );
         if( User_Config.izin_kontrol(User_Config.ISE_EKSEFERONERI) ) secenekler_tab.getTabs().add( eksefer_oneri_init() );
         if( User_Config.izin_kontrol(User_Config.ISE_ISTATISTIK_RAPOR) ) secenekler_tab.getTabs().add( istatistik_rapor_init() );
+        if( User_Config.izin_kontrol(User_Config.ISE_ISTATISTIK_RAPOR) ) secenekler_tab.getTabs().add( raporlar_init() );
         secenekler_tab.getTabs().add( geribildirim_init() );
         secenekler_popup = new Obarey_Popup("Seçenekler", root );
         secenekler_popup.init( true );
@@ -43,8 +44,6 @@ public class Secenekler_Popup {
     }
 
     public void show( double x, double y ){
-        this.x = x;
-        this.y = y;
         secenekler_popup.show( x, y );
     }
 
@@ -118,6 +117,84 @@ public class Secenekler_Popup {
 
     }
 
+    private Tab raporlar_init(){
+        Tab tab = new Tab("Zayi Raporlar");
+        tab.setClosable(false);
+
+        Label tab_header = new Label("Zayi Raporlar");
+        tab_header.getStyleClass().addAll("fbold", "cbeyaz", "fs14");
+
+        ScrollPane wrapper  = new ScrollPane();
+        wrapper.setMinWidth(700);
+        wrapper.setPrefHeight(250);
+        VBox tab_cont = new VBox();
+        tab_cont.setMinWidth(700);
+        tab_cont.setPrefHeight(250);
+        tab_cont.setAlignment(Pos.TOP_CENTER);
+        tab_cont.getStyleClass().add("secenekler-tab");
+        tab_cont.setFillWidth(true);
+        tab_cont.setPadding(new Insets( 10, 10, 20, 10 ));
+
+        surucu_rapor_btn = new GButton("Sürücü - Zayi Sefer Raporları", GButton.CMORB );
+        hat_rapor_btn = new GButton("Hat - Zayi Sefer Raporları", GButton.CMORB );
+        plaka_rapor_btn = new GButton("Plaka - Zayi Sefer Raporları", GButton.CMORB );
+        otobus_rapor_btn = new GButton("Otobüs - Zayi Sefer Raporları", GButton.CMORB );
+        zayiat_rapor_btn = new GButton("Tarih - Zayi Sefer Raporları", GButton.CMORB );
+
+
+        zayiat_rapor_btn.setOnMousePressed( ev -> {
+            zayiat_popup_init(Popup_Zayiat_Rapor_Box.TARIH, "Tarih - Zayi Sefer Raporları", zayiat_rapor_btn.getScene().getRoot(), ev.getScreenX(), ev.getScreenY() );
+        });
+
+        otobus_rapor_btn.setOnMousePressed( ev -> {
+            zayiat_popup_init(Popup_Zayiat_Rapor_Box.OTOBUS, "Otobüs - Zayi Sefer Raporları", otobus_rapor_btn.getScene().getRoot(), ev.getScreenX(), ev.getScreenY() );
+        });
+
+        plaka_rapor_btn.setOnMousePressed( ev -> {
+            zayiat_popup_init(Popup_Zayiat_Rapor_Box.PLAKA, "Plaka - Zayi Sefer Raporları", plaka_rapor_btn.getScene().getRoot(), ev.getScreenX(), ev.getScreenY() );
+        });
+
+        hat_rapor_btn.setOnMousePressed( ev -> {
+            zayiat_popup_init(Popup_Zayiat_Rapor_Box.HAT, "Hat - Zayi Sefer Raporları", hat_rapor_btn.getScene().getRoot(), ev.getScreenX(), ev.getScreenY() );
+        });
+
+        surucu_rapor_btn.setOnMousePressed( ev -> {
+            zayiat_popup_init(Popup_Zayiat_Rapor_Box.SURUCU, "Sürücü - Zayi Sefer Raporları", surucu_rapor_btn.getScene().getRoot(), ev.getScreenX(), ev.getScreenY() );
+        });
+
+
+        tab_cont.setSpacing(20);
+        tab_cont.getChildren().addAll(tab_header, zayiat_rapor_btn, otobus_rapor_btn, plaka_rapor_btn, hat_rapor_btn, surucu_rapor_btn );
+
+        wrapper.setContent(tab_cont );
+        tab.setContent( wrapper );
+
+
+        return tab;
+
+    }
+    private void zayiat_popup_init( String dtkey, String title, Node root, double x, double y ){
+        Thread th = new Thread( new Task<Void>(){
+            private Obarey_Popup popup;
+            @Override
+            protected Void call(){
+                Popup_Zayiat_Rapor_Box rb = new Popup_Zayiat_Rapor_Box(dtkey);
+                popup = new Obarey_Popup(title, root );
+                popup.init(true);
+                popup.set_content( rb );
+                return null;
+            }
+
+            @Override
+            protected void succeeded(){
+                popup.show(x, y);
+            }
+
+        });
+        th.setDaemon(true);
+        th.start();
+    }
+
     private Tab istatistik_rapor_init(){
 
         Tab km_tab = new Tab("İstatistikler");
@@ -148,8 +225,9 @@ public class Secenekler_Popup {
         HBox gunluk_filtre_content = new HBox();
         gunluk_filtre_content.setSpacing(10);
 
-        GButton gunluk_rapor_btn = new GButton("Raporu Oluştur", GButton.CMORK );
+        final GButton gunluk_rapor_btn = new GButton("Raporu Oluştur", GButton.CMORK );
         final DatePicker gunluk_dp = new DatePicker();
+        gunluk_dp.setValue(Common.dp_placeholder(Common.get_current_date()));
         Label gunluk_filtre_header = new Label("Günlük");
         gunluk_filtre_header.getStyleClass().addAll("fbold", "cbeyaz", "fs11");
         gunluk_filtre_item.setSpacing(10);
@@ -166,16 +244,17 @@ public class Secenekler_Popup {
         aralik_filtre_content.setAlignment(Pos.CENTER);
         aralik_filtre_content.setSpacing(10);
         aralik_filtre_item.setSpacing(10);
-        GButton aralik_rapor_btn = new GButton("Raporu Oluştur", GButton.CMORK );
+        final GButton aralik_rapor_btn = new GButton("Raporu Oluştur", GButton.CMORK );
         Label aralik_filtre_header = new Label("Tarih Aralığı");
         aralik_filtre_header.getStyleClass().addAll("fbold", "cbeyaz", "fs11");
 
         final DatePicker baslangic_dp = new DatePicker();
         final DatePicker bitis_dp = new DatePicker();
+        bitis_dp.setValue(Common.dp_placeholder(Common.get_current_date()));
         aralik_filtre_content.getChildren().addAll( baslangic_dp, bitis_dp, aralik_rapor_btn );
         aralik_filtre_item.getChildren().addAll( aralik_filtre_header, aralik_filtre_content );
 
-        GButton tum_rapor = new GButton("Tüm Filo Raporu Oluştur", GButton.CMORK );
+        final GButton tum_rapor = new GButton("Tüm Filo Raporu Oluştur", GButton.CMORK );
 
         tarih_filtre.getChildren().addAll( gunluk_filtre_item, aralik_filtre_item, tum_rapor );
 
@@ -378,6 +457,7 @@ public class Secenekler_Popup {
         excel_tab_cont.getStyleClass().add("secenekler-tab");
         excel_tab_cont.setPadding(new Insets( 10, 10, 20, 10 ));
         final DatePicker excel_dp = new DatePicker();
+        excel_dp.setValue(Common.dp_placeholder(Common.get_current_date()));
         final Label lbl_notf = new Label("Sefer verilerinin excel çıktısını al.");
         lbl_notf.getStyleClass().addAll("fs13");
         HBox button_cont = new HBox();

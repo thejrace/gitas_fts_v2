@@ -48,6 +48,7 @@ public class Popup_Mesaj_Box extends ScrollPane {
 
         HBox dp_container = new HBox();
         DatePicker dp = new DatePicker();
+        dp.setValue(Common.dp_placeholder(Common.get_current_date()));
         dp.getStyleClass().add("grigrad");
         GButton getir_btn = new GButton("Getir", GButton.CMORK);
         notf_lbl = new Label("Veri bulunamadı!");

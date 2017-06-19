@@ -5,8 +5,8 @@ package sample;
  */
 public class Sefer_Rapor_Data {
 
-    private int toplam, tamam, bekleyen, aktif, ek, iptal, yarim;
-    private double iett_km, gitas_km, sefer_yuzdesi;
+    private int toplam, tamam, bekleyen, aktif, ek, iptal, yarim, zayi_sefer;
+    private double iett_km = 0, gitas_km = 0, sefer_yuzdesi;
     private String id;
     public Sefer_Rapor_Data( String id, int toplam, int tamam, int bekleyen, int aktif, int ek, int iptal, int yarim, double iett_km, double gitas_km ){
         this.id = id;
@@ -31,6 +31,12 @@ public class Sefer_Rapor_Data {
         this.yarim = yarim;
     }
 
+    public Sefer_Rapor_Data( int zayi_sefer, double gitas_km, double iett_km ){
+        this.zayi_sefer = zayi_sefer;
+        this.gitas_km = gitas_km;
+        this.iett_km = iett_km;
+    }
+
     public void sefer_yuzdesi_hesapla(){
 
         double payda = toplam + ek - bekleyen - aktif;
@@ -39,6 +45,13 @@ public class Sefer_Rapor_Data {
         //sefer_yuzdesi =  "%" + String.format("%.1f", Math.ceil( Integer.valueOf( tamam ) * 100 / payda  ) );
         sefer_yuzdesi =  Math.ceil( tamam  * 100 / payda );
     }
+
+    public void km_arttir( double gitas, double iett ){
+        iett_km += iett;
+        gitas_km += gitas;
+    }
+
+    public int get_zayi_sefer(){ return this.zayi_sefer; }
 
     public double get_sefer_yuzdesi(){
         return this.sefer_yuzdesi;

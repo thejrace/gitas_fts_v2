@@ -71,12 +71,14 @@ public class Otobus_Box {
             plaka_popup,
             not_popup;
 
-
-
     private String  ui_led,
                     ui_notf,
                     ui_main_notf,
                     ui_hat_data;
+
+    private String plaka_class = "", plaka_prev_class = "";
+
+    private double gitas_km, iett_km = 0;
 
     private ArrayList<String> suruculer = new ArrayList<>();
     private final ArrayList<Alarm_Listener> listeners = new ArrayList<Alarm_Listener>();
@@ -245,30 +247,88 @@ public class Otobus_Box {
         //nav_cont.getChildren().addAll( btn_sefer, btn_rapor, btn_mesaj, btn_surucu );
         // nav_cont_2.getChildren().addAll( btn_iys, btn_harita, btn_alarm, btn_gecmis );
 
-        /*if( User_Config.izin_kontrol(User_Config.IOB_PLAN ) ) nav_cont_test.getChildren().add(btn_sefer);
+        if( User_Config.izin_kontrol(User_Config.IOB_PLAN ) ) nav_cont_test.getChildren().add(btn_sefer);
         if( User_Config.izin_kontrol(User_Config.IOB_KMRAPOR) ) nav_cont_test.getChildren().add(btn_rapor);
         if( User_Config.izin_kontrol(User_Config.IOB_MESAJ) ) nav_cont_test.getChildren().add(btn_mesaj);
         if( User_Config.izin_kontrol(User_Config.IOB_SURUCU ) ) nav_cont_test.getChildren().add(btn_surucu);
         if( User_Config.izin_kontrol(User_Config.IOB_IYS ) ) nav_cont_test.getChildren().add(btn_iys);
-        if( User_Config.izin_kontrol(User_Config.IOB_HARITA ) ) nav_cont_test.getChildren().add(btn_harita);
-        if( User_Config.izin_kontrol(User_Config.IOB_NOTLAR ) ) nav_cont_test.getChildren().add(btn_notlar);*/
+        //if( User_Config.izin_kontrol(User_Config.IOB_HARITA ) ) nav_cont_test.getChildren().add(btn_harita);
+        if( User_Config.izin_kontrol(User_Config.IOB_NOTLAR ) ) nav_cont_test.getChildren().add(btn_notlar);
 
-        nav_cont_test.getChildren().add(btn_sefer);
+        /*nav_cont_test.getChildren().add(btn_sefer);
         nav_cont_test.getChildren().add(btn_rapor);
         nav_cont_test.getChildren().add(btn_mesaj);
         nav_cont_test.getChildren().add(btn_surucu);
         nav_cont_test.getChildren().add(btn_iys);
         nav_cont_test.getChildren().add(btn_harita);
-        nav_cont_test.getChildren().add(btn_notlar);
+        nav_cont_test.getChildren().add(btn_notlar);*/
 
         // box content elemanlari ekle
         box_content.getChildren().addAll( main_info, info, ozet_cont,nav_cont_test );
         ui_container.getChildren().addAll( box_header, box_content );
     }
 
+
     private void set_event_handlers(){
 
+
+        if( User_Config.izin_kontrol( User_Config.IOB_PLAKA_DEGISTIRME ) ) {
+            box_header_plaka.setOnMousePressed(event -> {
+                if (plaka_popup == null) {
+                    plaka_popup = new Obarey_Popup(kod + " Plaka Bilgisi", ui_container.getScene().getRoot());
+                }
+                if (plaka_popup.ison()) return;
+                Thread plaka_ui_th = new Thread(new Task<String>() {
+                    private VBox content = new VBox();
+                    private GButton kaydet;
+                    GInputGrup ruhsat;
+                    GInputGrup aktif;
+
+                    @Override
+                    protected void succeeded() {
+                        plaka_popup.show(event.getScreenX(), event.getScreenY());
+                    }
+
+                    @Override
+                    protected String call() {
+                        plaka_popup.init(true);
+
+                        content.setAlignment(Pos.CENTER);
+                        content.setSpacing(10);
+                        content.getStyleClass().add("popup-siyah");
+
+                        ruhsat = new GInputGrup("Ruhsat Plaka", new GTextField(GTextField.MID, ruhsat_plaka));
+                        aktif = new GInputGrup("Aktif Plaka", new GTextField(GTextField.MID, aktif_plaka));
+                        kaydet = new GButton("Kaydet", GButton.CMORB);
+                        content.getChildren().addAll(ruhsat, aktif, kaydet);
+                        plaka_popup.set_content(content);
+                        kaydet.setOnAction(evo -> {
+                            kaydet.setDisable(true);
+                            kaydet.setText("İşlem yapılıyor...");
+                            Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_bildirim&oto=" + kod + "&aktif_plaka=" + aktif.get_input_val() + "&ruhsat_plaka=" + ruhsat.get_input_val());
+                            request.kullanici_pc_parametreleri_ekle(true);
+                            request.action();
+                            JSONObject output = new JSONObject(request.get_value());
+                            int ok = output.getInt("ok");
+                            if (ok == 1) {
+                                kaydet.setText("Kaydet");
+                                aktif_plaka = aktif.get_input_val();
+                                otobus_plaka_kontrol();
+                            } else {
+                                kaydet.setText("Herhangi bir değişiklik yapılmadı.");
+                            }
+                            kaydet.setDisable(false);
+                        });
+                        return null;
+                    }
+                });
+                plaka_ui_th.setDaemon(true);
+                plaka_ui_th.start();
+            });
+        }
+
         btn_sefer.setOnMousePressed( ev -> {
+            btn_sefer.setDisable(true);
             Thread plan_thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -282,7 +342,15 @@ public class Otobus_Box {
                         sefer_popup = new Obarey_Popup(kod + " Sefer Planı", ui_container.getScene().getRoot());
                         sefer_popup.init(true);
                     }
-                    if( sefer_popup.ison() ) return;
+                    if( sefer_popup.ison() ){
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn_sefer.setDisable(false);
+                            }
+                        });
+                        return;
+                    }
                     sefer_plan_table = new Filo_Table( kod );
                     sefer_plan_table.init();
                     sefer_plan_table.update_data( new_data, data.getJSONArray("orer_versiyon_data"), false );
@@ -292,6 +360,7 @@ public class Otobus_Box {
                         @Override
                         public void run() {
                             sefer_popup.show( ev.getScreenX(), ev.getScreenY() );
+                            btn_sefer.setDisable(false);
                         }
                     });
                 }
@@ -306,11 +375,13 @@ public class Otobus_Box {
                 popup_mesaj_box = new Popup_Mesaj_Box( kod );
             }
             if( mesaj_popup.ison() ) return;
+            btn_mesaj.setDisable(true);
             Thread filo_mesaj_th = new Thread( new Task<String>(){
                 @Override
                 protected void succeeded(){
                     mesaj_popup.set_content( popup_mesaj_box );
                     mesaj_popup.show( ev.getScreenX(), ev.getScreenY() );
+                    btn_mesaj.setDisable(false);
                 }
                 @Override
                 protected String call(){
@@ -329,11 +400,13 @@ public class Otobus_Box {
                 popup_iys_box = new Popup_IYS_Box( kod );
             }
             if( iys_popup.ison() ) return;
+            btn_iys.setDisable(true);
             Thread filo_mesaj_th = new Thread( new Task<String>(){
                 @Override
                 protected void succeeded(){
                     iys_popup.set_content( popup_iys_box );
                     iys_popup.show( ev.getScreenX(), ev.getScreenY() );
+                    btn_iys.setDisable(false);
                 }
                 @Override
                 protected String call(){
@@ -351,10 +424,12 @@ public class Otobus_Box {
                 rapor_popup = new Obarey_Popup(kod + " Rapor", ui_container.getScene().getRoot());
             }
             if( rapor_popup.ison() ) return;
+            btn_rapor.setDisable(true);
             Thread filo_mesaj_th = new Thread( new Task<String>(){
                 @Override
                 protected void succeeded(){
                     rapor_popup.show( ev.getScreenX(), ev.getScreenY() );
+                    btn_rapor.setDisable(false);
                 }
                 @Override
                 protected String call(){
@@ -374,11 +449,13 @@ public class Otobus_Box {
                 popup_not_box = new Popup_Not_Box( kod, aktif_plaka );
             }
             if( not_popup.ison() ) return;
+            btn_notlar.setDisable(true);
             Thread filo_mesaj_th = new Thread( new Task<String>(){
                 @Override
                 protected void succeeded(){
                     not_popup.set_content( popup_not_box );
                     not_popup.show( ev.getScreenX(), ev.getScreenY() );
+                    btn_notlar.setDisable(false);
                 }
                 @Override
                 protected String call(){
@@ -397,6 +474,12 @@ public class Otobus_Box {
     }
     public Map<String, Integer> get_ekstra_ozet(){
         return ekstra_ozet;
+    }
+    public double get_iett_km(){
+        return iett_km;
+    }
+    public double get_gitas_km(){
+        return gitas_km;
     }
 
     public void add_alarm_listener( Alarm_Listener listener ){
@@ -424,10 +507,12 @@ public class Otobus_Box {
 
     }
 
-    public void update( JSONArray data, String durak_data, JSONObject alarmlar ) throws Exception {
+    public void update( JSONArray data, String durak_data, JSONObject alarmlar, JSONObject km_data ) throws Exception {
         // filo boş veri gonderiyorsa dokunmuyoruz
         if( data.length() == 0 ) return;
         this.new_data = data;
+        gitas_km = km_data.getDouble("gkm");
+        iett_km = km_data.getDouble("iettkm");
         Thread update_thread = new Thread( new Task<String>(){
             @Override
             protected void succeeded(){
@@ -816,16 +901,30 @@ public class Otobus_Box {
     }
 
     public void otobus_plaka_kontrol(){
-        box_header_plaka.getStyleClass().clear();
         if( !aktif_plaka.equals(ruhsat_plaka) ){
-            box_header_plaka.getStyleClass().add("box-header-plaka-uyari");
+            plaka_class = "box-header-plaka-uyari";
             filtre_data.put(Otobus_Box_Filtre.FD_PLAKA, true);
         } else {
-            box_header_plaka.getStyleClass().add("box-header-plaka");
+            plaka_class =  "box-header-plaka";
             filtre_data.put(Otobus_Box_Filtre.FD_PLAKA, false);
         }
-        Platform.runLater(new Runnable(){ @Override public void run(){ box_header_plaka.setText(aktif_plaka); } });
+        if( !plaka_prev_class.equals(plaka_class) ){
+            Platform.runLater(new Runnable(){
+                @Override
+                public void run(){
+                    box_header_plaka.getStyleClass().clear();
+                    box_header_plaka.getStyleClass().add(plaka_class);
+                }
+            });
+        }
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run(){
+                box_header_plaka.setText(aktif_plaka);
 
+            }
+        });
+        plaka_prev_class = plaka_class;
     }
 
     private String hat_detay_olustur( String guz ){

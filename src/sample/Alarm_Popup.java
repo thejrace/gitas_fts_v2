@@ -30,10 +30,7 @@ public class Alarm_Popup {
     private Popup popup = null;
     private Node parent;
     private VBox alarm_ul = new VBox();
-    private boolean tekli = false;
-    private double x = 20, y = 20;
-    private String title = "Filo Alarmlar";
-    private boolean draggable = false;
+
 
     private AnchorPane content_container;
 
@@ -164,26 +161,13 @@ public class Alarm_Popup {
 
     }*/
 
-    public void set_tekli(){
-        this.tekli = true;
-    }
 
-    public void set_coords( double x, double y ){
-        this.x = x;
-        this.y = y;
-    }
-
-    public void set_title(String title){
-        this.title = title;
-    }
 
     /*public boolean is_on(){
         return popup != null && popup.ison();
     }*/
 
-    public void make_draggable(){
-        this.draggable = true;
-    }
+
 
     /*public void show(  Map<String, ArrayList<Alarm_Data>> data  ){
         if( data.size() == 0 ){

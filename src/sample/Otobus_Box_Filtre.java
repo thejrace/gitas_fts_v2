@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.concurrent.Task;
 import javafx.scene.control.Button;
 import org.json.JSONObject;
 
@@ -86,33 +87,26 @@ public class Otobus_Box_Filtre {
             if( filtre_data.contains(FD_PLAKA) ) { g3 += "1"; } else { g3 += "0"; }
             if( filtre_data.contains(FD_IYS) ) { g3 += "1"; } else { g3 += "0"; }
 
-            /* TODO  Lisans_Kontrol kontrol = new Lisans_Kontrol(User_Config.get_eposta());
-            kontrol.set_req_type("filtre_guncelleme");
-            kontrol.set_extra_data("&g1="+g1+"&g2="+g2+"&g3="+g3+"&filtre_kapi="+kapi );
-            Thread th = new Thread( kontrol );
+
+            Thread th = new Thread( new Task<Void>(){
+                @Override
+                protected void succeeded(){
+                    kaydet_btn.setDisable(false);
+                }
+
+                @Override
+                protected Void call(){
+                    Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=filtre_guncelleme&g1="+g1+"&g2="+g2+"&g3="+g3+"&filtre_kapi="+kapi );
+                    request.kullanici_pc_parametreleri_ekle(true);
+                    request.action();
+                    User_Config.config_guncelle( new JSONObject(request.get_value()).getJSONObject("data").getString("default_config_json") );
+                    return null;
+                }
+            });
             th.setDaemon(true);
             th.start();
-            kontrol.setOnSucceeded( evo -> {
-                JSONObject output = kontrol.getValue();
-                int ok = output.getInt("ok");
-                if( ok == 1 ){
-                    try {
-                        Connection con = DBC.getInstance().getConnection();
-                        PreparedStatement pst = con.prepareStatement( "UPDATE " + GitasDBT.CONFIG + " SET filtre_g1 = ?, filtre_g2 = ?, filtre_g3 = ?, filtre_kapi = ? WHERE id = ?");
-                        pst.setString(1, g1);
-                        pst.setString(2, g2);
-                        pst.setString(3, g3);
-                        pst.setString(4, kapi);
-                        pst.setInt(5, 1);
-                        pst.executeUpdate();
-                        pst.close();
-                        con.close();
-                    } catch( SQLException e ){
-                        e.printStackTrace();
-                    }
-                }
-                kaydet_btn.setDisable(false);
-            });*/
+
+
         });
 
         kapi_btn.setOnMousePressed( ev -> {

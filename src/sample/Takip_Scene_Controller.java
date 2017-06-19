@@ -47,9 +47,6 @@ public class Takip_Scene_Controller implements Initializable {
     @FXML private Label lbl_kullanici_eposta;
     @FXML private Label lbl_stats_zayi_sefer;
     @FXML private Label lbl_app_son_orer;
-    @FXML private Label lbl_app_son_iys;
-    @FXML private Label lbl_app_son_mesaj;
-    @FXML private Label lbl_app_son_senkron;
     @FXML private Button btn_filtre_a;
     @FXML private Button btn_filtre_b;
     @FXML private Button btn_filtre_c;
@@ -168,7 +165,7 @@ public class Takip_Scene_Controller implements Initializable {
             }
         });
 
-        //lbl_kullanici_eposta.setText( User_Config.get_eposta() );
+        lbl_kullanici_eposta.setText( User_Config.eposta_veri_al() );
 
     }
 
@@ -180,20 +177,8 @@ public class Takip_Scene_Controller implements Initializable {
         }
     }
 
-    public void iys_senkron_guncelle( String val ){
-        lbl_app_son_iys.setText("Son IYS: " + val);
-    }
-
     public void orer_senkron_guncelle( String val ){
-        lbl_app_son_orer.setText("Son ORER: " + val);
-    }
-
-    public void mesaj_senkron_guncelle( String val ){
-        lbl_app_son_mesaj.setText("Son Mesaj: " + val);
-    }
-
-    public void gitas_senkron_guncelle( String val ){
-        lbl_app_son_senkron.setText("Son Senkron: " + val);
+        lbl_app_son_orer.setText("Son Senkron: " + val);
     }
 
     public void pie_data_guncelle(String name, double value) {

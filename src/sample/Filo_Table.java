@@ -180,6 +180,7 @@ public class Filo_Table {
             dp_container.setAlignment(Pos.CENTER);
             dp_container.setPadding(new Insets(0, 0, 10, 0 ));
             DatePicker dp = new DatePicker();
+            dp.setValue(Common.dp_placeholder(Common.get_current_date()));
 
             GButton dp_getir = new GButton("GETİR", GButton.CMORK );
             dp_container.getChildren().addAll( dp, dp_getir);

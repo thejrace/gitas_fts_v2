@@ -201,10 +201,7 @@
                               </VBox>
                               <VBox alignment="CENTER" styleClass="filtre-item-container">
                                  <children>
-                                    <Label fx:id="lbl_app_son_orer" styleClass="cbeyaz" text="Son Orer: Yapılmadı" />
-                                    <Label fx:id="lbl_app_son_iys" layoutX="16.0" layoutY="16.0" styleClass="cbeyaz" text="Son IYS: Yapılmadı" />
-                                    <Label fx:id="lbl_app_son_mesaj" layoutX="16.0" layoutY="39.0" styleClass="cbeyaz" text="Son Mesaj: Yapılmadı" />
-                                    <Label fx:id="lbl_app_son_senkron" layoutX="16.0" layoutY="62.0" styleClass="cbeyaz" text="Son Senkron: Yapılmadı" />
+                                    <Label fx:id="lbl_app_son_orer" styleClass="cbeyaz" text="Son Senkron: Yapılmadı" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" layoutX="10.0" layoutY="76.0" styleClass="filtre-item-container">

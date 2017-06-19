@@ -17,6 +17,9 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +52,18 @@ public class Common {
             return null;
         }
     }
+
+    public static LocalDate dp_placeholder(String dateString){
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate localDate = LocalDate.parse(dateString, formatter);
+            return localDate;
+        } catch( DateTimeException e ){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public static String bilgisayar_adini_al(){
         String hostname = "Bilinmiyor";

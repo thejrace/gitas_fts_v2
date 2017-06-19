@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
  */
 public class Rapor_Tarih_Filtre_Box extends VBox {
 
+
     public Rapor_Tarih_Filtre_Box( int tip, String kod, Node root ){
         super();
 
@@ -36,6 +37,7 @@ public class Rapor_Tarih_Filtre_Box extends VBox {
 
         GButton gunluk_rapor_btn = new GButton("Raporu Oluştur", GButton.CMORK );
         final DatePicker gunluk_dp = new DatePicker();
+        gunluk_dp.setValue(Common.dp_placeholder(Common.get_current_date()));
         Label gunluk_filtre_header = new Label("Günlük");
         gunluk_filtre_header.getStyleClass().addAll("fbold", "cbeyaz", "fs11");
         gunluk_filtre_item.setSpacing(10);
@@ -58,6 +60,7 @@ public class Rapor_Tarih_Filtre_Box extends VBox {
 
         final DatePicker baslangic_dp = new DatePicker();
         final DatePicker bitis_dp = new DatePicker();
+        bitis_dp.setValue(Common.dp_placeholder(Common.get_current_date()));
         aralik_filtre_content.getChildren().addAll( baslangic_dp, bitis_dp, aralik_rapor_btn );
         aralik_filtre_item.getChildren().addAll( aralik_filtre_header, aralik_filtre_content );
 

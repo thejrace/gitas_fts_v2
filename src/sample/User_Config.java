@@ -47,7 +47,7 @@ public class User_Config {
                         HATA = 4,
                         SIFRE_BOSGELDI = 6;
 
-    public static String CONFIG_JSON = "src/sample/data/config.json", // TODO setup a eklicez bunlari
+    public static String CONFIG_JSON = "C://temp/config.json", // TODO setup a eklicez bunlari
                          GITAS_JSON = "src/sample/data/gitas.json";
 
 
@@ -92,6 +92,16 @@ public class User_Config {
             e.printStackTrace();
         }
         return CONFIG_YOK_MOD;
+    }
+
+    public static void config_dosyasi_olustur(){
+        try{
+            PrintWriter writer = new PrintWriter(CONFIG_JSON, "UTF-8");
+            writer.println("{\"init\":true}");
+            writer.close();
+        } catch (IOException e) {
+            // do something
+        }
     }
 
     public static JSONObject config_oku(){
