@@ -3,9 +3,10 @@
     <output-path>$PROJECT_DIR$/out/artifacts/gitas_fts_v2_jar</output-path>
     <root id="archive" name="gitas_fts_v2.jar">
       <element id="module-output" name="gitas_fts_v2" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jxl.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libs/commons-codec-1.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsoup-1.10.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libs/json-20160810.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jxl.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

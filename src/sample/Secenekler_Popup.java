@@ -35,7 +35,7 @@ public class Secenekler_Popup {
         if( User_Config.izin_kontrol(User_Config.ISE_EXCEL) ) secenekler_tab.getTabs().add( excel_rapor_init() );
         if( User_Config.izin_kontrol(User_Config.ISE_EKSEFERONERI) ) secenekler_tab.getTabs().add( eksefer_oneri_init() );
         if( User_Config.izin_kontrol(User_Config.ISE_ISTATISTIK_RAPOR) ) secenekler_tab.getTabs().add( istatistik_rapor_init() );
-        if( User_Config.izin_kontrol(User_Config.ISE_ISTATISTIK_RAPOR) ) secenekler_tab.getTabs().add( raporlar_init() );
+        if( User_Config.izin_kontrol(User_Config.ISE_ZAYI_RAPORLAR) ) secenekler_tab.getTabs().add( raporlar_init() );
         secenekler_tab.getTabs().add( geribildirim_init() );
         secenekler_popup = new Obarey_Popup("Seçenekler", root );
         secenekler_popup.init( true );

@@ -47,7 +47,7 @@ public class Otobus_Box {
                     box_header_plaka;
 
     private Filo_Table sefer_plan_table;
-    //private Surucu_Box surucu_box;
+    private Surucu_Box surucu_box;
     private Rapor_Tarih_Filtre_Box rapor_filtre_box;
     private Popup_Mesaj_Box popup_mesaj_box;
     private Popup_IYS_Box popup_iys_box;
@@ -79,7 +79,6 @@ public class Otobus_Box {
     private String plaka_class = "", plaka_prev_class = "";
 
     private double gitas_km, iett_km = 0;
-
     private ArrayList<String> suruculer = new ArrayList<>();
     private final ArrayList<Alarm_Listener> listeners = new ArrayList<Alarm_Listener>();
 
@@ -252,7 +251,7 @@ public class Otobus_Box {
         if( User_Config.izin_kontrol(User_Config.IOB_MESAJ) ) nav_cont_test.getChildren().add(btn_mesaj);
         if( User_Config.izin_kontrol(User_Config.IOB_SURUCU ) ) nav_cont_test.getChildren().add(btn_surucu);
         if( User_Config.izin_kontrol(User_Config.IOB_IYS ) ) nav_cont_test.getChildren().add(btn_iys);
-        //if( User_Config.izin_kontrol(User_Config.IOB_HARITA ) ) nav_cont_test.getChildren().add(btn_harita);
+        if( User_Config.izin_kontrol(User_Config.IOB_HARITA ) ) nav_cont_test.getChildren().add(btn_harita);
         if( User_Config.izin_kontrol(User_Config.IOB_NOTLAR ) ) nav_cont_test.getChildren().add(btn_notlar);
 
         /*nav_cont_test.getChildren().add(btn_sefer);
@@ -353,7 +352,7 @@ public class Otobus_Box {
                     }
                     sefer_plan_table = new Filo_Table( kod );
                     sefer_plan_table.init();
-                    sefer_plan_table.update_data( new_data, data.getJSONArray("orer_versiyon_data"), false );
+                    sefer_plan_table.update_data( new_data, data.getJSONArray("orer_versiyon_data") );
                     sefer_plan_table.update_ui();
                     sefer_popup.set_content( sefer_plan_table.get() );
                     Platform.runLater(new Runnable() {
@@ -461,6 +460,82 @@ public class Otobus_Box {
                 protected String call(){
                     not_popup.init(true);
                     popup_not_box.init();
+                    return null;
+                }
+            });
+            filo_mesaj_th.setDaemon(true);
+            filo_mesaj_th.start();
+        });
+
+        btn_surucu.setOnMousePressed(event -> {
+            if( surucu_popup == null || surucu_box == null ) {
+                surucu_popup = new Obarey_Popup(kod + " Sürücü Bilgileri", ui_container.getScene().getRoot());
+                surucu_box = new Surucu_Box( kod );
+            }
+            if( surucu_popup.ison() ) return;
+            btn_surucu.setDisable(true);
+            Thread filo_surucu_th = new Thread( new Task<String>(){
+                @Override
+                protected void succeeded(){
+                    surucu_popup.set_content( surucu_box.get_ui() );
+                    surucu_popup.show( event.getScreenX(), event.getScreenY() );
+                    btn_surucu.setDisable(false);
+                }
+                @Override
+                protected String call(){
+                    surucu_popup.init(true);
+                    surucu_box.init();
+                    return null;
+                }
+            });
+            filo_surucu_th.setDaemon(true);
+            filo_surucu_th.start();
+        });
+
+        btn_harita.setOnMousePressed(event -> {
+            if( harita_popup == null  ) {
+                harita_popup = new Obarey_Popup(kod + " Harita", ui_container.getScene().getRoot());
+            }
+            if( harita_popup.ison() ) return;
+            Thread filo_mesaj_th = new Thread( new Task<String>(){
+                HBox harita_btn_cont = new HBox();
+                @Override
+                protected void succeeded(){
+                    harita_popup.set_content( harita_btn_cont );
+                    harita_popup.show( event.getScreenX(), event.getScreenY() );
+                }
+                @Override
+                protected String call(){
+                    GButton hat_harita = new GButton("Hat Haritası", GButton.CMORB);
+                    GButton gecmis_takip = new GButton("Takip Harita", GButton.CMORB);
+                    GButton konum_harita = new GButton("Son Konum", GButton.CMORB);
+                    harita_btn_cont.getChildren().addAll( hat_harita, gecmis_takip, konum_harita );
+                    harita_btn_cont.setAlignment(Pos.CENTER);
+                    harita_btn_cont.setPadding(new Insets(0, 0, 10, 0));
+                    HBox.setMargin( gecmis_takip, new Insets(0, 0, 0, 10 ) );
+                    HBox.setMargin( konum_harita, new Insets(0, 0, 0, 10 ) );
+                    // harita buton events
+                    gecmis_takip.setOnMousePressed( ev -> {
+                        Filo_Harita_Request_Task gecmis_takip_req = new Filo_Harita_Request_Task( kod, aktif_guzergah, Filo_Harita_Request_Task.TAKIP_HARITA );
+                        gecmis_takip_req.init();
+                        harita_btn_cont.getChildren().clear();
+                        harita_btn_cont.getChildren().add( gecmis_takip_req.get_webview() );
+                    });
+                    hat_harita.setOnMousePressed( ev -> {
+                        //System.out.println(hat);
+                        Filo_Harita_Request_Task gecmis_takip_req = new Filo_Harita_Request_Task( kod, hat, Filo_Harita_Request_Task.HAT_HARITA );
+                        gecmis_takip_req.init();
+                        harita_btn_cont.getChildren().clear();
+                        harita_btn_cont.getChildren().add( gecmis_takip_req.get_webview() );
+                    });
+                    /*konum_harita.setOnMousePressed( ev -> {
+                        //System.out.println(hat);
+                        Filo_Harita_Request_Task gecmis_takip_req = new Filo_Harita_Request_Task( kod, hat, Filo_Harita_Request_Task.KONUM_HARITA );
+                        gecmis_takip_req.init();
+                        harita_btn_cont.getChildren().clear();
+                        harita_btn_cont.getChildren().add( gecmis_takip_req.get_webview() );
+                    });*/
+                    harita_popup.init(true);
                     return null;
                 }
             });
@@ -888,7 +963,7 @@ public class Otobus_Box {
                         alarm_kontrol(new Alarm_Data(Alarm_Data.SURUCU_DEGISIMI, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_SURUCU_DEGISTI, "1"));
                     }
 
-                    if (suruculer.contains("") || suruculer.contains("-1") || suruculer.contains("-111111")) {
+                    if (suruculer.contains("") || suruculer.contains("-1") || suruculer.contains("-111111") || suruculer.contains("BELİRSİZ SÜRÜCÜ")) {
                         alarm_kontrol(new Alarm_Data(Alarm_Data.BELIRSIZ_SURUCU, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_BELIRSIZ_SURUCU, "1"));
                     }
                 } catch( Exception e ){ e.printStackTrace(); }

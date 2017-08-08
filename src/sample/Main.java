@@ -138,7 +138,8 @@ public class Main extends Application {
             } catch ( NullPointerException e ){
                 //e.printStackTrace();
             }
-
+            Filo_Login_Task filo_login_task = new Filo_Login_Task();
+            filo_login_task.yap();
             stage.close();
             try {
                 System.out.println("OK");

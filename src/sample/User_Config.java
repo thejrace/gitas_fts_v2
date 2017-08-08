@@ -35,7 +35,8 @@ public class User_Config {
             IFS_IYS                     = 21,
             IFS_EKSEFER                 = 22,
             IOB_PLAKA_DEGISTIRME        = 23,
-            IOB_NOTLAR                  = 24;
+            IOB_NOTLAR                  = 24,
+            ISE_ZAYI_RAPORLAR           = 25;
 
     public static int   GIRIS_MOD = 1,
                         KAYIT_MOD = 2,
@@ -48,7 +49,8 @@ public class User_Config {
                         SIFRE_BOSGELDI = 6;
 
     public static String CONFIG_JSON = "C://temp/config.json", // TODO setup a eklicez bunlari
-                         GITAS_JSON = "src/sample/data/gitas.json";
+                         GITAS_JSON = "src/sample/data/gitas.json",
+                         COOKIES_JSON = "C://temp/cookies.json";
 
 
     // Program ilk açıldığında giriş - kayıt işlemlerinden hangisini yapacagimizi
@@ -99,14 +101,34 @@ public class User_Config {
             PrintWriter writer = new PrintWriter(CONFIG_JSON, "UTF-8");
             writer.println("{\"init\":true}");
             writer.close();
+
+            cookie_json_dosyasi_olustur();
         } catch (IOException e) {
-            // do something
+
         }
     }
 
+    public static void cookie_json_dosyasi_olustur(){
+        try{
+            PrintWriter writer = new PrintWriter(COOKIES_JSON, "UTF-8");
+            writer.println("{\"init\":true}");
+            writer.close();
+        } catch (IOException e) {
+
+        }
+    }
+
+    public static JSONObject cookie_config_oku(){
+        return config_tojson_cevir(COOKIES_JSON);
+    }
+
     public static JSONObject config_oku(){
+        return config_tojson_cevir(CONFIG_JSON);
+    }
+
+    public static JSONObject config_tojson_cevir( String src ){
         try {
-            FileReader fr = new FileReader(CONFIG_JSON);
+            FileReader fr = new FileReader(src);
             BufferedReader br = new BufferedReader(fr);
             try {
                 StringBuilder sb = new StringBuilder();

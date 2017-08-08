@@ -73,7 +73,7 @@ public class Filo_Table {
                         sefer_plan_table.dp_gizle();
                         sefer_plan_table.init();
                         sefer_plan_table.versiyon_sec( k_ref );
-                        sefer_plan_table.update_data( son_aktif_data, new JSONArray(), false );
+                        sefer_plan_table.update_data( son_aktif_data, new JSONArray() );
                         sefer_plan_table.update_ui();
                         sefer_popup.set_content( sefer_plan_table.get() );
                         Platform.runLater(new Runnable() {
@@ -101,10 +101,10 @@ public class Filo_Table {
     public boolean get_eski_veri_goruntuleniyor(){
         return eski_veri_goruntuleniyor;
     }
-    public void update_data( JSONArray oto, JSONArray versiyon_data, boolean gecmis_data  ){
+    public void update_data( JSONArray oto, JSONArray versiyon_data  ){
 
         // db den degil direk orer requestten gelen taze veriyi tutuyoruz
-        if( !gecmis_data ) son_aktif_data = oto;
+        son_aktif_data = oto;
 
         JSONObject sefer, onceki_sefer = new JSONObject();
         rows.clear();
@@ -117,7 +117,9 @@ public class Filo_Table {
 
         for( int x = 0; x < oto.length(); x++ ){
             sefer = oto.getJSONObject(x);
+            // en son versiyon harici olanlari gosterme
             if( versiyon_birden_fazla && sefer.getInt("versiyon") != versiyon_data.getInt(versiyon_data.length()-1) ) continue;
+            // ayni versiyon olan orerleri listelicez kontrol
             if( versiyon != 0 && sefer.getInt("versiyon") != versiyon ) continue;
 
             if( !oto.isNull(x-1) ) onceki_sefer = oto.getJSONObject(x-1);
@@ -197,7 +199,7 @@ public class Filo_Table {
                             request.kullanici_pc_parametreleri_ekle(true);
                             request.action();
                             JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
-                            update_data( data.getJSONArray("orer_data"), data.getJSONArray("orer_versiyon_data"),true );
+                            update_data( data.getJSONArray("orer_data"), data.getJSONArray("orer_versiyon_data") );
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {

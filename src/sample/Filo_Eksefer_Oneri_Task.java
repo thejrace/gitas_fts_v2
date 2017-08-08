@@ -34,37 +34,8 @@ public class Filo_Eksefer_Oneri_Task extends Task<ArrayList<Oneri_Sefer_Data>> {
     private ArrayList<Oneri_Sefer_Data> output = new ArrayList<>();
     public boolean shutdown = false;
     private boolean error = false;
-    private String cookie, login, sifre;
-
     public Filo_Eksefer_Oneri_Task( String bolge ){
         this.bolge = bolge;
-        if( bolge.equals("A") ) {
-            login = "dk_oasa";
-            sifre = "oas145";
-        } else if( bolge.equals("B") ) {
-            login = "dk_oasb";
-            sifre = "oas125";
-        } else {
-            login = "dk_oasc";
-            sifre = "oas165";
-        }
-    }
-
-    private void login(){
-        org.jsoup.Connection.Response res;
-        error = false;
-        try{
-            updateMessage( bolge + " Bölgesi filoya giriş yapılıyor..");
-            res = Jsoup.connect("http://filo5.iett.gov.tr/login.php?sayfa=/_FYS.php&aday=x")
-                    .data("login", login, "password", sifre )
-                    .method(org.jsoup.Connection.Method.POST)
-                    .execute();
-
-            cookie = res.cookies().get("PHPSESSID");
-        } catch( IOException e ){
-            System.out.println("Login hatası, tekrar deneniyor");
-            updateMessage( bolge + " Bölgesi filo giriş hatası tekrar deneniyor.");
-        }
 
     }
 
@@ -81,9 +52,17 @@ public class Filo_Eksefer_Oneri_Task extends Task<ArrayList<Oneri_Sefer_Data>> {
         request.action();
         JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
 
-        do {
-            login();
-        } while( error );
+        String cookie;
+        JSONObject cookies = User_Config.cookie_config_oku();
+        try {
+            // init varsa daha giris yapilmamis demektir bekliyoruz
+            if (cookies.getBoolean("init")) {
+            }
+            return;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            cookie = cookies.getString(bolge);
+        }
 
         String AKTIF_TARIH = data.getString("aktif_tarih");
         JSONArray otobus_db_data = data.getJSONArray("otobus_db_data");

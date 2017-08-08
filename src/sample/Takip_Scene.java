@@ -119,6 +119,8 @@ public class Takip_Scene extends Application {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
+                // cookie leri sıfırla
+                User_Config.cookie_json_dosyasi_olustur();
                 Platform.exit();
                 System.exit(0);
             }

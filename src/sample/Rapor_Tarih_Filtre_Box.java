@@ -72,24 +72,30 @@ public class Rapor_Tarih_Filtre_Box extends VBox {
         gunluk_rapor_btn.setOnMousePressed(ev->{
             String  gun   = gunluk_dp.getValue().toString();
             if( gun.equals("") ) return;
+            gunluk_rapor_btn.setDisable(true);
             Rapor_Popup rapor_popup = new Rapor_Popup(Rapor_Box_Toplam.TOPLAM_OTOBUS, kod, gun, "" );
             rapor_popup.init( ev.getScreenX(), ev.getScreenY(), root );
             rapor_popup.show();
+            gunluk_rapor_btn.setDisable(false);
         });
 
         aralik_rapor_btn.setOnMousePressed(ev->{
             String  baslangic = baslangic_dp.getValue().toString(),
                     bitis = bitis_dp.getValue().toString();
             if( baslangic.equals("") ||  bitis.equals("") ) return;
+            aralik_rapor_btn.setDisable(true);
             Rapor_Popup rapor_popup = new Rapor_Popup(Rapor_Box_Toplam.TOPLAM_OTOBUS, kod, baslangic, bitis );
             rapor_popup.init( ev.getScreenX(), ev.getScreenY(), root );
             rapor_popup.show();
+            aralik_rapor_btn.setDisable(false);
         });
 
         tum_rapor.setOnMousePressed(ev->{
+            tum_rapor.setDisable(true);
             Rapor_Popup rapor_popup = new Rapor_Popup(Rapor_Box_Toplam.TOPLAM_OTOBUS, kod, "", "" );
             rapor_popup.init( ev.getScreenX(), ev.getScreenY(), root );
             rapor_popup.show();
+            tum_rapor.setDisable(false);
         });
 
 

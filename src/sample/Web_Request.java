@@ -38,7 +38,7 @@ public class Web_Request {
         HttpURLConnection connection = null;
         System.out.println("İstek yapılıyor.. ( URL : " + this.url );
         try {
-            //Create connection
+
             URL url = new URL(this.url);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
@@ -53,8 +53,6 @@ public class Web_Request {
             connection.setRequestProperty( "charset", "ISO-8859-1");
             connection.setUseCaches(false);
             connection.setDoOutput(true);
-
-            //Send request
             DataOutputStream wr = new DataOutputStream (
                     connection.getOutputStream());
             //wr.writeUTF(this.params);
@@ -62,7 +60,7 @@ public class Web_Request {
             wr.write(utf8JsonString, 0, utf8JsonString.length);
             wr.close();
 
-            //Get Response
+            // donen
             InputStream is = connection.getInputStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             StringBuilder response = new StringBuilder(); // StringBuffer Java 5+
