@@ -99,8 +99,6 @@ public class Main extends Application {
         });
         baslangic_thread.setDaemon(true);
         baslangic_thread.start();
-
-
     }
 
     private void giris_kayit_sunucu_donus_kod_kontrol( JSONObject data, boolean form_submit ){
@@ -151,7 +149,6 @@ public class Main extends Application {
 
         }
     }
-
 
     private void onay_sayac_baslat(){
         if( onay_kontrol_aktif ) return;
