@@ -5,9 +5,12 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
@@ -28,6 +31,28 @@ import java.util.regex.Pattern;
  * Created by Obarey on 05.02.2017.
  */
 public class Common {
+
+    public static String json_file_read( String src ){
+        try {
+            FileReader fr = new FileReader(src);
+            BufferedReader br = new BufferedReader(fr);
+            try {
+                StringBuilder sb = new StringBuilder();
+                String line = br.readLine();
+                while (line != null) {
+                    sb.append(line);
+                    sb.append(System.lineSeparator());
+                    line = br.readLine();
+                }
+                return sb.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch( IOException e ){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static String mac_hash(){
         try {

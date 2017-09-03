@@ -16,7 +16,12 @@ import javafx.scene.shape.Circle;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,11 +36,11 @@ public class Otobus_Box {
 
     private int index;
     private String kod, ruhsat_plaka, aktif_plaka;
-
     private String hat = "#", aktif_guzergah = "";
-    private JSONArray new_data = new JSONArray();
-    private JSONArray old_data = new JSONArray();
-    private Map<String, Alarm_Data> alarmlar = new HashMap<>();
+    private boolean run = true;
+    private String cookie = "INIT", bolge;
+    private Orer_Download orer_download;
+
     private Label   main_info,
                     info,
                     ozet_tamam,
@@ -45,48 +50,29 @@ public class Otobus_Box {
                     ozet_yarim,
                     box_header_hat,
                     box_header_plaka;
-
-    private Filo_Table sefer_plan_table;
-    private Surucu_Box surucu_box;
-    private Rapor_Tarih_Filtre_Box rapor_filtre_box;
-    private Popup_Mesaj_Box popup_mesaj_box;
-    private Popup_IYS_Box popup_iys_box;
-    private Popup_Not_Box popup_not_box;
-
     private Circle led;
     private Button btn_sefer, btn_surucu, btn_alarm, btn_mesaj, btn_harita, btn_rapor, btn_iys, btn_notlar;
-    private Map<String, Integer> sefer_ozet = new HashMap<>();
-    private Map<String, Integer> ekstra_ozet = new HashMap<>();
-
     private VBox ui_container;
     private VBox box_content;
-    private Map<String, Boolean> filtre_data = new HashMap<>();
-
-    private Obarey_Popup    sefer_popup,
-            surucu_popup,
-            mesaj_popup,
-            iys_popup,
-            harita_popup,
-            rapor_popup,
-            plaka_popup,
-            not_popup;
-
-    private String  ui_led,
+    private String  ui_led = "VY",
                     ui_notf,
                     ui_main_notf,
                     ui_hat_data;
 
-    private String plaka_class = "", plaka_prev_class = "";
-
-    private double gitas_km, iett_km = 0;
-    private ArrayList<String> suruculer = new ArrayList<>();
     private final ArrayList<Alarm_Listener> listeners = new ArrayList<Alarm_Listener>();
+    private Map<String, Alarm_Data> alarmlar = new HashMap<>();
+    private Map<String, Integer> sefer_ozet = new HashMap<>();
+    private Map<String, Integer> ekstra_ozet = new HashMap<>();
+    private Map<String, Boolean> filtre_data = new HashMap<>();
+    private double gitas_km = 0, iett_km = 0;
 
     public Otobus_Box( String kod, int index, String ruhsat_plaka, String aktif_plaka ){
         this.kod = kod;
         this.index = index;
         this.ruhsat_plaka = ruhsat_plaka;
         this.aktif_plaka = aktif_plaka;
+        this.bolge = kod.substring(0,1);
+
         filtre_data.put(Otobus_Box_Filtre.FD_IYS, false);
         filtre_data.put(Otobus_Box_Filtre.FD_NOT, false);
         filtre_data.put(Otobus_Box_Filtre.FD_PLAKA, false);
@@ -96,7 +82,7 @@ public class Otobus_Box {
         ekstra_ozet.put(Otobus_Box_Filtre.FD_IYS, 0);
 
         create_ui();
-        set_event_handlers();
+        update_thread_start();
     }
 
     private void create_ui(){
@@ -135,7 +121,6 @@ public class Otobus_Box {
         box_header_kod.getStyleClass().add( CLASS_HEADER_LABEL );
 
         box_header_plaka = new Label(aktif_plaka);
-        otobus_plaka_kontrol();
 
         // [1][1][3] otobus hat
         box_header_hat = new Label( "#" );
@@ -242,10 +227,6 @@ public class Otobus_Box {
         nav_cont_test.getStyleClass().add( CLASS_BOX_ALT_NAV );
         nav_cont_test.setOrientation(Orientation.HORIZONTAL);
 
-        // butonlari ekle
-        //nav_cont.getChildren().addAll( btn_sefer, btn_rapor, btn_mesaj, btn_surucu );
-        // nav_cont_2.getChildren().addAll( btn_iys, btn_harita, btn_alarm, btn_gecmis );
-
         if( User_Config.izin_kontrol(User_Config.IOB_PLAN ) ) nav_cont_test.getChildren().add(btn_sefer);
         if( User_Config.izin_kontrol(User_Config.IOB_KMRAPOR) ) nav_cont_test.getChildren().add(btn_rapor);
         if( User_Config.izin_kontrol(User_Config.IOB_MESAJ) ) nav_cont_test.getChildren().add(btn_mesaj);
@@ -254,311 +235,372 @@ public class Otobus_Box {
         if( User_Config.izin_kontrol(User_Config.IOB_HARITA ) ) nav_cont_test.getChildren().add(btn_harita);
         if( User_Config.izin_kontrol(User_Config.IOB_NOTLAR ) ) nav_cont_test.getChildren().add(btn_notlar);
 
-        /*nav_cont_test.getChildren().add(btn_sefer);
-        nav_cont_test.getChildren().add(btn_rapor);
-        nav_cont_test.getChildren().add(btn_mesaj);
-        nav_cont_test.getChildren().add(btn_surucu);
-        nav_cont_test.getChildren().add(btn_iys);
-        nav_cont_test.getChildren().add(btn_harita);
-        nav_cont_test.getChildren().add(btn_notlar);*/
-
         // box content elemanlari ekle
         box_content.getChildren().addAll( main_info, info, ozet_cont,nav_cont_test );
         ui_container.getChildren().addAll( box_header, box_content );
     }
 
+    private void update_thread_start(){
 
-    private void set_event_handlers(){
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-
-        if( User_Config.izin_kontrol( User_Config.IOB_PLAKA_DEGISTIRME ) ) {
-            box_header_plaka.setOnMousePressed(event -> {
-                if (plaka_popup == null) {
-                    plaka_popup = new Obarey_Popup(kod + " Plaka Bilgisi", ui_container.getScene().getRoot());
+                try {
+                    Thread.sleep( index * 2000 );
+                } catch( InterruptedException e ){
+                    e.printStackTrace();
                 }
-                if (plaka_popup.ison()) return;
-                Thread plaka_ui_th = new Thread(new Task<String>() {
-                    private VBox content = new VBox();
-                    private GButton kaydet;
-                    GInputGrup ruhsat;
-                    GInputGrup aktif;
 
-                    @Override
-                    protected void succeeded() {
-                        plaka_popup.show(event.getScreenX(), event.getScreenY());
+                while( run ){
+
+                    if( !cookie.equals("INIT") ){
+                        // orer kontrol
+                        orer_download = new Orer_Download( kod, cookie );
+                        orer_download.yap();
+                        update( orer_download.get_seferler(), orer_download.get_aktif_sefer_verisi() );
+
+                        // plaka kontrol
+
+                        // pdks kontrol
+
+                        // iys-not kontrol
+
+                        for( Alarm_Listener listener : listeners ) listener.on_ui_finished( get_alarmlar() );
+
                     }
 
-                    @Override
-                    protected String call() {
-                        plaka_popup.init(true);
 
-                        content.setAlignment(Pos.CENTER);
-                        content.setSpacing(10);
-                        content.getStyleClass().add("popup-siyah");
-
-                        ruhsat = new GInputGrup("Ruhsat Plaka", new GTextField(GTextField.MID, ruhsat_plaka));
-                        aktif = new GInputGrup("Aktif Plaka", new GTextField(GTextField.MID, aktif_plaka));
-                        kaydet = new GButton("Kaydet", GButton.CMORB);
-                        content.getChildren().addAll(ruhsat, aktif, kaydet);
-                        plaka_popup.set_content(content);
-                        kaydet.setOnAction(evo -> {
-                            kaydet.setDisable(true);
-                            kaydet.setText("İşlem yapılıyor...");
-                            Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_bildirim&oto=" + kod + "&aktif_plaka=" + aktif.get_input_val() + "&ruhsat_plaka=" + ruhsat.get_input_val());
-                            request.kullanici_pc_parametreleri_ekle(true);
-                            request.action();
-                            JSONObject output = new JSONObject(request.get_value());
-                            int ok = output.getInt("ok");
-                            if (ok == 1) {
-                                kaydet.setText("Kaydet");
-                                aktif_plaka = aktif.get_input_val();
-                                otobus_plaka_kontrol();
-                            } else {
-                                kaydet.setText("Herhangi bir değişiklik yapılmadı.");
-                            }
-                            kaydet.setDisable(false);
-                        });
-                        return null;
+                    try {
+                        Thread.sleep(60000 );
+                    } catch( InterruptedException e ){
+                        e.printStackTrace();
                     }
-                });
-                plaka_ui_th.setDaemon(true);
-                plaka_ui_th.start();
-            });
+                }
+            }
+        });
+        th.setDaemon(true);
+        th.start();
+
+
+    }
+
+    private void update( JSONArray data, String durak_data ) {
+
+        if( data.length() == 0 ) return;
+
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+        String SIMDI = dateFormat.format(date);
+
+        // sefer özeti hesaplamalari init
+        sefer_ozet.put(Sefer_Data.DTAMAM, 0);
+        sefer_ozet.put(Sefer_Data.DAKTIF, 0);
+        sefer_ozet.put(Sefer_Data.DBEKLEYEN, 0);
+        sefer_ozet.put(Sefer_Data.DIPTAL, 0);
+        sefer_ozet.put(Sefer_Data.DYARIM, 0);
+
+        // durum degiskenleri
+        boolean tum_seferler_tamam = false,
+                hat_verisi_alindi = false,
+                tum_seferler_bekleyen = false;
+
+        JSONObject sefer, onceki_sefer, sonraki_sefer;
+        for (int x = 0; x < data.length(); x++) {
+            sefer = data.getJSONObject(x);
+            String durum = sefer.getString("durum");
+            if (sefer_ozet.containsKey(durum)) {
+                sefer_ozet.replace(durum, sefer_ozet.get(durum), sefer_ozet.get(durum) + 1);
+            } else {
+                sefer_ozet.put(durum, 1);
+            }
         }
 
-        btn_sefer.setOnMousePressed( ev -> {
-            btn_sefer.setDisable(true);
-            Thread plan_thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto="+kod+"&baslangic=AT&bitis=" );
-                    request.kullanici_pc_parametreleri_ekle(true);
-                    request.action();
-                    JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
-                    new_data = data.getJSONArray("orer_data");
+        if (sefer_ozet.get(Sefer_Data.DTAMAM) == data.length()) tum_seferler_tamam = true;
+        if (sefer_ozet.get(Sefer_Data.DBEKLEYEN) == data.length()) tum_seferler_bekleyen = true;
 
-                    if( sefer_popup == null || sefer_plan_table == null ) {
-                        sefer_popup = new Obarey_Popup(kod + " Sefer Planı", ui_container.getScene().getRoot());
-                        sefer_popup.init(true);
-                    }
-                    if( sefer_popup.ison() ){
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                btn_sefer.setDisable(false);
-                            }
-                        });
-                        return;
-                    }
-                    sefer_plan_table = new Filo_Table( kod );
-                    sefer_plan_table.init();
-                    sefer_plan_table.update_data( new_data, data.getJSONArray("orer_versiyon_data") );
-                    sefer_plan_table.update_ui();
-                    sefer_popup.set_content( sefer_plan_table.get() );
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            sefer_popup.show( ev.getScreenX(), ev.getScreenY() );
-                            btn_sefer.setDisable(false);
+        if (tum_seferler_tamam) {
+            // ledi ve notflari guncelle
+            // sefer yuzdesi hesapla
+            ui_main_notf = "Tüm Seferler Tamam";
+            ui_notf = "Sefer yüzdesi: %100";
+            ui_led = Sefer_Data.DTAMAM;
+            ui_hat_data = data.getJSONObject(0).getString("hat");
+            update_ui();
+            return;
+        } else if (tum_seferler_bekleyen) {
+            // hic baslamamis seferlerine
+            ui_main_notf = "Seferini bekliyor.";
+            ui_notf = "Bir sonraki sefer: " + data.getJSONObject(0).getString("orer");
+            ui_led = Sefer_Data.DBEKLEYEN;
+            ui_hat_data = data.getJSONObject(0).getString("hat");
+            update_ui();
+            return;
+        }
+        String sefer_no,
+                sefer_hat,
+                sefer_guzergah,
+                sefer_surucu_sicil_no,
+                sefer_orer,
+                sefer_tahmin,
+                sefer_durum,
+                sefer_amir,
+                sefer_durum_kodu;
+
+        // hat harita icin, eger aktif sefer varsa onu alicak loopta
+        // eger guzergah bos harita req yaparsak tum otobusleri cekiyor, bunu engellemek icin
+        // bi kere ilk seferin verisini tanimliyoruz guzergah olarak
+        aktif_guzergah = data.getJSONObject(0).getString("guzergah");
+        hat = data.getJSONObject(0).getString("hat");
+
+        for (int j = 0; j < data.length(); j++) {
+            sefer = data.getJSONObject(j);
+            sefer_no = sefer.getString("no");
+            sefer_hat = sefer.getString("hat");
+            sefer_guzergah = sefer.getString("guzergah");
+            sefer_surucu_sicil_no = sefer.getString("surucu");
+            sefer_orer = sefer.getString("orer");
+            sefer_tahmin = sefer.getString("tahmin");
+            sefer_durum = sefer.getString("durum");
+            sefer_durum_kodu = sefer.getString("durum_kodu");
+            sefer_amir = sefer.getString("amir");
+
+            // soforleri listele
+            /*if (!suruculer.contains(sefer_surucu_sicil_no)) {
+                suruculer.add(sefer_surucu_sicil_no);
+            }*/
+
+            // hat ve güzergah verisini al
+            // aktif sefer yokmuş gibi burada sadece hatti aliyoruz
+            if (!hat_verisi_alindi) {
+                ui_hat_data = sefer_hat;
+                hat_verisi_alindi = true;
+            }
+
+            sonraki_sefer = null;
+            // bir sonraki sefer varsa aliyoruz verisini
+            if (!data.isNull(j + 1)) sonraki_sefer = data.getJSONObject(j + 1);
+
+            // yarim sefer
+            if (sefer_durum.equals(Sefer_Data.DYARIM)) {
+                if (sonraki_sefer != null) {
+                    int k = j + 1;
+                    int duzeltilmis_sefer_index = 0;
+                    boolean sonraki_seferler_duzeltilmis = false;
+                    while (!data.isNull(k)) {
+                        JSONObject yarim_sonrasi_sefer = data.getJSONObject(k);
+                        // yarim kalan seferden sonra bekleyen veya tamamlanan sefer yoksa yarim kaldi durumuna getiriyoruz
+                        // varsa dokunmuyoruz zaten yukarıda sonraki seferleri geçerken bekleyen veya tamamlandi olarak degisecek durum
+                        if (yarim_sonrasi_sefer.getString("durum").equals("B") || yarim_sonrasi_sefer.getString("durum").equals("T")) {
+                            duzeltilmis_sefer_index = k;
+                            sonraki_seferler_duzeltilmis = true;
+
+                            alarm_kontrol(new Alarm_Data(Alarm_Data.SEFERLER_DUZELTILDI, Alarm_Data.YESIL, kod, Alarm_Data.MESAJ_SEFERLER_DUZELTILDI, sefer_no));
+                            break;
                         }
-                    });
-                }
-            });
-            plan_thread.setDaemon(true);
-            plan_thread.start();
-        });
+                        k++;
+                    }
+                    // seferler duzeltilmemişse yarim kaldi diyoruz
+                    // bu muhtemelen son sefer yarim kaldiginda olur cunku genelde yarim kalan sefer sonrasi iptal oluyor sonrakiler
+                    if (!sonraki_seferler_duzeltilmis) {
 
-        btn_mesaj.setOnMousePressed( ev -> {
-            if( mesaj_popup == null || popup_mesaj_box == null ) {
-                mesaj_popup = new Obarey_Popup(kod + " Filo Mesajları", ui_container.getScene().getRoot() );
-                popup_mesaj_box = new Popup_Mesaj_Box( kod );
+                        alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_YARIM, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_YARIM, sefer_no));
+
+                        //System.out.println("[ " + kod + " ALARM ]" + "SEFER YARIM KALDIIIII");
+                        ui_main_notf = "Sefer Yarım Kaldı";
+                        ui_notf = "Durum Kodu: " + sefer_durum_kodu;
+                        ui_led = Sefer_Data.DYARIM;
+                    } else {
+                        // bekleyen sefer ( durum led icin )
+                        JSONObject iptal_sonrasi_sefer = data.getJSONObject(duzeltilmis_sefer_index);
+                        if (iptal_sonrasi_sefer.getString("durum").equals(Sefer_Data.DBEKLEYEN)) {
+                            ui_led = Sefer_Data.DBEKLEYEN;
+                            ui_main_notf = "Seferini Bekliyor";
+                            if (!iptal_sonrasi_sefer.getString("amir").equals("") && !iptal_sonrasi_sefer.getString("amir").equals("[ 10 5 2 ]")) {
+                                ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("amir") + " ( Amir )";
+                            } else {
+                                ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("orer");
+                            }
+                        }
+                    }
+                } else {
+                    // son sefer yarım kalmis
+
+                    alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_YARIM, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_YARIM, sefer_no));
+                    System.out.println("[ " + kod + " ALARM ]" + "SEFER YARIM KALDIIIII");
+
+                    ui_main_notf = "Sefer Yarım Kaldı";
+                    ui_notf = "Durum Kodu: " + sefer_durum_kodu;
+                    ui_led = Sefer_Data.DYARIM;
+                }
             }
-            if( mesaj_popup.ison() ) return;
-            btn_mesaj.setDisable(true);
-            Thread filo_mesaj_th = new Thread( new Task<String>(){
-                @Override
-                protected void succeeded(){
-                    mesaj_popup.set_content( popup_mesaj_box );
-                    mesaj_popup.show( ev.getScreenX(), ev.getScreenY() );
-                    btn_mesaj.setDisable(false);
-                }
-                @Override
-                protected String call(){
-                    mesaj_popup.init(true);
-                    popup_mesaj_box.init();
-                    return null;
-                }
-            });
-            filo_mesaj_th.setDaemon(true);
-            filo_mesaj_th.start();
-        });
 
-        btn_iys.setOnMousePressed( ev -> {
-            if( iys_popup == null || popup_iys_box == null ) {
-                iys_popup = new Obarey_Popup(kod + " IYS", ui_container.getScene().getRoot());
-                popup_iys_box = new Popup_IYS_Box( kod );
+            // sefer iptalse
+            if (sefer_durum.equals(Sefer_Data.DIPTAL)) {
+                if (sonraki_sefer != null) {
+                    int k = j + 1;
+                    boolean sonraki_seferler_duzeltilmis = false;
+                    int duzeltilmis_sefer_index = 0;
+                    while (!data.isNull(k)) {
+                        JSONObject yarim_sonrasi_sefer = data.getJSONObject(k);
+                        // iptal seferden sonra bekleyen veya tamamlanan sefer yoksa yarim kaldi durumuna getiriyoruz
+                        // varsa dokunmuyoruz zaten yukarıda sonraki seferleri geçerken bekleyen veya tamamlandi olarak degisecek durum
+                        if (yarim_sonrasi_sefer.getString("durum").equals("B") || yarim_sonrasi_sefer.getString("durum").equals("T")) {
+                            duzeltilmis_sefer_index = k;
+                            sonraki_seferler_duzeltilmis = true;
+                            break;
+                        }
+                        k++;
+                    }
+                    // seferler duzeltilmemişse durum iptal diyoruz
+                    if (!sonraki_seferler_duzeltilmis) {
+
+                        System.out.println("[ " + kod + " ALARM ]" + "SEFER İPTAAAAAAl");
+                        alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_IPTAL, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_IPTAL, "1"));
+
+                        ui_main_notf = "Sefer İptal";
+                        ui_notf = "Durum Kodu: " + sefer_durum_kodu;
+                        ui_led = Sefer_Data.DIPTAL;
+                    } else {
+                        // bekleyen sefer ( durum led icin )
+                        alarm_kontrol(new Alarm_Data(Alarm_Data.SEFERLER_DUZELTILDI, Alarm_Data.YESIL, kod, Alarm_Data.MESAJ_SEFERLER_DUZELTILDI, "1"));
+
+                        JSONObject iptal_sonrasi_sefer = data.getJSONObject(duzeltilmis_sefer_index);
+                        if (iptal_sonrasi_sefer.getString("durum").equals(Sefer_Data.DBEKLEYEN)) {
+                            ui_led = Sefer_Data.DBEKLEYEN;
+                            ui_main_notf = "Seferini Bekliyor";
+                            if (!iptal_sonrasi_sefer.getString("amir").equals("") && !iptal_sonrasi_sefer.getString("amir").equals("[ 10 5 2 ]")) {
+                                ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("amir") + " ( Amir )";
+                            } else {
+                                ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("orer");
+                            }
+                        }
+                    }
+                } else {
+                    // son sefer iptal
+                    ui_main_notf = "Sefer İptal";
+                    ui_notf = "Durum Kodu: " + sefer_durum_kodu;
+                    ui_led = Sefer_Data.DIPTAL;
+
+                    alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_IPTAL, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_IPTAL, "1"));
+                    System.out.println("[ " + kod + " ALARM ]" + "SEFER İPTAAAAAAl");
+
+                }
             }
-            if( iys_popup.ison() ) return;
-            btn_iys.setDisable(true);
-            Thread filo_mesaj_th = new Thread( new Task<String>(){
-                @Override
-                protected void succeeded(){
-                    iys_popup.set_content( popup_iys_box );
-                    iys_popup.show( ev.getScreenX(), ev.getScreenY() );
-                    btn_iys.setDisable(false);
-                }
-                @Override
-                protected String call(){
-                    iys_popup.init(true);
-                    popup_iys_box.init();
-                    return null;
-                }
-            });
-            filo_mesaj_th.setDaemon(true);
-            filo_mesaj_th.start();
-        });
 
-        btn_rapor.setOnMousePressed( ev -> {
-            if( rapor_popup == null  ) {
-                rapor_popup = new Obarey_Popup(kod + " Rapor", ui_container.getScene().getRoot());
+            // aktif sefer
+            if (sefer_durum.equals(Sefer_Data.DAKTIF)) {
+
+                // hat ve güzergah verisini al
+                // sadece aktif seferde gidiş - donüş var
+                hat = sefer_hat;
+                // gecmis harita takip icin
+                aktif_guzergah = sefer_guzergah;
+                ui_hat_data = hat_detay_olustur(sefer_guzergah);
+
+                // ui durumlari
+                ui_led = Sefer_Data.DAKTIF;
+                if (sefer_tahmin.equals("")) {
+                    ui_main_notf = "Aktif Sefer " + sefer_orer;
+                } else {
+                    ui_main_notf = "Aktif Sefer " + sefer_orer + " (T " + sefer_tahmin + ")";
+                }
+
+                if (!durak_data.equals("YOK")) {
+                    ui_notf = durak_data.substring(16, durak_data.indexOf(" ("));
+                } else {
+                    ui_notf = "Durak bilgisi yok.";
+                }
+                if (sonraki_sefer != null && !sefer_tahmin.equals("")) {
+                    // gec kalip kalmama kontrolu
+                    if (!sonraki_sefer.getString("amir").equals("") && !sonraki_sefer.getString("amir").equals("[ 10 5 2 ]")) {
+                        // bir sonraki sefere amir saat atamis
+                        if (Sefer_Sure.hesapla(sefer_tahmin, sonraki_sefer.getString("amir")) < 0) {
+                            // amir saat atamis ama gene de geç kalacak
+                            alarm_kontrol(new Alarm_Data(Alarm_Data.GEC_KALMA, Alarm_Data.TURUNCU, kod, Alarm_Data.MESAJ_GEC_KALMA, sefer_no));
+
+                            System.out.println("[ " + kod + " ALARM ]" + "GEÇ KALABİLİR AMİR SAAT ATAMIŞ AMA YEMEMİŞ");
+
+                        }
+                    } else {
+                        // amir saat atamamis
+                        if (Sefer_Sure.hesapla(sefer_tahmin, sonraki_sefer.getString("orer")) < 0) {
+                            // amir saat atamis ama gene de geç kalacak
+                            alarm_kontrol(new Alarm_Data(Alarm_Data.GEC_KALMA, Alarm_Data.TURUNCU, kod, Alarm_Data.MESAJ_GEC_KALMA, sefer_no));
+                            System.out.println("[ " + kod + " ALARM ]" + "GEÇ KALABİLİR LUAAAN");
+                        }
+                    }
+                }
             }
-            if( rapor_popup.ison() ) return;
-            btn_rapor.setDisable(true);
-            Thread filo_mesaj_th = new Thread( new Task<String>(){
-                @Override
-                protected void succeeded(){
-                    rapor_popup.show( ev.getScreenX(), ev.getScreenY() );
-                    btn_rapor.setDisable(false);
-                }
-                @Override
-                protected String call(){
-                    rapor_popup.init(true);
-                    rapor_filtre_box = new Rapor_Tarih_Filtre_Box( Rapor_Box_Toplam.TOPLAM_OTOBUS, kod, ui_container.getScene().getRoot() );
-                    rapor_popup.set_content( rapor_filtre_box );
-                    return null;
-                }
-            });
-            filo_mesaj_th.setDaemon(true);
-            filo_mesaj_th.start();
-        });
 
-        btn_notlar.setOnMousePressed( ev -> {
-            if( not_popup == null || popup_not_box == null ) {
-                not_popup = new Obarey_Popup(kod + " Otobüs Notlar", ui_container.getScene().getRoot() );
-                popup_not_box = new Popup_Not_Box( kod, aktif_plaka );
+            // tamamlanmis sefer
+            if (sefer_durum.equals(Sefer_Data.DTAMAM)) {
+
+
+                if (sonraki_sefer != null) {
+                    if (sonraki_sefer.getString("durum").equals(Sefer_Data.DBEKLEYEN)) {
+                        // sonraki seferi var ve durumu bekleyense, bekleyen seferin saatini aliyoruz
+                        ui_led = Sefer_Data.DBEKLEYEN;
+                        ui_main_notf = "Seferini Bekliyor";
+                        if (!sonraki_sefer.getString("amir").equals("") && !sonraki_sefer.getString("amir").equals("[ 10 5 2 ]")) {
+                            // eger amir saat atamişsa
+                            ui_notf = "Bir sonraki sefer: " + sonraki_sefer.getString("amir") + " ( Amir )";
+                            alarm_kontrol(new Alarm_Data(Alarm_Data.AMIR_SAAT_ATADI, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_AMIR_SAAT_ATADI, sefer_no));
+
+                            //System.out.println("[ " + kod + " ALARM ]" + "AMİR SAAT ATAMIŞ ARKADAŞA");
+                        } else {
+                            // amirsiz bir sonraki sefer
+                            ui_notf = "Bir sonraki sefer " + sonraki_sefer.getString("orer");
+                        }
+                    }
+                } else {
+
+                    // bir sonraki seferi yoksa tamamlamis demektir
+                    // bunun 'tum_seferler_tamam' dan farki yukaridaki tamamladi kontrolu
+                    // tum seferlerin T olmasina bakiyor. burada ise yapacak seferi kalmamis anlamina geliyor.
+                    // yani arada iptal, yarim sefer olabilir
+                    ui_main_notf = "Günü Tamamladı";
+                    ui_notf = "Sefer yüzdesi: %" + (sefer_ozet.get("T") * 100) / data.length();
+                    ui_led = Sefer_Data.DTAMAM;
+                    if (kod.equals("B-1741")) System.out.println("helo2  " + sefer_no);
+                }
             }
-            if( not_popup.ison() ) return;
-            btn_notlar.setDisable(true);
-            Thread filo_mesaj_th = new Thread( new Task<String>(){
-                @Override
-                protected void succeeded(){
-                    not_popup.set_content( popup_not_box );
-                    not_popup.show( ev.getScreenX(), ev.getScreenY() );
-                    btn_notlar.setDisable(false);
-                }
-                @Override
-                protected String call(){
-                    not_popup.init(true);
-                    popup_not_box.init();
-                    return null;
-                }
-            });
-            filo_mesaj_th.setDaemon(true);
-            filo_mesaj_th.start();
-        });
 
-        btn_surucu.setOnMousePressed(event -> {
-            if( surucu_popup == null || surucu_box == null ) {
-                surucu_popup = new Obarey_Popup(kod + " Sürücü Bilgileri", ui_container.getScene().getRoot());
-                surucu_box = new Surucu_Box( kod );
+            if (sefer_durum.equals(Sefer_Data.DBEKLEYEN)) {
+                if (!sefer_amir.equals("") && !sefer_amir.equals("[ 10 5 2 ]")) {
+                    if (Sefer_Sure.gecmis(SIMDI, sefer_amir)) {
+                        alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_BASLAMADI, Alarm_Data.TURUNCU, kod, Alarm_Data.MESAJ_SEFER_BASLAMADI, sefer_no));
+                        //System.out.println(kod + " ----> Seferine başlmadı -->  " + Sefer_Sure.gecmis( SIMDI, sefer_orer  ));
+                    }
+                } else {
+                    if (Sefer_Sure.gecmis(SIMDI, sefer_orer)) {
+                        //System.out.println("[ " + kod + " ALARM ]" + "SEFERINE BAŞLAMADI ARKADAŞ ");
+                        //System.out.println(kod + " ----> Seferine başlmadı -->  " + Sefer_Sure.gecmis( SIMDI, sefer_orer  ));
+                        alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_BASLAMADI, Alarm_Data.TURUNCU, kod, Alarm_Data.MESAJ_SEFER_BASLAMADI, sefer_no));
+                    }
+                }
             }
-            if( surucu_popup.ison() ) return;
-            btn_surucu.setDisable(true);
-            Thread filo_surucu_th = new Thread( new Task<String>(){
-                @Override
-                protected void succeeded(){
-                    surucu_popup.set_content( surucu_box.get_ui() );
-                    surucu_popup.show( event.getScreenX(), event.getScreenY() );
-                    btn_surucu.setDisable(false);
-                }
-                @Override
-                protected String call(){
-                    surucu_popup.init(true);
-                    surucu_box.init();
-                    return null;
-                }
-            });
-            filo_surucu_th.setDaemon(true);
-            filo_surucu_th.start();
-        });
+        } // for
 
-        btn_harita.setOnMousePressed(event -> {
-            if( harita_popup == null  ) {
-                harita_popup = new Obarey_Popup(kod + " Harita", ui_container.getScene().getRoot());
-            }
-            if( harita_popup.ison() ) return;
-            Thread filo_mesaj_th = new Thread( new Task<String>(){
-                HBox harita_btn_cont = new HBox();
-                @Override
-                protected void succeeded(){
-                    harita_popup.set_content( harita_btn_cont );
-                    harita_popup.show( event.getScreenX(), event.getScreenY() );
-                }
-                @Override
-                protected String call(){
-                    GButton hat_harita = new GButton("Hat Haritası", GButton.CMORB);
-                    GButton gecmis_takip = new GButton("Takip Harita", GButton.CMORB);
-                    GButton konum_harita = new GButton("Son Konum", GButton.CMORB);
-                    harita_btn_cont.getChildren().addAll( hat_harita, gecmis_takip, konum_harita );
-                    harita_btn_cont.setAlignment(Pos.CENTER);
-                    harita_btn_cont.setPadding(new Insets(0, 0, 10, 0));
-                    HBox.setMargin( gecmis_takip, new Insets(0, 0, 0, 10 ) );
-                    HBox.setMargin( konum_harita, new Insets(0, 0, 0, 10 ) );
-                    // harita buton events
-                    gecmis_takip.setOnMousePressed( ev -> {
-                        Filo_Harita_Request_Task gecmis_takip_req = new Filo_Harita_Request_Task( kod, aktif_guzergah, Filo_Harita_Request_Task.TAKIP_HARITA );
-                        gecmis_takip_req.init();
-                        harita_btn_cont.getChildren().clear();
-                        harita_btn_cont.getChildren().add( gecmis_takip_req.get_webview() );
-                    });
-                    hat_harita.setOnMousePressed( ev -> {
-                        //System.out.println(hat);
-                        Filo_Harita_Request_Task gecmis_takip_req = new Filo_Harita_Request_Task( kod, hat, Filo_Harita_Request_Task.HAT_HARITA );
-                        gecmis_takip_req.init();
-                        harita_btn_cont.getChildren().clear();
-                        harita_btn_cont.getChildren().add( gecmis_takip_req.get_webview() );
-                    });
-                    /*konum_harita.setOnMousePressed( ev -> {
-                        //System.out.println(hat);
-                        Filo_Harita_Request_Task gecmis_takip_req = new Filo_Harita_Request_Task( kod, hat, Filo_Harita_Request_Task.KONUM_HARITA );
-                        gecmis_takip_req.init();
-                        harita_btn_cont.getChildren().clear();
-                        harita_btn_cont.getChildren().add( gecmis_takip_req.get_webview() );
-                    });*/
-                    harita_popup.init(true);
-                    return null;
-                }
-            });
-            filo_mesaj_th.setDaemon(true);
-            filo_mesaj_th.start();
-        });
+        if (sefer_ozet.get(Sefer_Data.DIPTAL) > 0 || sefer_ozet.get(Sefer_Data.DYARIM) > 0) {
+            filtre_data.put(Otobus_Box_Filtre.FD_ZAYI, true);
+        } else {
+            filtre_data.put(Otobus_Box_Filtre.FD_ZAYI, false);
+        }
 
-    }
-    public Map<String, Integer> get_ozet(){
-        return sefer_ozet;
-    }
-    public Map<String, Integer> get_ekstra_ozet(){
-        return ekstra_ozet;
-    }
-    public double get_iett_km(){
-        return iett_km;
-    }
-    public double get_gitas_km(){
-        return gitas_km;
-    }
 
-    public void add_alarm_listener( Alarm_Listener listener ){
-        listeners.add( listener );
+        update_ui();
+
+
+
+       /* if (suruculer.size() > 1) {
+            // sefer nonun cokta onemi yok bi kere vericez alarmi
+            alarm_kontrol(new Alarm_Data(Alarm_Data.SURUCU_DEGISIMI, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_SURUCU_DEGISTI, "1"));
+        }
+
+        if (suruculer.contains("") || suruculer.contains("-1") || suruculer.contains("-111111") || suruculer.contains("BELİRSİZ SÜRÜCÜ")) {
+            alarm_kontrol(new Alarm_Data(Alarm_Data.BELIRSIZ_SURUCU, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_BELIRSIZ_SURUCU, "1"));
+        }*/
     }
 
     public void alarmlari_ayikla( String yeni_alarm_val ){
@@ -568,438 +610,21 @@ public class Otobus_Box {
     }
 
     public void update_ui(){
-
-        main_info.setText( ui_main_notf );
-        info.setText(ui_notf);
-        update_led( ui_led );
-        box_header_hat.setText(ui_hat_data);
-
-        this.ozet_tamam.setText( String.valueOf( this.sefer_ozet.get(Sefer_Data.DTAMAM) ) );
-        this.ozet_aktif.setText( String.valueOf( this.sefer_ozet.get(Sefer_Data.DAKTIF) ) );
-        this.ozet_bekleyen.setText( String.valueOf( this.sefer_ozet.get(Sefer_Data.DBEKLEYEN) ) );
-        this.ozet_iptal.setText( String.valueOf( this.sefer_ozet.get(Sefer_Data.DIPTAL) ) );
-        this.ozet_yarim.setText( String.valueOf( this.sefer_ozet.get(Sefer_Data.DYARIM) ) );
-
-    }
-
-    public void update( JSONArray data, String durak_data, JSONObject alarmlar, JSONObject km_data ) throws Exception {
-        // filo boş veri gonderiyorsa dokunmuyoruz
-        if( data.length() == 0 ) return;
-        this.new_data = data;
-        gitas_km = km_data.getDouble("gkm");
-        iett_km = km_data.getDouble("iettkm");
-        Thread update_thread = new Thread( new Task<String>(){
-            @Override
-            protected void succeeded(){
-                update_ui();
-                // TODO  if( sefer_popup != null && sefer_popup.ison() && !sefer_plan_table.get_eski_veri_goruntuleniyor() ) sefer_plan_table.update_ui();
-                for( Alarm_Listener listener : listeners ){
-                    listener.on_ui_finished( get_alarmlar() );
-                }
-            }
-            @Override
-            protected String call(){
-                // popup aciksa ve gecmis goruntulenmiyorsa guncelle popupu
-                // TODO if( sefer_popup != null && sefer_popup.ison() && !sefer_plan_table.get_eski_veri_goruntuleniyor() )  sefer_plan_table.update_data( new_data, false );
-                try {
-                    int o;
-                    JSONArray tamamlanan_notlar = alarmlar.getJSONArray("tamamlanan_notlar");
-                    JSONArray yeni_notlar = alarmlar.getJSONArray("yeni_notlar");
-                    JSONArray iys = alarmlar.getJSONArray("iys");
-                    JSONArray not_bildirimleri = alarmlar.getJSONArray("not_bildirimleri");
-
-                    int     yeni_notlar_length = yeni_notlar.length(),
-                            tamamlanan_notlar_length = tamamlanan_notlar.length(),
-                            iys_length = iys.length(),
-                            not_bildirimleri_length = not_bildirimleri.length();
-
-                    if( tamamlanan_notlar_length > 0 ){
-                        if( tamamlanan_notlar_length > 5 ){
-                            alarm_kontrol( new Alarm_Data( Alarm_Data.NOT_TAMAMLANDI, Alarm_Data.YESIL, kod, tamamlanan_notlar_length + " not tamamlandı!", "-1" ));
-                        } else {
-                            for( o = 0; o < tamamlanan_notlar_length; o++ ) alarm_kontrol( new Alarm_Data( Alarm_Data.NOT_TAMAMLANDI, Alarm_Data.YESIL, kod, tamamlanan_notlar.getString(o), String.valueOf(o)));
-                        }
-                    }
-                    if( yeni_notlar_length > 0 ){
-                        if( yeni_notlar_length > 5 ){
-                            alarm_kontrol( new Alarm_Data( Alarm_Data.NOT_VAR, Alarm_Data.MAVI, kod, yeni_notlar_length + " yeni not var!","-1"));
-                        } else {
-                            for( o = 0; o < yeni_notlar_length; o++ ) alarm_kontrol( new Alarm_Data( Alarm_Data.NOT_VAR, Alarm_Data.MAVI, kod, "Yeni Not '" + yeni_notlar.getString(o) + "'",String.valueOf(o)));
-                        }
-                        filtre_data.put(Otobus_Box_Filtre.FD_NOT, true);
-                        ekstra_ozet.put(Otobus_Box_Filtre.FD_NOT, yeni_notlar_length);
-                    } else {
-                        filtre_data.put(Otobus_Box_Filtre.FD_NOT, false);
-                        ekstra_ozet.put(Otobus_Box_Filtre.FD_NOT, 0);
-                    }
-                    if( iys_length > 0 ){
-                        if( iys_length > 5 ){
-                            alarm_kontrol( new Alarm_Data( Alarm_Data.IYS_UYARISI_VAR, Alarm_Data.KIRMIZI, kod, iys_length + " IYS uyarısı var!", "-1" ));
-                        } else {
-                            for( o = 0; o < iys_length; o++ ) alarm_kontrol( new Alarm_Data( Alarm_Data.IYS_UYARISI_VAR, Alarm_Data.KIRMIZI, kod, "Yeni IYS: '" + iys.getString(o) + "'",String.valueOf(o)));
-                        }
-                        filtre_data.put(Otobus_Box_Filtre.FD_IYS, true);
-                        ekstra_ozet.put(Otobus_Box_Filtre.FD_IYS, iys_length);
-                    } else {
-                        filtre_data.put(Otobus_Box_Filtre.FD_IYS, false);
-                        ekstra_ozet.put(Otobus_Box_Filtre.FD_IYS, 0);
-                    }
-                    if( not_bildirimleri_length > 0 ){
-                        if( not_bildirimleri_length > 5 ){
-                            alarm_kontrol( new Alarm_Data( Alarm_Data.YENI_NOT_BILDIRIMI, Alarm_Data.MAVI, kod, not_bildirimleri_length + " yeni not bildirimi var!", "-1" ));
-                        } else {
-                            for( o = 0; o < not_bildirimleri_length; o++ ) alarm_kontrol( new Alarm_Data( Alarm_Data.YENI_NOT_BILDIRIMI, Alarm_Data.MAVI, kod, not_bildirimleri.getString(o), String.valueOf(o)));
-                        }
-                    }
-                    aktif_plaka = User_Config.config_oku().getJSONArray("otobusler").getJSONObject(index).getString("aktif_plaka");
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            otobus_plaka_kontrol();
-                        }
-                    });
-
-                    DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-                    Date date = new Date();
-                    String SIMDI = dateFormat.format(date);
-
-                    // sefer özeti hesaplamalari init
-                    sefer_ozet.put(Sefer_Data.DTAMAM, 0);
-                    sefer_ozet.put(Sefer_Data.DAKTIF, 0);
-                    sefer_ozet.put(Sefer_Data.DBEKLEYEN, 0);
-                    sefer_ozet.put(Sefer_Data.DIPTAL, 0);
-                    sefer_ozet.put(Sefer_Data.DYARIM, 0);
-
-                    // durum degiskenleri
-                    boolean tum_seferler_tamam = false,
-                            hat_verisi_alindi = false,
-                            tum_seferler_bekleyen = false;
-
-                    JSONObject sefer, onceki_sefer, sonraki_sefer;
-                    for (int x = 0; x < data.length(); x++) {
-                        sefer = data.getJSONObject(x);
-                        String durum = sefer.getString("durum");
-                        if (sefer_ozet.containsKey(durum)) {
-                            sefer_ozet.replace(durum, sefer_ozet.get(durum), sefer_ozet.get(durum) + 1);
-                        } else {
-                            sefer_ozet.put(durum, 1);
-                        }
-                    }
-
-                    if (sefer_ozet.get(Sefer_Data.DTAMAM) == data.length()) tum_seferler_tamam = true;
-                    if (sefer_ozet.get(Sefer_Data.DBEKLEYEN) == data.length()) tum_seferler_bekleyen = true;
-
-                    if (tum_seferler_tamam) {
-                        // ledi ve notflari guncelle
-                        // sefer yuzdesi hesapla
-                        ui_main_notf = "Tüm Seferler Tamam";
-                        ui_notf = "Sefer yüzdesi: %100";
-                        ui_led = Sefer_Data.DTAMAM;
-                        ui_hat_data = data.getJSONObject(0).getString("hat");
-                        return null;
-                    } else if (tum_seferler_bekleyen) {
-                        // hic baslamamis seferlerine
-                        ui_main_notf = "Seferini bekliyor.";
-                        ui_notf = "Bir sonraki sefer: " + data.getJSONObject(0).getString("orer");
-                        ui_led = Sefer_Data.DBEKLEYEN;
-                        ui_hat_data = data.getJSONObject(0).getString("hat");
-                        return null;
-                    }
-                    String sefer_no,
-                            sefer_hat,
-                            sefer_guzergah,
-                            sefer_surucu_sicil_no,
-                            sefer_orer,
-                            sefer_tahmin,
-                            sefer_durum,
-                            sefer_amir,
-                            sefer_durum_kodu;
-
-
-                    // hat harita icin, eger aktif sefer varsa onu alicak loopta
-                    // eger guzergah bos harita req yaparsak tum otobusleri cekiyor, bunu engellemek icin
-                    // bi kere ilk seferin verisini tanimliyoruz guzergah olarak
-                    aktif_guzergah = data.getJSONObject(0).getString("guzergah");
-                    hat = data.getJSONObject(0).getString("hat");
-
-                    for (int j = 0; j < data.length(); j++) {
-                        sefer = data.getJSONObject(j);
-                        sefer_no = sefer.getString("no");
-                        sefer_hat = sefer.getString("hat");
-                        sefer_guzergah = sefer.getString("guzergah");
-                        sefer_surucu_sicil_no = sefer.getString("surucu");
-                        sefer_orer = sefer.getString("orer");
-                        sefer_tahmin = sefer.getString("tahmin");
-                        sefer_durum = sefer.getString("durum");
-                        sefer_durum_kodu = sefer.getString("durum_kodu");
-                        sefer_amir = sefer.getString("amir");
-
-                        // soforleri listele
-                        if (!suruculer.contains(sefer_surucu_sicil_no)) {
-                            suruculer.add(sefer_surucu_sicil_no);
-                        }
-
-                        // hat ve güzergah verisini al
-                        // aktif sefer yokmuş gibi burada sadece hatti aliyoruz
-                        if (!hat_verisi_alindi) {
-                            ui_hat_data = sefer_hat;
-                            hat_verisi_alindi = true;
-                        }
-
-                        sonraki_sefer = null;
-                        // bir sonraki sefer varsa aliyoruz verisini
-                        if (!data.isNull(j + 1)) sonraki_sefer = data.getJSONObject(j + 1);
-
-                        // yarim sefer
-                        if (sefer_durum.equals(Sefer_Data.DYARIM)) {
-                            if (sonraki_sefer != null) {
-                                int k = j + 1;
-                                int duzeltilmis_sefer_index = 0;
-                                boolean sonraki_seferler_duzeltilmis = false;
-                                while (!data.isNull(k)) {
-                                    JSONObject yarim_sonrasi_sefer = data.getJSONObject(k);
-                                    // yarim kalan seferden sonra bekleyen veya tamamlanan sefer yoksa yarim kaldi durumuna getiriyoruz
-                                    // varsa dokunmuyoruz zaten yukarıda sonraki seferleri geçerken bekleyen veya tamamlandi olarak degisecek durum
-                                    if (yarim_sonrasi_sefer.getString("durum").equals("B") || yarim_sonrasi_sefer.getString("durum").equals("T")) {
-                                        duzeltilmis_sefer_index = k;
-                                        sonraki_seferler_duzeltilmis = true;
-
-                                        alarm_kontrol(new Alarm_Data(Alarm_Data.SEFERLER_DUZELTILDI, Alarm_Data.YESIL, kod, Alarm_Data.MESAJ_SEFERLER_DUZELTILDI, sefer_no));
-                                        break;
-                                    }
-                                    k++;
-                                }
-                                // seferler duzeltilmemişse yarim kaldi diyoruz
-                                // bu muhtemelen son sefer yarim kaldiginda olur cunku genelde yarim kalan sefer sonrasi iptal oluyor sonrakiler
-                                if (!sonraki_seferler_duzeltilmis) {
-
-                                    alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_YARIM, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_YARIM, sefer_no));
-
-                                    //System.out.println("[ " + kod + " ALARM ]" + "SEFER YARIM KALDIIIII");
-                                    ui_main_notf = "Sefer Yarım Kaldı";
-                                    ui_notf = "Durum Kodu: " + sefer_durum_kodu;
-                                    ui_led = Sefer_Data.DYARIM;
-                                } else {
-                                    // bekleyen sefer ( durum led icin )
-                                    JSONObject iptal_sonrasi_sefer = data.getJSONObject(duzeltilmis_sefer_index);
-                                    if (iptal_sonrasi_sefer.getString("durum").equals(Sefer_Data.DBEKLEYEN)) {
-                                        ui_led = Sefer_Data.DBEKLEYEN;
-                                        ui_main_notf = "Seferini Bekliyor";
-                                        if (!iptal_sonrasi_sefer.getString("amir").equals("") && !iptal_sonrasi_sefer.getString("amir").equals("[ 10 5 2 ]")) {
-                                            ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("amir") + " ( Amir )";
-                                        } else {
-                                            ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("orer");
-                                        }
-                                    }
-                                }
-                            } else {
-                                // son sefer yarım kalmis
-
-                                alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_YARIM, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_YARIM, sefer_no));
-                                System.out.println("[ " + kod + " ALARM ]" + "SEFER YARIM KALDIIIII");
-
-                                ui_main_notf = "Sefer Yarım Kaldı";
-                                ui_notf = "Durum Kodu: " + sefer_durum_kodu;
-                                ui_led = Sefer_Data.DYARIM;
-                            }
-                        }
-
-                        // sefer iptalse
-                        if (sefer_durum.equals(Sefer_Data.DIPTAL)) {
-                            if (sonraki_sefer != null) {
-                                int k = j + 1;
-                                boolean sonraki_seferler_duzeltilmis = false;
-                                int duzeltilmis_sefer_index = 0;
-                                while (!data.isNull(k)) {
-                                    JSONObject yarim_sonrasi_sefer = data.getJSONObject(k);
-                                    // iptal seferden sonra bekleyen veya tamamlanan sefer yoksa yarim kaldi durumuna getiriyoruz
-                                    // varsa dokunmuyoruz zaten yukarıda sonraki seferleri geçerken bekleyen veya tamamlandi olarak degisecek durum
-                                    if (yarim_sonrasi_sefer.getString("durum").equals("B") || yarim_sonrasi_sefer.getString("durum").equals("T")) {
-                                        duzeltilmis_sefer_index = k;
-                                        sonraki_seferler_duzeltilmis = true;
-                                        break;
-                                    }
-                                    k++;
-                                }
-                                // seferler duzeltilmemişse durum iptal diyoruz
-                                if (!sonraki_seferler_duzeltilmis) {
-
-                                    System.out.println("[ " + kod + " ALARM ]" + "SEFER İPTAAAAAAl");
-                                    alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_IPTAL, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_IPTAL, "1"));
-
-                                    ui_main_notf = "Sefer İptal";
-                                    ui_notf = "Durum Kodu: " + sefer_durum_kodu;
-                                    ui_led = Sefer_Data.DIPTAL;
-                                } else {
-                                    // bekleyen sefer ( durum led icin )
-                                    alarm_kontrol(new Alarm_Data(Alarm_Data.SEFERLER_DUZELTILDI, Alarm_Data.YESIL, kod, Alarm_Data.MESAJ_SEFERLER_DUZELTILDI, "1"));
-
-                                    JSONObject iptal_sonrasi_sefer = data.getJSONObject(duzeltilmis_sefer_index);
-                                    if (iptal_sonrasi_sefer.getString("durum").equals(Sefer_Data.DBEKLEYEN)) {
-                                        ui_led = Sefer_Data.DBEKLEYEN;
-                                        ui_main_notf = "Seferini Bekliyor";
-                                        if (!iptal_sonrasi_sefer.getString("amir").equals("") && !iptal_sonrasi_sefer.getString("amir").equals("[ 10 5 2 ]")) {
-                                            ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("amir") + " ( Amir )";
-                                        } else {
-                                            ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("orer");
-                                        }
-                                    }
-                                }
-                            } else {
-                                // son sefer iptal
-                                ui_main_notf = "Sefer İptal";
-                                ui_notf = "Durum Kodu: " + sefer_durum_kodu;
-                                ui_led = Sefer_Data.DIPTAL;
-
-                                alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_IPTAL, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_IPTAL, "1"));
-                                System.out.println("[ " + kod + " ALARM ]" + "SEFER İPTAAAAAAl");
-
-                            }
-                        }
-
-                        // aktif sefer
-                        if (sefer_durum.equals(Sefer_Data.DAKTIF)) {
-
-                            // hat ve güzergah verisini al
-                            // sadece aktif seferde gidiş - donüş var
-                            hat = sefer_hat;
-                            // gecmis harita takip icin
-                            aktif_guzergah = sefer_guzergah;
-                            ui_hat_data = hat_detay_olustur(sefer_guzergah);
-
-                            // ui durumlari
-                            ui_led = Sefer_Data.DAKTIF;
-                            if (sefer_tahmin.equals("")) {
-                                ui_main_notf = "Aktif Sefer " + sefer_orer;
-                            } else {
-                                ui_main_notf = "Aktif Sefer " + sefer_orer + " (T " + sefer_tahmin + ")";
-                            }
-
-                            if (!durak_data.equals("YOK")) {
-                                ui_notf = durak_data.substring(16, durak_data.indexOf(" ("));
-                            } else {
-                                ui_notf = "Durak bilgisi yok.";
-                            }
-                            if (sonraki_sefer != null && !sefer_tahmin.equals("")) {
-                                // gec kalip kalmama kontrolu
-                                if (!sonraki_sefer.getString("amir").equals("") && !sonraki_sefer.getString("amir").equals("[ 10 5 2 ]")) {
-                                    // bir sonraki sefere amir saat atamis
-                                    if (Sefer_Sure.hesapla(sefer_tahmin, sonraki_sefer.getString("amir")) < 0) {
-                                        // amir saat atamis ama gene de geç kalacak
-                                        alarm_kontrol(new Alarm_Data(Alarm_Data.GEC_KALMA, Alarm_Data.TURUNCU, kod, Alarm_Data.MESAJ_GEC_KALMA, sefer_no));
-
-                                        System.out.println("[ " + kod + " ALARM ]" + "GEÇ KALABİLİR AMİR SAAT ATAMIŞ AMA YEMEMİŞ");
-
-                                    }
-                                } else {
-                                    // amir saat atamamis
-                                    if (Sefer_Sure.hesapla(sefer_tahmin, sonraki_sefer.getString("orer")) < 0) {
-                                        // amir saat atamis ama gene de geç kalacak
-                                        alarm_kontrol(new Alarm_Data(Alarm_Data.GEC_KALMA, Alarm_Data.TURUNCU, kod, Alarm_Data.MESAJ_GEC_KALMA, sefer_no));
-                                        System.out.println("[ " + kod + " ALARM ]" + "GEÇ KALABİLİR LUAAAN");
-                                    }
-                                }
-                            }
-                        }
-
-                        // tamamlanmis sefer
-                        if (sefer_durum.equals(Sefer_Data.DTAMAM)) {
-
-
-                            if (sonraki_sefer != null) {
-                                if (sonraki_sefer.getString("durum").equals(Sefer_Data.DBEKLEYEN)) {
-                                    // sonraki seferi var ve durumu bekleyense, bekleyen seferin saatini aliyoruz
-                                    ui_led = Sefer_Data.DBEKLEYEN;
-                                    ui_main_notf = "Seferini Bekliyor";
-                                    if (!sonraki_sefer.getString("amir").equals("") && !sonraki_sefer.getString("amir").equals("[ 10 5 2 ]")) {
-                                        // eger amir saat atamişsa
-                                        ui_notf = "Bir sonraki sefer: " + sonraki_sefer.getString("amir") + " ( Amir )";
-                                        alarm_kontrol(new Alarm_Data(Alarm_Data.AMIR_SAAT_ATADI, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_AMIR_SAAT_ATADI, sefer_no));
-
-                                        //System.out.println("[ " + kod + " ALARM ]" + "AMİR SAAT ATAMIŞ ARKADAŞA");
-                                    } else {
-                                        // amirsiz bir sonraki sefer
-                                        ui_notf = "Bir sonraki sefer " + sonraki_sefer.getString("orer");
-                                    }
-                                }
-                            } else {
-
-                                // bir sonraki seferi yoksa tamamlamis demektir
-                                // bunun 'tum_seferler_tamam' dan farki yukaridaki tamamladi kontrolu
-                                // tum seferlerin T olmasina bakiyor. burada ise yapacak seferi kalmamis anlamina geliyor.
-                                // yani arada iptal, yarim sefer olabilir
-                                ui_main_notf = "Günü Tamamladı";
-                                ui_notf = "Sefer yüzdesi: %" + (sefer_ozet.get("T") * 100) / data.length();
-                                ui_led = Sefer_Data.DTAMAM;
-                                if (kod.equals("B-1741")) System.out.println("helo2  " + sefer_no);
-                            }
-                        }
-
-                        if (sefer_durum.equals(Sefer_Data.DBEKLEYEN)) {
-                            if (!sefer_amir.equals("") && !sefer_amir.equals("[ 10 5 2 ]")) {
-                                if (Sefer_Sure.gecmis(SIMDI, sefer_amir)) {
-                                    alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_BASLAMADI, Alarm_Data.TURUNCU, kod, Alarm_Data.MESAJ_SEFER_BASLAMADI, sefer_no));
-                                    //System.out.println(kod + " ----> Seferine başlmadı -->  " + Sefer_Sure.gecmis( SIMDI, sefer_orer  ));
-                                }
-                            } else {
-                                if (Sefer_Sure.gecmis(SIMDI, sefer_orer)) {
-                                    //System.out.println("[ " + kod + " ALARM ]" + "SEFERINE BAŞLAMADI ARKADAŞ ");
-                                    //System.out.println(kod + " ----> Seferine başlmadı -->  " + Sefer_Sure.gecmis( SIMDI, sefer_orer  ));
-                                    alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_BASLAMADI, Alarm_Data.TURUNCU, kod, Alarm_Data.MESAJ_SEFER_BASLAMADI, sefer_no));
-                                }
-                            }
-                        }
-                    } // for
-
-                    if( sefer_ozet.get(Sefer_Data.DIPTAL) > 0 || sefer_ozet.get(Sefer_Data.DYARIM) > 0 ){
-                        filtre_data.put(Otobus_Box_Filtre.FD_ZAYI, true );
-                    } else {
-                        filtre_data.put(Otobus_Box_Filtre.FD_ZAYI, false );
-                    }
-
-
-                    if (suruculer.size() > 1) {
-                        // sefer nonun cokta onemi yok bi kere vericez alarmi
-                        alarm_kontrol(new Alarm_Data(Alarm_Data.SURUCU_DEGISIMI, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_SURUCU_DEGISTI, "1"));
-                    }
-
-                    if (suruculer.contains("") || suruculer.contains("-1") || suruculer.contains("-111111") || suruculer.contains("BELİRSİZ SÜRÜCÜ")) {
-                        alarm_kontrol(new Alarm_Data(Alarm_Data.BELIRSIZ_SURUCU, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_BELIRSIZ_SURUCU, "1"));
-                    }
-                } catch( Exception e ){ e.printStackTrace(); }
-
-                return null;
-            }
-        });
-        update_thread.setDaemon(true);
-        update_thread.start();
-    }
-
-    public void otobus_plaka_kontrol(){
-        if( !aktif_plaka.equals(ruhsat_plaka) ){
-            plaka_class = "box-header-plaka-uyari";
-            filtre_data.put(Otobus_Box_Filtre.FD_PLAKA, true);
-        } else {
-            plaka_class =  "box-header-plaka";
-            filtre_data.put(Otobus_Box_Filtre.FD_PLAKA, false);
-        }
-        if( !plaka_prev_class.equals(plaka_class) ){
-            Platform.runLater(new Runnable(){
-                @Override
-                public void run(){
-                    box_header_plaka.getStyleClass().clear();
-                    box_header_plaka.getStyleClass().add(plaka_class);
-                }
-            });
-        }
-        Platform.runLater(new Runnable(){
+        Platform.runLater(new Runnable() {
             @Override
             public void run(){
-                box_header_plaka.setText(aktif_plaka);
+                main_info.setText(ui_main_notf);
+                info.setText(ui_notf);
+                update_led(ui_led);
+                box_header_hat.setText(ui_hat_data);
 
+                ozet_tamam.setText(String.valueOf(sefer_ozet.get(Sefer_Data.DTAMAM)));
+                ozet_aktif.setText(String.valueOf(sefer_ozet.get(Sefer_Data.DAKTIF)));
+                ozet_bekleyen.setText(String.valueOf(sefer_ozet.get(Sefer_Data.DBEKLEYEN)));
+                ozet_iptal.setText(String.valueOf(sefer_ozet.get(Sefer_Data.DIPTAL)));
+                ozet_yarim.setText(String.valueOf(sefer_ozet.get(Sefer_Data.DYARIM)));
             }
         });
-        plaka_prev_class = plaka_class;
     }
 
     private String hat_detay_olustur( String guz ){
@@ -1058,25 +683,180 @@ public class Otobus_Box {
         }
     }
 
-    public void set_filtre_data( String key, boolean val ){
-        filtre_data.put( key, val );
-    }
-    public Map<String, Boolean> get_filtre_data(){
-        return filtre_data;
-    }
     public boolean get_filtre_data( String key ){
         return filtre_data.get(key);
     }
-    public int get_index(){
-        return index;
+
+    public Map<String, Integer> get_ozet(){
+        return sefer_ozet;
     }
+    public Map<String, Integer> get_ekstra_ozet(){
+        return ekstra_ozet;
+    }
+
+    public double get_iett_km(){
+        return iett_km;
+    }
+    public double get_gitas_km(){
+        return gitas_km;
+    }
+
     public String get_durum(){
         return ui_led;
+    }
+
+    public void cookie_guncelle( String yeni_cookie ){
+        cookie = yeni_cookie;
+    }
+
+    public String get_bolge(){
+        return bolge;
+    }
+
+    public void add_alarm_listener( Alarm_Listener listener ){
+        listeners.add( listener );
     }
 
     public VBox get_ui(){
         return this.ui_container;
     }
+
+}
+
+class Filo_Task_Template {
+    protected String oto, cookie, aktif_tarih, logprefix;
+    protected boolean error = false;
+    protected org.jsoup.Connection.Response istek_yap( String url ){
+        try {
+            return Jsoup.connect(url + oto)
+                    .cookie("PHPSESSID", cookie )
+                    .method(org.jsoup.Connection.Method.POST)
+                    .timeout(10*1000)
+                    .execute();
+        } catch (IOException | NullPointerException e) {
+            System.out.println( "["+Common.get_current_hmin() + "]  "+  oto + " " + logprefix + "veri alım hatası. Tekrar deneniyor[1].");
+            e.printStackTrace();
+            error = true;
+        }
+        return null;
+    }
+    protected Document parse_html(org.jsoup.Connection.Response req ){
+        try {
+            return req.parse();
+        } catch( IOException | NullPointerException e ){
+            System.out.println(  "["+Common.get_current_hmin() + "]  "+ aktif_tarih  + " " +  oto + " "+ logprefix + " parse hatası. Tekrar deneniyor.");
+        }
+        return null;
+    }
+}
+
+class Orer_Download extends Filo_Task_Template {
+
+    private String aktif_sefer_verisi = "";
+    private JSONArray seferler = new JSONArray();
+    private boolean kaydet = false;
+    public Orer_Download( String oto, String cookie ){
+        this.oto = oto;
+        this.cookie = cookie;
+    }
+
+    public void yap(){
+        error = false;
+        // veri yokken nullpointer yemeyek diye resetliyoruz başta
+        System.out.println("ORER download [ " + oto + " ]");
+        org.jsoup.Connection.Response sefer_verileri_req = istek_yap("http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&otobus=");
+        Document sefer_doc = parse_html( sefer_verileri_req );
+        sefer_veri_ayikla( sefer_doc );
+
+    }
+    public void sefer_veri_ayikla( Document document ){
+        if( error ){
+            seferler = new JSONArray();
+            return;
+        }
+        Elements table = null;
+        Elements rows = null;
+        Element row = null;
+        Elements cols = null;
+
+        try {
+            table = document.select("table");
+            rows = table.select("tr");
+
+            if( rows.size() == 1 ){
+                System.out.println(oto + " ORER Filo Veri Yok");
+                return;
+            }
+
+            String hat = "", orer;
+            Sefer_Data tek_sefer_data;
+            boolean hat_alindi = false;
+
+            aktif_sefer_verisi = "YOK";
+            for( int i = 1; i < rows.size(); i++ ){
+                row = rows.get(i);
+                cols = row.select("td");
+
+                orer = Common.regex_trim(cols.get(7).getAllElements().get(2).text());
+
+                if( !hat_alindi ){
+                    hat = cols.get(1).text().trim();
+                    if( cols.get(1).text().trim().contains("!")  ) hat = cols.get(1).text().trim().substring(1, cols.get(1).text().trim().length() - 1 );
+                    if( cols.get(1).text().trim().contains("#") ) hat = cols.get(1).text().trim().substring(1, cols.get(1).text().trim().length() - 1 );
+                    if( cols.get(1).text().trim().contains("*") ) hat = cols.get(1).text().trim().substring(1, cols.get(1).text().trim().length() - 1);
+                    hat_alindi = true;
+                }
+
+                if( cols.get(12).text().replaceAll("\u00A0", "").equals("A") && cols.get(3).getAllElements().size() > 2 ){
+                    aktif_sefer_verisi = Common.regex_trim(cols.get(3).getAllElements().get(2).attr("title"));
+                }
+
+                tek_sefer_data = new Sefer_Data(
+                        Common.regex_trim(cols.get(0).text()),
+                        hat,
+                        Common.regex_trim(cols.get(2).text()),
+                        Common.regex_trim(cols.get(3).getAllElements().get(1).text()),
+                        Common.regex_trim(cols.get(4).getAllElements().get(2).text()),
+                        "",
+                        "",
+                        "",
+                        Common.regex_trim(cols.get(6).text()),
+                        orer,
+                        "",
+                        Common.regex_trim(cols.get(8).text()),
+                        Common.regex_trim(cols.get(9).text()),
+                        Common.regex_trim(cols.get(10).text()),
+                        Common.regex_trim(cols.get(11).text()),
+                        Common.regex_trim(cols.get(12).text()),
+                        cols.get(13).text().substring(5),
+                        "",
+                        1,
+                        0
+                );
+                seferler.put(tek_sefer_data.tojson());
+                cols.clear();
+            }
+            rows.clear();
+        } catch( NullPointerException e ){
+            e.printStackTrace();
+            System.out.println( "["+Common.get_current_hmin() + "]  "+  oto+ " ORER sefer veri ayıklama hatası. Tekrar deneniyor.");
+            seferler = new JSONArray();
+            //yap();
+        }
+    }
+    public JSONArray get_seferler(){
+        return seferler;
+    }
+    public String get_aktif_sefer_verisi(){
+        return aktif_sefer_verisi;
+    }
+
+
+
+}
+
+class PDKS_Download {
+
 
 
 }

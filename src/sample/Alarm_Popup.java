@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -30,11 +31,12 @@ public class Alarm_Popup {
     private Popup popup = null;
     private Node parent;
     private VBox alarm_ul = new VBox();
-
+    private double last_timestamp = 0;
+    private boolean run = true;
 
     private AnchorPane content_container;
 
-    private Map<String, ArrayList<Alarm_Data>> alarmlar;
+    private Map<String, ArrayList<Alarm_Data>> alarmlar = new HashMap<>();
 
     public Alarm_Popup( Node parent_node ){
         parent = parent_node;
@@ -76,11 +78,60 @@ public class Alarm_Popup {
         popup.setHideOnEscape(true);
         popup.setHeight( Common.get_screen_res().get("H") - 100 );
 
-        set_content();
+        show_interval_start();
+    }
+
+    public synchronized void alarm_ekle( String otobus_kod, ArrayList<Alarm_Data> yeni_alarmlar ){
+        alarmlar.put( otobus_kod, yeni_alarmlar );
+    }
+
+    public void show_interval_start(){
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while( run ){
+                    if( !alarmlar.isEmpty() ){
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                set_content();
+                                popup.show( parent, 20, 20 );
+                                final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
+                                exec.schedule(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    popup.hide();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }, 20, TimeUnit.SECONDS);
+                                exec.shutdown();
+                            }
+                        });
+                    }
+                    try {
+                        Thread.sleep(60000);
+                    } catch(InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        th.setDaemon(true);
+        th.start();
 
     }
 
-    public void show( Map<String, ArrayList<Alarm_Data>> alarmlar ){
+
+
+    /*public void show_old( Map<String, ArrayList<Alarm_Data>> alarmlar ){
         this.alarmlar = alarmlar;
         Thread alarm_popup_th = new Thread( new Task<String>(){
             @Override
@@ -119,7 +170,7 @@ public class Alarm_Popup {
         });
         alarm_popup_th.setDaemon(true);
         alarm_popup_th.start();
-    }
+    }*/
 
 
     /*private void set_content( Map<String, ArrayList<Alarm_Data>> alarmlar ){

@@ -234,12 +234,15 @@ public class Takip_Scene_Controller implements Initializable {
         ayarlar_listeners.add(listener);
     }
 
-    public void alarm_popup( Map<String, ArrayList<Alarm_Data>> alarmlar ){
-        try {
-            if( alarm_popup == null ) alarm_popup = new Alarm_Popup( get_root() );
-            alarm_popup.show( alarmlar );
-        } catch( Exception e ){ e.printStackTrace(); }
 
+
+    public void alarmlari_guncelle( String kod, ArrayList<Alarm_Data> data ){
+        alarm_popup.alarm_ekle( kod, data );
+    }
+
+    public void alarm_popup_init(){
+        alarm_popup = new Alarm_Popup( get_root() );
+        alarm_popup.init();
     }
 
     public Node get_root(){
