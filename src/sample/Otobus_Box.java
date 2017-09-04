@@ -40,6 +40,7 @@ public class Otobus_Box {
     private boolean run = true;
     private String cookie = "INIT", bolge;
     private Orer_Download orer_download;
+    private PDKS_Download pdks_download;
 
     private Label   main_info,
                     info,
@@ -260,13 +261,21 @@ public class Otobus_Box {
                         orer_download.yap();
                         update( orer_download.get_seferler(), orer_download.get_aktif_sefer_verisi() );
 
-                        // plaka kontrol
+                        for( Alarm_Listener listener : listeners ) listener.on_ui_finished( get_alarmlar() );
 
                         // pdks kontrol
+                        pdks_download = new PDKS_Download( kod, cookie );
+                        pdks_download.yap();
+                        System.out.println( pdks_download.get_suruculer() );
+
+                        // plaka kontrol
+                        Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=otobus_plaka_kontrol&web_req=true&oto="+kod);
+                        request.kullanici_pc_parametreleri_ekle(true);
+                        request.action();
+                        JSONObject plaka_veri = new JSONObject( request.get_value()).getJSONObject("data").getJSONObject("plaka_data");
+                        System.out.println( plaka_veri.getString("aktif_plaka") + " --- " + plaka_veri.getString("ruhsat_plaka") );
 
                         // iys-not kontrol
-
-                        for( Alarm_Listener listener : listeners ) listener.on_ui_finished( get_alarmlar() );
 
                     }
 
@@ -603,12 +612,6 @@ public class Otobus_Box {
         }*/
     }
 
-    public void alarmlari_ayikla( String yeni_alarm_val ){
-        ArrayList<String> silinecekler = new ArrayList<>();
-        for (Map.Entry<String, Alarm_Data> entry : alarmlar.entrySet()) if(yeni_alarm_val.charAt(entry.getValue().get_type()) == '0' ) silinecekler.add(entry.getKey());
-        for( String key : silinecekler ) alarmlar.remove(key);
-    }
-
     public void update_ui(){
         Platform.runLater(new Runnable() {
             @Override
@@ -855,8 +858,122 @@ class Orer_Download extends Filo_Task_Template {
 
 }
 
-class PDKS_Download {
+class PDKS_Download extends Filo_Task_Template {
+    private ArrayList<String> data = new ArrayList<>();
+    public PDKS_Download( String oto, String cookie ){
+        this.oto = oto;
+        this.cookie = cookie;
+        this.logprefix = "Sürücü PDKS";
+    }
+    public ArrayList<String> get_suruculer(){
+        return data;
+    }
+    public void yap(){
+        error = false;
+        System.out.println( "["+Common.get_current_hmin() + "]  "+ aktif_tarih  + " " +  "[ " + oto + " PDKS DOWNLOAD ]");
+        org.jsoup.Connection.Response pdks_req = istek_yap("http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konu=mesaj&mtip=PDKS&oto=");
+        Document pdks_doc = parse_html( pdks_req );
+        pdks_ayikla( pdks_doc );
+    }
+    private void pdks_ayikla( Document document ){
+        if( error ){
+            data = new ArrayList<>();
+            return;
+        }
+        Elements table = null;
+        Elements rows = null;
+        Element row = null;
+        Elements cols = null;
+        String kart_basma_col_text, surucu;
+        try {
+            table = document.select("table");
+            rows = table.select("tr");
+            for (int i = 2; i < rows.size(); i++) {
+                row = rows.get(i);
+                cols = row.select("td");
+                kart_basma_col_text = cols.get(4).text();
+                //System.out.println(kart_basma_col_text);
 
+                try {
+                    surucu = Common.regex_trim(kart_basma_col_text.substring(25));
+                    if (kart_basma_col_text.contains("PDKS_Kart Binen ")) {
+                        if( !data.contains(surucu)) data.add( surucu );
 
+                        //put("sicil_no", Common.regex_trim(cols.get(4).text()).substring(16, 22));
+                        //data.put("isim", Common.regex_trim(kart_basma_col_text.substring(25)) );
+                    } else if ((kart_basma_col_text.contains("PDKS_Kart inen"))) {
+                        // todo inen binen pdks tema yapilicak
+                        /*data.put("sicil_no", Common.regex_trim(cols.get(4).text()).substring(16, 22));
+                        data.put("isim", Common.regex_trim(kart_basma_col_text.substring(25)) );
 
+                        sicil_no = Common.regex_trim(cols.get(4).text()).substring(15, 21);
+                        isim = Common.regex_trim(kart_basma_col_text.substring(24));*/
+                    }
+                    //System.out.println(oto + " PDKS --> [" + tip + " " + sicil_no + "] [" + isim + "]");
+                } catch( NullPointerException | IndexOutOfBoundsException e ){
+                    e.printStackTrace();
+                }
+                cols.clear();
+            }
+            rows.clear();
+        } catch( NullPointerException e ){
+            System.out.println( "["+Common.get_current_hmin() + "]  "+ aktif_tarih  + " " +  oto + " ORER sürücü PDKS ayıklama hatası. Tekrar deneniyor.");
+            e.printStackTrace();
+            data = new ArrayList<>();
+        }
+    }
+    // noktaya istek, surucu isim ve telefon alma
+    private void surucu_noktaya_istek(){
+        org.jsoup.Connection.Response nokta_req = istek_yap("http://filo5.iett.gov.tr/_FYS/000/uyg.0.2.php?abc=1&talep=5&grup=0&hat=");
+        Document nokta_doc;
+        try {
+            nokta_doc = nokta_parse_html( nokta_req );
+            nokta_ayikla( nokta_doc );
+        } catch( NullPointerException e ){
+            // sürücü bilgisi yok noktada, bir keresinde veritabanı hatası falan vermişti onun için önlem
+        }
+
+    }
+    private Document nokta_parse_html( org.jsoup.Connection.Response req ){
+        Document doc;
+        try {
+            doc = req.parse();
+            if( doc.select("body").text().contains("Database") ){
+                System.out.println(  "["+Common.get_current_hmin() + "]  "+ aktif_tarih  + " " +  oto + " Sürücü detay, Veri yok");
+                return null;
+            } else {
+                return doc;
+            }
+        } catch (IOException | NullPointerException e) {
+            System.out.println( "["+Common.get_current_hmin() + "]  "+ aktif_tarih  + " " +  oto + "Surucu detay parse hatası. Tekrar deneniyor.");
+            e.printStackTrace();
+        }
+        return null;
+    }
+    private void nokta_ayikla( Document document ){
+        try {
+            if( document == null ){}
+        } catch( NullPointerException e ){
+            e.printStackTrace();
+            yap();
+        }
+        Elements table_sur = document.select("table");
+        String surucu_string = table_sur.select("tr").get(1).getAllElements().get(2).text();
+        surucu_string = surucu_string.substring(2);
+        String[] surucu_split_data = surucu_string.split(" ");
+        String surucu_ad = "";
+        for (int j = 1; j < surucu_split_data.length - 1; j++) {
+            if( j < surucu_split_data.length - 2 ){
+                surucu_ad += surucu_split_data[j] + " ";
+            } else {
+                surucu_ad += surucu_split_data[j];
+            }
+        }
+        if( !surucu_ad.equals("") && !surucu_ad.equals("-1")){
+            //Surucu_Data surucu = new Surucu_Data();
+            //surucu.ekle( Common.regex_trim(surucu_split_data[0]), surucu_ad, surucu_split_data[surucu_split_data.length - 1].substring(1, surucu_split_data[surucu_split_data.length - 1].length() - 1 ) );
+            //System.out.println(oto + " SÜrücü detay alindi -> [" + surucu_split_data[0] + "] " + surucu_ad );
+        }
+    }
 }
+

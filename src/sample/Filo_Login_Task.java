@@ -44,9 +44,9 @@ public class Filo_Login_Task {
                             filo_login = true;
                         }
                     } catch( JSONException e ){
-                        // 3 saatten yeniyse cache ten al
+                        // 10 dk dan yeniyse cache ten al
                         try {
-                            if( Common.get_unix() - cache.getDouble("timestamp") <= 10800 ){
+                            if( Common.get_unix() - cache.getDouble("timestamp") <= 600 ){
                                 cookies.put("A", cache.getString("A") );
                                 cookies.put("B", cache.getString("B") );
                                 cookies.put("C", cache.getString("C") );

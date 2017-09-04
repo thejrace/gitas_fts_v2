@@ -150,7 +150,6 @@ public class Takip_Scene extends Application {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                //controller.orer_senkron_guncelle(Common.get_current_hmin());
                 if( FILTRE_INIT ){
                     // ilk veriyi aldiktan sonra kayitli filtreyi uygula
                     Otobus_Box_Filtre otobus_box_filtre = controller.get_filtre_obj();
