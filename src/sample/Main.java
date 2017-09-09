@@ -2,6 +2,7 @@ package sample;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -32,11 +33,12 @@ public class Main extends Application {
     private String config_json_data;
     private GInputGrup input_email;
     private GInputGrup input_pass;
-    private GButton giris_button;
+    private GButton giris_button/*, kayit_button*/;
     private String kontrol_eposta;
     private long KONTROL_TIMESTAMP = Common.get_unix();
     private boolean onay_kontrol_aktif = false;
     private Timer onay_sayac;
+    private Label form_info_notf;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -54,7 +56,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        acilis_popup_olustur("", false );
+        acilis_popup_olustur();
         alt_notf.setText("GİRİŞ KONTROLLERİ YAPILIYOR...");
 
         scene = new Scene(root, 660, popup_height);
@@ -62,11 +64,59 @@ public class Main extends Application {
         stage.show();
         scene.getWindow().setHeight( popup_height );
 
-        Thread baslangic_thread = new Thread(new Runnable() {
+        Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
+
                 int kontrol = User_Config.baslangic_config_kontrol();
-                if( kontrol == User_Config.CONFIG_YOK_MOD ){
+                if( kontrol == User_Config.KAYIT_MOD ){
+                    // form aç
+                    System.out.println("[ BAŞLANGIÇ KULLANICI KONTROLÜ ] KAYIT FORMUNU AÇ");
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            form_olustur();
+                        }
+                    });
+                } else if( kontrol == User_Config.GIRIS_MOD ){
+                    // eposta var giriş yap ( beni hatirla )
+                    System.out.println("[ BAŞLANGIÇ KULLANICI KONTROLÜ ] GİRİŞ YAP");
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            //giris_kayit_sunucu_donus_kod_kontrol( User_Config.ilk_acilis_kullanici_kontrolu(), false );
+                            //kontrol_eposta = User_Config.eposta_veri_al();
+                            Thread th = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Web_Request req = new Web_Request( Web_Request.SERVIS_URL2 , "&req=app_data&eposta="+User_Config.eposta_veri_al() );
+                                    req.action();
+                                    JSONObject val = new JSONObject(req.get_value());
+
+                                    Platform.runLater(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                stage.close();
+                                                User_Config.init_app_data("init", val.getJSONObject("data") );
+                                                Takip_Scene main_scene = new Takip_Scene();
+                                                main_scene.start(new Stage());
+                                            } catch(Exception e ){
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                            th.setDaemon(true);
+                            th.start();
+
+
+                        }
+                    });
+
+                } else if( kontrol == User_Config.CONFIG_YOK_MOD ){
+                    // config olustur
                     System.out.println("[ BAŞLANGIÇ KULLANICI KONTROLÜ ] CONFIG DOSYASI YOK");
                     User_Config.config_dosyasi_olustur();
                     Platform.runLater(new Runnable() {
@@ -75,100 +125,21 @@ public class Main extends Application {
                             form_olustur();
                         }
                     });
-                    // alert + system exit
-                } else if( kontrol == User_Config.GIRIS_MOD ) {
-                    System.out.println("[ BAŞLANGIÇ KULLANICI KONTROLÜ ] GİRİŞ YAP");
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            giris_kayit_sunucu_donus_kod_kontrol( User_Config.ilk_acilis_kullanici_kontrolu(), false );
-                            kontrol_eposta = User_Config.eposta_veri_al();
-                        }
-                    });
-                } else if( kontrol == User_Config.KAYIT_MOD ){
-                    System.out.println("[ BAŞLANGIÇ KULLANICI KONTROLÜ ] KAYIT FORMUNU AÇ");
-
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            form_olustur();
-                        }
-                    });
                 }
+
             }
         });
-        baslangic_thread.setDaemon(true);
-        baslangic_thread.start();
+        th.setDaemon(true);
+        th.start();
+
+
+
     }
 
-    private void giris_kayit_sunucu_donus_kod_kontrol( JSONObject data, boolean form_submit ){
-        int kontrol_kod = data.getInt("kod");
-        String default_config_json = data.getJSONObject("data").getString("default_config_json");
-        if( kontrol_kod == User_Config.GIRIS_ONAYBEKLENIYOR ){
-            System.out.println("[ KULLANICI KONTROL KOD ] GİRİŞ ONAY BEKLENİYOR");
-            acilis_popup_olustur( kontrol_eposta, true );
-            scene.getWindow().setHeight( popup_height );
-            alt_notf.setText( "ONAY BEKLENİYOR" );
-            onay_sayac_baslat();
-        } else if( kontrol_kod == User_Config.KAYIT_ONAYBEKLENIYOR ){
-            System.out.println("[ KULLANICI KONTROL KOD ] KAYIT ONAY BEKLENİYOR");
-            acilis_popup_olustur( kontrol_eposta, true );
-            scene.getWindow().setHeight( popup_height );
-            alt_notf.setText( "ONAY BEKLENİYOR" );
-            onay_sayac_baslat();
-        } else if( kontrol_kod == User_Config.HATA ){
-            System.out.println("[ KULLANICI KONTROL KOD ] HATA");
-            alt_notf.setText( data.getString("text") );
-            if( form_submit ){
-                input_email.setDisable(false);
-                input_pass.setDisable(false);
-                giris_button.setDisable(false);
-            }
-        } else if( kontrol_kod == User_Config.SIFRE_BOSGELDI ){
-            System.out.println("[ KULLANICI KONTROL KOD ] ŞİFRE BOŞ GELDİ ");
-            User_Config.config_reset();
-            form_olustur();
-        } else if( kontrol_kod == User_Config.GIRIS_ONAYLANDI ){
-            System.out.println("[ KULLANICI KONTROL KOD ] GİRİŞ ONAYLANDI");
-            User_Config.config_guncelle( default_config_json );
-            try {
-                onay_sayac.cancel();
-            } catch ( NullPointerException e ){
-                //e.printStackTrace();
-            }
-            stage.close();
-            try {
-                System.out.println("OK");
-                Takip_Scene main_scene = new Takip_Scene();
-                main_scene.start(new Stage());
-            } catch( Exception e ){
-                e.printStackTrace();
-            }
 
-        }
-    }
 
-    private void onay_sayac_baslat(){
-        if( onay_kontrol_aktif ) return;
-        onay_sayac = new Timer();
-        onay_sayac.schedule( new TimerTask(){
-            @Override
-            public void run(){
-                // arka plan islemi oldugu icin runlaterla calistiriyoruz ( BUNU ANLAMAK LAZIM )
-                Platform.runLater(new Runnable(){
-                    @Override
-                    public void run(){
-                        giris_kayit_sunucu_donus_kod_kontrol( User_Config.kullanici_kontrol( kontrol_eposta ), false );
-                    }
-                });
 
-            }
-        }, 0, 10000);
-        onay_kontrol_aktif = true;
-    }
-
-    private void acilis_popup_olustur( String eposta, boolean giris_onay ){
-
+    private void acilis_popup_olustur( ){
         start_container = new VBox();
         start_container.getStyleClass().add("start-wrapper");
         start_container.setAlignment(Pos.CENTER);
@@ -182,27 +153,9 @@ public class Main extends Application {
         alt_notf.getStyleClass().addAll("fs14", "flight", "cbeyaz");
         start_row_gri.getChildren().add(alt_notf);
         ImageView logo = new ImageView( new Image(getClass().getResource("resources/img/acilis_logo.png").toExternalForm()));
-        Label giris_label = new Label(eposta);
+        Label giris_label = new Label("");
         giris_label.getStyleClass().addAll("h3-beyaz", "padtopbot10", "fbold");
-        if( giris_onay ){
-            GButton degistir = new GButton("Farklı Hesap Kullan", GButton.CGRIK);
-            HBox hesap = new HBox( giris_label, degistir );
-            hesap.setAlignment(Pos.CENTER);
-            HBox.setMargin(degistir, new Insets(3, 0, 0, 10) );
-            degistir.setOnAction( ev -> {
-                User_Config.config_reset();
-                kontrol_eposta = "";
-                try {
-                    onay_sayac.cancel();
-                } catch ( NullPointerException e ){
-                    e.printStackTrace();
-                }
-                form_olustur();
-            });
-            start_row_mor.getChildren().addAll( logo, hesap );
-        } else {
-            start_row_mor.getChildren().addAll( logo, giris_label );
-        }
+        start_row_mor.getChildren().addAll( logo, giris_label );
         start_container.getChildren().addAll( start_row_mor, start_row_gri );
         root.setContent( start_container );
     }
@@ -226,37 +179,84 @@ public class Main extends Application {
         VBox form_section = new VBox();
         form_section.getStyleClass().add("acilis-form-section");
         form_section.setAlignment(Pos.CENTER);
-        Label form_info = new Label("Hesabınız yoksa otomatik olarak oluşturulacaktır.");
+        Label form_info = new Label("Hesabınız yoksa sistem yöneticisi ile irtibat kurun.");
         form_info.getStyleClass().addAll("fs13", "cbeyaz", "fbold");
         Label form_info_2 = new Label( "Onay işleminden sonra program açılacaktır.");
         form_info_2.getStyleClass().addAll("fs12", "cbeyaz", "flight");
-        final Label form_info_notf = new Label();
+        form_info_notf = new Label();
         form_info_notf.getStyleClass().addAll("fs13", "cbeyaz", "fbold");
+        HBox butonlar = new HBox();
+        butonlar.setSpacing(10.0);
+        butonlar.setAlignment(Pos.CENTER);
         giris_button = new GButton("Giriş Yap", GButton.CGRIB);
+        //kayit_button = new GButton("Kayıt Ol", GButton.CGRIB );
+        butonlar.getChildren().addAll( giris_button/*, kayit_button */);
         form_section.setSpacing(5.0);
         input_email = new GInputGrup( "Eposta",  new GTextField(GTextField.UZUN) );
         input_pass = new GInputGrup( "Şifre",  new GPasswordField(GTextField.UZUN) );
-        form_section.getChildren().addAll( form_info, form_info_2, form_info_notf, input_email, input_pass, giris_button );
+        form_section.getChildren().addAll( form_info, form_info_2, form_info_notf, input_email, input_pass, butonlar );
 
         giris_button.setOnAction( ev -> {
-            String  eposta = input_email.get_input_val(),
-                    pass  = input_pass.get_pass_val();
-            if( eposta.equals("") || pass.equals("") ){
-                form_info_notf.setText("Formda eksiklikler var!");
-            } else {
-                form_info_notf.setText("");
-                kontrol_eposta = eposta;
-                input_email.setDisable(true);
-                input_pass.setDisable(true);
-                giris_button.setDisable(true);
-                alt_notf.setText( "İşlem yapılıyor..." );
-                giris_kayit_sunucu_donus_kod_kontrol(  User_Config.giris_kayit_form_submit( eposta, pass ), true  );
-            }
+            form_submit( "giris" );
         });
+        /*kayit_button.setOnAction( ev -> {
+            form_submit( "kayit" );
+        });*/
         start_row_mor.getChildren().addAll(logo, form_section);
         start_container.getChildren().addAll( start_row_mor, start_row_gri );
         root.setContent( start_container );
 
+    }
+
+    private void form_submit( String form_type ){
+        String  eposta = input_email.get_input_val(),
+                pass  = input_pass.get_pass_val();
+        if( eposta.equals("") || pass.equals("") ){
+            alt_notf.setText("Formda eksiklikler var!");
+        } else {
+            form_info_notf.setText("");
+            kontrol_eposta = eposta;
+            input_email.setDisable(true);
+            input_pass.setDisable(true);
+            giris_button.setDisable(true);
+            //kayit_button.setDisable(true);
+            alt_notf.setText( "İşlem yapılıyor..." );
+
+            Thread th = new Thread(new Task<Void>() {
+                private JSONObject val;
+                @Override
+                protected void succeeded(){
+                    alt_notf.setText(val.getString("text"));
+                    if( val.getInt("ok") == 0 ){
+                        input_email.setDisable(false);
+                        input_pass.setDisable(false);
+                        giris_button.setDisable(false);
+                        //kayit_button.setDisable(false);
+                    } else {
+                        try {
+                            User_Config.eposta_guncelle( eposta );
+                            stage.close();
+                            User_Config.init_app_data("init", val.getJSONObject("data") );
+                            Takip_Scene main_scene = new Takip_Scene();
+                            main_scene.start(new Stage());
+                        } catch( Exception e ){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                @Override
+                protected Void call(){
+                    Web_Request req = new Web_Request( Web_Request.SERVIS_URL , "&req=form&form_type="+form_type+"&eposta="+eposta+"&pass="+pass );
+                    req.action();
+                    val = new JSONObject(req.get_value());
+                    return null;
+                }
+            });
+            th.setDaemon(true);
+            th.start();
+
+            //giris_kayit_sunucu_donus_kod_kontrol(  User_Config.giris_kayit_form_submit( eposta, pass ), true  );
+        }
     }
 
     public static void main(String[] args) {

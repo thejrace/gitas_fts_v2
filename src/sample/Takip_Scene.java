@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -37,33 +38,41 @@ public class Takip_Scene extends Application {
     private int OTOBUS_SAYAC = 0;
     private Sefer_Rapor_Data header_rapor_data;
     private Filo_Rapor_Data filo_header_data;
+;
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader;
-        fxmlLoader = new FXMLLoader(getClass().getResource("resources/fxml/gitas_main.fxml"));
-        Parent root = fxmlLoader.load();
-
-        controller = fxmlLoader.getController();
-        primaryStage.setTitle("Gitaş Filo Takip");
-        primaryStage.initStyle(StageStyle.DECORATED);
-
         try {
-            Font.loadFont(getClass().getResource("resources/font/montserratbold.otf").toExternalForm().replace("%20", " "), 10);
-            Font.loadFont(getClass().getResource("resources/font/montserratsemibold.otf").toExternalForm().replace("%20", " "), 10);
-            Font.loadFont(getClass().getResource("resources/font/montserratlight.otf").toExternalForm().replace("%20", " "), 10);
-        } catch (Exception e) {
+            fxmlLoader = new FXMLLoader(getClass().getResource("resources/fxml/gitas_main.fxml"));
+            Parent root = fxmlLoader.load();
+            controller = fxmlLoader.getController();
+            primaryStage.setTitle("Gitaş Filo Takip");
+            primaryStage.initStyle(StageStyle.DECORATED);
+
+            try {
+                Font.loadFont(getClass().getResource("resources/font/montserratbold.otf").toExternalForm().replace("%20", " "), 10);
+                Font.loadFont(getClass().getResource("resources/font/montserratsemibold.otf").toExternalForm().replace("%20", " "), 10);
+                Font.loadFont(getClass().getResource("resources/font/montserratlight.otf").toExternalForm().replace("%20", " "), 10);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            primaryStage.setScene(new Scene(root, 1024, 768));
+            primaryStage.getIcons().add(new Image(getClass().getResource("resources/img/app_ico.png").toExternalForm()));
+            primaryStage.show();
+
+            stage = primaryStage;
+        } catch( Exception e ){
             e.printStackTrace();
         }
 
-        primaryStage.setScene(new Scene(root, 1024, 768));
-        primaryStage.getIcons().add(new Image(getClass().getResource("resources/img/app_ico.png").toExternalForm()));
-        primaryStage.show();
-
-        stage = primaryStage;
-
         // pencere boyutuna gore kutulari dizme event
         controller.screen_resize_cb();
+
+        controller.init_filtre();
+        controller.ayarlar_init();
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -89,7 +98,7 @@ public class Takip_Scene extends Application {
 
         otobus_kutular_init();
 
-        Filo_Login_Task filo_login_task = new Filo_Login_Task();
+        Filo_Login_Task filo_login_task = new Filo_Login_Task( User_Config.app_filo5_data );
         filo_login_task.yap(new Cookie_Refresh_Listener() {
             @Override
             public void on_refresh(Map<String, String> cookies) {
@@ -108,8 +117,8 @@ public class Takip_Scene extends Application {
     private void otobus_kutular_init(){
         temp_elem_index = 0;
         try {
-            JSONObject config = User_Config.config_oku();
-            JSONArray otobusler = config.getJSONArray("otobusler");
+            //JSONObject config = User_Config.config_oku();
+            JSONArray otobusler = User_Config.app_otobusler;
             // hazir tum otobusleri loop ederken arada kutulari da olusturuyoruz
             JSONObject otobus_object;
             for( int j = 0; j < otobusler.length(); j++ ){
@@ -165,7 +174,7 @@ public class Takip_Scene extends Application {
 
     private void otobus_kutular_filtre( String kapi, Otobus_Box_Filtre_Data filtre_data ){
         boolean lojik;
-        System.out.println(filtre_data.get_str_vals());
+        //System.out.println(filtre_data.get_str_vals());
         prev_filtre_data = filtre_data;
         prev_filtre_kapi = kapi;
         Otobus_Box otobus_box;
@@ -205,6 +214,7 @@ public class Takip_Scene extends Application {
     private void gunluk_ozet(){
 
         if( OTOBUS_SAYAC == otobus_kutular.size() ){
+            System.out.println("OREEEEER INIT UI");
             orer_download_ui();
             otobus_kutular_filtre( prev_filtre_kapi, prev_filtre_data );
             controller.header_ozet_guncelle( header_rapor_data, canli_durum, filo_header_data );
@@ -214,6 +224,7 @@ public class Takip_Scene extends Application {
             OTOBUS_SAYAC = 0;
         }
     }
+
 
 
 

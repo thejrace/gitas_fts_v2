@@ -97,9 +97,14 @@ public class Otobus_Box_Filtre {
                 @Override
                 protected Void call(){
                     Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=filtre_guncelleme&g1="+g1+"&g2="+g2+"&g3="+g3+"&filtre_kapi="+kapi );
-                    request.kullanici_pc_parametreleri_ekle(true);
                     request.action();
-                    User_Config.config_guncelle( new JSONObject(request.get_value()).getJSONObject("data").getString("default_config_json") );
+                    // TODO
+                    JSONObject new_data = new JSONObject();
+                    new_data.put("filtre_kapi", kapi );
+                    new_data.put("g1", g1 );
+                    new_data.put("g2", g2 );
+                    new_data.put("g3", g3 );
+                    User_Config.init_app_data("filtre_data", new_data );
                     return null;
                 }
             });
@@ -158,22 +163,21 @@ public class Otobus_Box_Filtre {
 
    private void sifirla(){
         filtre_data = new ArrayList<>();
-
-        JSONObject config = User_Config.config_oku();
-        String kayit_str = config.getString("filtre_g1");
+        JSONObject config = User_Config.app_filtre;
+        String kayit_str = config.getString("g1");
         if( kayit_str.charAt(0) == '1' ) { filtre_data.add(FD_BOLGE_A); button_aktif(bolgea); } else { button_pasif(bolgea); }
         if( kayit_str.charAt(1) == '1' ) { filtre_data.add(FD_BOLGE_B); button_aktif(bolgeb); } else { button_pasif(bolgeb); }
         if( kayit_str.charAt(2) == '1' ) { filtre_data.add(FD_BOLGE_C); button_aktif(bolgec); } else { button_pasif(bolgec); }
 
 
-        kayit_str = config.getString("filtre_g2");
+        kayit_str = config.getString("g2");
         if( kayit_str.charAt(0) == '1' ) { filtre_data.add(FD_DTAMAM); button_aktif(st); } else { button_pasif(st); }
         if( kayit_str.charAt(1) == '1' ) { filtre_data.add(FD_DBEKLEYEN); button_aktif(sb); } else { button_pasif(sb); }
         if( kayit_str.charAt(2) == '1' ) { filtre_data.add(FD_DAKTIF); button_aktif(sa); } else { button_pasif(sa); }
         if( kayit_str.charAt(3) == '1' ) { filtre_data.add(FD_DIPTAL); button_aktif(si); } else { button_pasif(si); }
         if( kayit_str.charAt(4) == '1' ) { filtre_data.add(FD_DYARIM); button_aktif(sy); } else { button_pasif(sy); }
 
-        kayit_str = config.getString("filtre_g3");
+        kayit_str = config.getString("g3");
         if( kayit_str.charAt(0) == '1' ) { filtre_data.add(FD_ZAYI); button_aktif(zayi_btn); } else { button_pasif(zayi_btn); }
         if( kayit_str.charAt(1) == '1' ) { filtre_data.add(FD_NOT); button_aktif(uyari_not); } else { button_pasif(uyari_not); }
         if( kayit_str.charAt(2) == '1' ) { filtre_data.add(FD_PLAKA); button_aktif(uyari_plaka); } else {  button_pasif(uyari_plaka); }

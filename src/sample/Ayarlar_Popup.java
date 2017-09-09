@@ -32,6 +32,7 @@ public class Ayarlar_Popup {
 
     private ArrayList<Ayarlar_Listener> listeners = new ArrayList<>();
 
+
     public void add_listener( Ayarlar_Listener listener ){
         listeners.add( listener );
     }
@@ -83,14 +84,18 @@ public class Ayarlar_Popup {
         tab.setId("genel");
         if( !icerik ) return tab;
 
-        Ayarlar_Genel_Data ayarlar_data = User_Config.ayarlari_oku();
+        System.out.println( User_Config.app_ayarlar.getString("izinler") );
 
+        Ayarlar_Genel_Data ayarlar_data = new Ayarlar_Genel_Data( User_Config.app_ayarlar.getString("alarmlar"), 0, 0, 0 );
         ScrollPane main = new ScrollPane();
         main.getStyleClass().addAll("ayarlar-tab", "tab-gri-bg");
         main.setPadding(new Insets(15, 15, 15 , 15));
         HBox orer_container = new HBox();
         orer_container.setPadding(new Insets(10, 0, 10, 0) );
-        VBox frekans_ayarlar = new VBox();
+
+
+
+        /*VBox frekans_ayarlar = new VBox();
         frekans_ayarlar.setSpacing(25);
         orer_container.setSpacing(25);
         Label orer_header = new Label("Filo Senkron ( Saniye )");
@@ -132,11 +137,11 @@ public class Ayarlar_Popup {
         iys_frekans_input.setText(String.valueOf(ayarlar_data.get_iys_frekans()));
         iys_frekans_input.getStyleClass().addAll("input-kucuk", "grigrad");
         orer_frekans_input_cont.getChildren().addAll( orer_lbl, iys_frekans_input );
-        frekans_ayarlar.getChildren().add( orer_frekans_input_cont );
+        frekans_ayarlar.getChildren().add( orer_frekans_input_cont );*/
 
         VBox orer_alarm_cont = new VBox();
         orer_alarm_cont.setSpacing(25);
-        orer_header = new Label("Alarmlar");
+        Label orer_header = new Label("Alarmlar");
         orer_header.getStyleClass().addAll("cek", "fs13", "fbold");
 
         HBox alarm_cb_container = new HBox();
@@ -184,20 +189,20 @@ public class Ayarlar_Popup {
         alarm_cb_container.getChildren().addAll( cb_grup_1, cb_grup_2, cb_grup_3, cb_grup_4);
         orer_alarm_cont.getChildren().addAll( orer_header, alarm_cb_container );
 
-        orer_container.getChildren().addAll( frekans_ayarlar, orer_alarm_cont );
+        orer_container.getChildren().addAll( /*frekans_ayarlar,*/ orer_alarm_cont );
         GButton kaydet = new GButton("KAYDET", GButton.CMORB );
         main.setContent( new VBox( orer_container, kaydet ) );
 
         kaydet.setOnMousePressed(ev->{
             kaydet.setDisable(true);
-            final String  orer_frekans_val = orer_frekans_input.getText(),
+            /*final String  orer_frekans_val = orer_frekans_input.getText(),
                     mesaj_frekans_val = mesaj_frekans_input.getText(),
                     iys_frekans_val = iys_frekans_input.getText();
             if( !Common.is_numeric( orer_frekans_val ) || !Common.is_numeric( mesaj_frekans_val ) || !Common.is_numeric( iys_frekans_val ) ){
                 kaydet.setDisable(false);
                 kaydet.setText("Kaydet");
                 return;
-            }
+            }*/
             kaydet.setText("Kaydediliyor...");
             String alarm_str = "";
             alarm_str += alarm_str_olustur(cb_iptal.isSelected());
@@ -221,20 +226,25 @@ public class Ayarlar_Popup {
                     JSONObject output = new JSONObject(request.get_value());
                     int ok = output.getInt("ok");
                     if( ok == 1 ){
+                        String izinler_cache = User_Config.app_ayarlar.getString("izinler");
+                        JSONObject new_data = new JSONObject();
+                        new_data.put("alarmlar", alarm_str_final );
+                        new_data.put("izinler",  izinler_cache );
+                        User_Config.init_app_data("ayarlar_data", new_data );
                         for( Ayarlar_Listener listener : listeners ) {
                             listener.alarm_ayarlar_degisim( alarm_str_final );
                             listener.frekans_ayarlar_degisim();
                         }
-                        User_Config.config_guncelle( output.getJSONObject("data").getString("default_config_json"));
                     }
                     kaydet.setDisable(false);
                     kaydet.setText("Kaydet");
                 }
                 @Override
                 protected Void call(){
-                    request = new Web_Request(Web_Request.SERVIS_URL, "&req=ayar_guncelleme&alarmlar="+alarm_str_final+"&orer_frekans="+orer_frekans_val+"&mesaj_frekans="+mesaj_frekans_val+"&iys_frekans="+iys_frekans_val );
-                    request.kullanici_pc_parametreleri_ekle(true);
+
+                    request = new Web_Request(Web_Request.SERVIS_URL, "&req=ayar_guncelleme&alarmlar="+alarm_str_final+"&orer_frekans=0&mesaj_frekans=0&iys_frekans=0" );
                     request.action();
+
                     return null;
                 }
             });

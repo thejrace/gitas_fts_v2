@@ -16,10 +16,10 @@ import java.util.Map;
  */
 public class Filo_Login_Task {
 
-    private int sayac = 0;
     private Map<String, String> cookies = new HashMap<>();
     private boolean run = true;
-    public Filo_Login_Task( ){
+    private JSONObject filo5_data;
+    public Filo_Login_Task( JSONObject _filo5_data ){
         // cookies.json temizle
        /* try{
             PrintWriter writer = new PrintWriter(User_Config.COOKIES_JSON, "UTF-8");
@@ -28,6 +28,7 @@ public class Filo_Login_Task {
         } catch (IOException e) {
             System.out.println("Kaydet hatası!");
         }*/
+        filo5_data = _filo5_data;
     }
 
     public void yap( Cookie_Refresh_Listener listener ){
@@ -57,13 +58,15 @@ public class Filo_Login_Task {
                         } catch( Exception ex ){
                             ex.printStackTrace();
                         }
-
                         //e.printStackTrace();
                     }
                     if( filo_login ){
-                        login_thread( "A", "dk_oasa", "oas145");
-                        login_thread( "B", "dk_oasb", "oas125");
-                        login_thread( "C", "dk_oasc", "oas165");
+                        JSONObject bolge_data = filo5_data.getJSONObject("A");
+                        login_thread( "A", bolge_data.getString("login"), bolge_data.getString("pass"));
+                        bolge_data = filo5_data.getJSONObject("B");
+                        login_thread( "B", bolge_data.getString("login"), bolge_data.getString("pass"));
+                        bolge_data = filo5_data.getJSONObject("C");
+                        login_thread( "C", bolge_data.getString("login"), bolge_data.getString("pass"));
                         listener.on_refresh( cookies );
                         try{
                             PrintWriter writer = new PrintWriter(User_Config.COOKIES_JSON, "UTF-8");
@@ -108,7 +111,6 @@ public class Filo_Login_Task {
                     .execute();
 
             cookies.put(bolge, res.cookies().get("PHPSESSID") );
-            sayac++;
             System.out.println( bolge + " Bölgesi filoya giriş yapıldı!");
             //kaydet();
         } catch( IOException e ){

@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.*;
@@ -78,24 +79,6 @@ public class Takip_Scene_Controller implements Initializable {
     @Override
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 
-        otobus_box_filtre = new Otobus_Box_Filtre(
-                btn_filtre_a,
-                btn_filtre_b,
-                btn_filtre_c,
-                btn_filtre_st,
-                btn_filtre_sb,
-                btn_filtre_sa,
-                btn_filtre_si,
-                btn_filtre_sy,
-                btn_filtre_not,
-                btn_filtre_plaka,
-                btn_filtre_iys,
-                btn_filtre_sifirla,
-                btn_filtre_kapi,
-                btn_filtre_kaydet,
-                btn_filtre_zayi
-        );
-
         pie_data = FXCollections.observableArrayList(
                 new PieChart.Data("Tamam", 0),
                 new PieChart.Data("Bekleyen", 0),
@@ -103,13 +86,10 @@ public class Takip_Scene_Controller implements Initializable {
                 new PieChart.Data("İptal", 0),
                 new PieChart.Data("Yarım", 0)
         );
-
-
         header_pie_chart = new PieChart( pie_data );
         header_pie_chart.setLegendVisible(false);
         header_pie_chart.setMinWidth(300);
         header_pie_chart_container.getChildren().add( header_pie_chart );
-
 
         //HBox.setMargin(btn_header_alarmlar, new Insets( 0, 5, 0, 5));
         HBox.setMargin(btn_header_ayarlar, new Insets( 0, 5, 0, 5));
@@ -132,41 +112,60 @@ public class Takip_Scene_Controller implements Initializable {
             secenekler_popup_th.start();
         });
 
-        btn_header_ayarlar.setOnMousePressed( ev -> {
-            if( ayarlar_popup == null ){
-                ayarlar_popup = new Ayarlar_Popup();
-                ayarlar_popup.init( get_root());
-                ayarlar_popup.add_listener(new Ayarlar_Listener() {
-                    @Override
-                    public void alarm_ayarlar_degisim( String yeni_str ) {
-                        for( Ayarlar_Listener listener : ayarlar_listeners ) listener.alarm_ayarlar_degisim( yeni_str );
-                    }
-                    @Override
-                    public void frekans_ayarlar_degisim(){
-                        for( Ayarlar_Listener listener : ayarlar_listeners ) listener.frekans_ayarlar_degisim();
-                    }
-                });
-            }
-            if( !ayarlar_popup.is_on() ){
-                ayarlar_popup.init( get_root());
-                ayarlar_popup.show( ev.getScreenX(), ev.getScreenY() );
-            }
-
-        });
-
         /*btn_header_alarmlar.setOnMousePressed( ev -> {
             alarm_popup.show( alarm_popup.get_son_alarmlar() );
         });*/
 
+        //lbl_kullanici_eposta.setText( User_Config.eposta_veri_al() );
+
+    }
+
+    public void init_filtre(){
+        otobus_box_filtre = new Otobus_Box_Filtre(
+                btn_filtre_a,
+                btn_filtre_b,
+                btn_filtre_c,
+                btn_filtre_st,
+                btn_filtre_sb,
+                btn_filtre_sa,
+                btn_filtre_si,
+                btn_filtre_sy,
+                btn_filtre_not,
+                btn_filtre_plaka,
+                btn_filtre_iys,
+                btn_filtre_sifirla,
+                btn_filtre_kapi,
+                btn_filtre_kaydet,
+                btn_filtre_zayi
+        );
         otobus_box_filtre.add_listener(new Filtre_Listener() {
             @Override
             public void on_filtre_set( String kapi, Otobus_Box_Filtre_Data data) {
                 for( Filtre_Listener listener : filtre_listeners ) listener.on_filtre_set( kapi, data );
             }
         });
+    }
 
-        lbl_kullanici_eposta.setText( User_Config.eposta_veri_al() );
+    public void ayarlar_init(){
+        ayarlar_popup = new Ayarlar_Popup();
+        ayarlar_popup.init( get_root());
+        ayarlar_popup.add_listener(new Ayarlar_Listener() {
+            @Override
+            public void alarm_ayarlar_degisim( String yeni_str ) {
+                for( Ayarlar_Listener listener : ayarlar_listeners ) listener.alarm_ayarlar_degisim( yeni_str );
+            }
+            @Override
+            public void frekans_ayarlar_degisim(){
+                for( Ayarlar_Listener listener : ayarlar_listeners ) listener.frekans_ayarlar_degisim();
+            }
+        });
 
+        btn_header_ayarlar.setOnMousePressed( ev -> {
+            if( !ayarlar_popup.is_on() ){
+                ayarlar_popup.init( get_root()); // ?
+                ayarlar_popup.show( ev.getScreenX(), ev.getScreenY() );
+            }
+        });
     }
 
     private void pie_chart_filo_renkler( ObservableList<PieChart.Data> chart_data, String... renkler) {

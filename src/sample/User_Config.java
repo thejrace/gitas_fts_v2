@@ -1,9 +1,12 @@
 package sample;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Jeppe on 18.05.2017.
@@ -52,6 +55,24 @@ public class User_Config {
                          GITAS_JSON = "src/sample/data/gitas.json",
                          COOKIES_JSON = "C://temp/cookies.json";
 
+    public static JSONObject app_ayarlar, app_filtre, app_filo5_data;
+    public static JSONArray app_otobusler;
+    public static void init_app_data( String key, JSONObject guncel_data ){
+        if( key.equals("init") ){
+            app_ayarlar = guncel_data.getJSONObject("ayarlar");
+            app_filtre = guncel_data.getJSONObject("filtre");
+            app_filo5_data = guncel_data.getJSONObject("filo5_data");
+            app_otobusler = guncel_data.getJSONArray("otobusler");
+        } else {
+            if( key.equals("ayarlar_data") ){
+                app_ayarlar = guncel_data;
+            } else if( key.equals("filtre_data") ){
+                app_filtre = guncel_data;
+            } else if( key.equals("filo5_data")){
+                app_filo5_data = guncel_data;
+            }
+        }
+    }
 
     // Program ilk açıldığında giriş - kayıt işlemlerinden hangisini yapacagimizi
     // anladigimiz metod
@@ -153,6 +174,16 @@ public class User_Config {
         return config.getString("eposta");
     }
 
+    public static void eposta_guncelle( String eposta ){
+        try{
+            PrintWriter writer = new PrintWriter(CONFIG_JSON, "UTF-8");
+            writer.print("{\"eposta\":\""+eposta+"\"}");
+            writer.close();
+        } catch (IOException e) {
+
+        }
+    }
+
     // configte eposta var, onun kontrolu
     public static JSONObject ilk_acilis_kullanici_kontrolu(){
         Web_Request request = new Web_Request( Web_Request.SERVIS_URL, "&req=kullanici_kontrol");
@@ -199,13 +230,11 @@ public class User_Config {
     }
 
     public static Ayarlar_Genel_Data ayarlari_oku(){
-        JSONObject config = config_oku();
-        return new Ayarlar_Genel_Data( config.getString("alarmlar"), config.getInt("orer_frekans"), config.getInt("iys_frekans"), config.getInt("mesaj_frekans"));
+        return new Ayarlar_Genel_Data( app_ayarlar.getString("alarmlar"), 0,0,0);
     }
 
     public static boolean izin_kontrol( int tip ){
-        JSONObject config = config_oku();
-        return config.getString("gtiz").charAt(tip) == '1';
+        return  app_ayarlar.getString("izinler").charAt(tip) == '1';
     }
 
 
