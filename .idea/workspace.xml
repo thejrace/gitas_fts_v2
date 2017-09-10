@@ -7,30 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Task_Template.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Ayarlar_Popup.java" afterPath="$PROJECT_DIR$/src/sample/Ayarlar_Popup.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Excel_Filo_Plan.java" afterPath="$PROJECT_DIR$/src/sample/Excel_Filo_Plan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Excel_Surucu_Rapor.java" afterPath="$PROJECT_DIR$/src/sample/Excel_Surucu_Rapor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Filo_Download.java" afterPath="$PROJECT_DIR$/src/sample/Filo_Download.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Filo_Eksefer_Oneri_Task.java" afterPath="$PROJECT_DIR$/src/sample/Filo_Eksefer_Oneri_Task.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Filo_Table.java" afterPath="$PROJECT_DIR$/src/sample/Filo_Table.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Otobus_Box.java" afterPath="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Otobus_Box_Filtre.java" afterPath="$PROJECT_DIR$/src/sample/Otobus_Box_Filtre.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Popup_IYS_Box.java" afterPath="$PROJECT_DIR$/src/sample/Popup_IYS_Box.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Popup_Mesaj_Box.java" afterPath="$PROJECT_DIR$/src/sample/Popup_Mesaj_Box.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Popup_Not_Box.java" afterPath="$PROJECT_DIR$/src/sample/Popup_Not_Box.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Popup_Not_Ekle.java" afterPath="$PROJECT_DIR$/src/sample/Popup_Not_Ekle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Popup_Not_Goruntule.java" afterPath="$PROJECT_DIR$/src/sample/Popup_Not_Goruntule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Popup_Zayiat_Rapor_Box.java" afterPath="$PROJECT_DIR$/src/sample/Popup_Zayiat_Rapor_Box.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Rapor_Datatable.java" afterPath="$PROJECT_DIR$/src/sample/Rapor_Datatable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Rapor_Popup.java" afterPath="$PROJECT_DIR$/src/sample/Rapor_Popup.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Surucu_Box.java" afterPath="$PROJECT_DIR$/src/sample/Surucu_Box.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Takip_Scene.java" afterPath="$PROJECT_DIR$/src/sample/Takip_Scene.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java" afterPath="$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/User_Config.java" afterPath="$PROJECT_DIR$/src/sample/User_Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Web_Request.java" afterPath="$PROJECT_DIR$/src/sample/Web_Request.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" afterPath="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -97,7 +76,7 @@
       <file leaf-file-name="Takip_Scene.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
+            <state relative-caret-position="272">
               <caret line="96" column="87" lean-forward="true" selection-start-line="96" selection-start-column="16" selection-end-line="96" selection-end-column="87" />
               <folding>
                 <element signature="method#otobus_kutular_filtre#0;class#Takip_Scene#0" expanded="false" />
@@ -109,8 +88,8 @@
       <file leaf-file-name="Takip_Scene_Controller.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-368">
-              <caret line="47" column="44" lean-forward="false" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="44" />
+            <state relative-caret-position="1200">
+              <caret line="171" column="5" lean-forward="false" selection-start-line="171" selection-start-column="5" selection-end-line="171" selection-end-column="5" />
               <folding>
                 <element signature="method#init_filtre#0;class#Takip_Scene_Controller#0" expanded="false" />
                 <element signature="method#ayarlar_init#0;class#Takip_Scene_Controller#0" expanded="false" />
@@ -122,14 +101,14 @@
       <file leaf-file-name="Otobus_Box.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="662" column="38" lean-forward="false" selection-start-line="662" selection-start-column="38" selection-end-line="662" selection-end-column="38" />
+            <state relative-caret-position="313">
+              <caret line="723" column="35" lean-forward="false" selection-start-line="723" selection-start-column="35" selection-end-line="723" selection-end-column="35" />
               <folding>
                 <element signature="method#create_ui#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#update_thread_start#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#update#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#update_ui#0;class#Otobus_Box#0" expanded="false" />
-                <element signature="e#30958#33621#0" expanded="false" />
+                <element signature="e#30959#33622#0" expanded="false" />
                 <element signature="method#otobus_plaka_kontrol#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#hat_detay_olustur#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#alarm_kontrol#0;class#Otobus_Box#0" expanded="false" />
@@ -148,8 +127,8 @@
       <file leaf-file-name="Filo_Table.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Filo_Table.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="52" column="23" lean-forward="false" selection-start-line="52" selection-start-column="23" selection-end-line="52" selection-end-column="23" />
+            <state relative-caret-position="1395">
+              <caret line="198" column="68" lean-forward="false" selection-start-line="198" selection-start-column="68" selection-end-line="198" selection-end-column="68" />
               <folding>
                 <element signature="e#1569#1570#0" expanded="true" />
                 <element signature="e#1599#1600#0" expanded="true" />
@@ -157,6 +136,19 @@
                 <element signature="e#3444#3445#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gitas_main.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="417">
+              <caret line="203" column="75" lean-forward="false" selection-start-line="203" selection-start-column="75" selection-end-line="203" selection-end-column="75" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
           </provider>
         </entry>
       </file>
@@ -250,12 +242,12 @@
         <option value="$PROJECT_DIR$/src/sample/Popup_Zayiat_Rapor_Box.java" />
         <option value="$PROJECT_DIR$/src/sample/Rapor_Datatable.java" />
         <option value="$PROJECT_DIR$/src/sample/Rapor_Popup.java" />
-        <option value="$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java" />
-        <option value="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" />
         <option value="$PROJECT_DIR$/src/sample/Takip_Scene.java" />
         <option value="$PROJECT_DIR$/src/sample/Surucu_Box.java" />
-        <option value="$PROJECT_DIR$/src/sample/Filo_Table.java" />
+        <option value="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" />
+        <option value="$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java" />
         <option value="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
+        <option value="$PROJECT_DIR$/src/sample/Filo_Table.java" />
       </list>
     </option>
   </component>
@@ -266,7 +258,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-3" />
     <option name="y" value="5" />
     <option name="width" value="1924" />
@@ -795,12 +787,12 @@
       <workItem from="1504947222824" duration="1196000" />
       <workItem from="1504948530033" duration="13613000" />
       <workItem from="1505034043036" duration="505000" />
-      <workItem from="1505036040085" duration="9474000" />
+      <workItem from="1505036040085" duration="10247000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73144000" />
+    <option name="totallyTimeSpent" value="73917000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -812,7 +804,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -824,7 +816,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32790446" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3072747" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3072747" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33659065" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1199,38 +1191,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="198" column="99" lean-forward="false" selection-start-line="198" selection-start-column="99" selection-end-line="198" selection-end-column="99" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-368">
-          <caret line="47" column="44" lean-forward="false" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="44" />
-          <folding>
-            <element signature="method#init_filtre#0;class#Takip_Scene_Controller#0" expanded="false" />
-            <element signature="method#ayarlar_init#0;class#Takip_Scene_Controller#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="96" column="87" lean-forward="true" selection-start-line="96" selection-start-column="16" selection-end-line="96" selection-end-column="87" />
-          <folding>
-            <element signature="method#otobus_kutular_filtre#0;class#Takip_Scene#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Surucu.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
@@ -1255,10 +1215,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="203" column="75" lean-forward="false" selection-start-line="203" selection-start-column="75" selection-end-line="203" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="171" column="5" lean-forward="false" selection-start-line="171" selection-start-column="5" selection-end-line="171" selection-end-column="5" />
+          <folding>
+            <element signature="method#init_filtre#0;class#Takip_Scene_Controller#0" expanded="false" />
+            <element signature="method#ayarlar_init#0;class#Takip_Scene_Controller#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="96" column="87" lean-forward="true" selection-start-line="96" selection-start-column="16" selection-end-line="96" selection-end-column="87" />
+          <folding>
+            <element signature="method#otobus_kutular_filtre#0;class#Takip_Scene#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Filo_Table.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="52" column="23" lean-forward="false" selection-start-line="52" selection-start-column="23" selection-end-line="52" selection-end-column="23" />
+        <state relative-caret-position="1395">
+          <caret line="198" column="68" lean-forward="false" selection-start-line="198" selection-start-column="68" selection-end-line="198" selection-end-column="68" />
           <folding>
             <element signature="e#1569#1570#0" expanded="true" />
             <element signature="e#1599#1600#0" expanded="true" />
@@ -1270,14 +1262,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="662" column="38" lean-forward="false" selection-start-line="662" selection-start-column="38" selection-end-line="662" selection-end-column="38" />
+        <state relative-caret-position="313">
+          <caret line="723" column="35" lean-forward="false" selection-start-line="723" selection-start-column="35" selection-end-line="723" selection-end-column="35" />
           <folding>
             <element signature="method#create_ui#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#update_thread_start#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#update#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#update_ui#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="e#30958#33621#0" expanded="false" />
+            <element signature="e#30959#33622#0" expanded="false" />
             <element signature="method#otobus_plaka_kontrol#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#hat_detay_olustur#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#alarm_kontrol#0;class#Otobus_Box#0" expanded="false" />

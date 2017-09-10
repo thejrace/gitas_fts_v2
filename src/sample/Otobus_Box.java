@@ -661,6 +661,7 @@ public class Otobus_Box {
     }
 
     private void set_event_handlers(){
+
         if( User_Config.izin_kontrol( User_Config.IOB_PLAKA_DEGISTIRME ) ) {
             box_header_plaka.setOnMousePressed(event -> {
                 if (plaka_popup == null) {
@@ -715,11 +716,18 @@ public class Otobus_Box {
                 plaka_ui_th.start();
             });
         }
+
         btn_sefer.setOnMousePressed( ev -> {
             btn_sefer.setDisable(true);
             Thread plan_thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto="+kod+"&baslangic=AT&bitis=" );
+                    request.kullanici_pc_parametreleri_ekle();
+                    request.action();
+                    JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
+                    new_data = data.getJSONArray("orer_data");
+
                     if( sefer_popup == null || sefer_plan_table == null ) {
                         sefer_popup = new Obarey_Popup(kod + " Sefer Planı", ui_container.getScene().getRoot());
                         sefer_popup.init(true);
@@ -735,7 +743,7 @@ public class Otobus_Box {
                     }
                     sefer_plan_table = new Filo_Table( kod );
                     sefer_plan_table.init();
-                    sefer_plan_table.update_data( new_data, new JSONArray() );
+                    sefer_plan_table.update_data( new_data, data.getJSONArray("orer_versiyon_data") );
                     sefer_plan_table.update_ui();
                     sefer_popup.set_content( sefer_plan_table.get() );
                     Platform.runLater(new Runnable() {

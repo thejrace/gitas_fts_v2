@@ -199,14 +199,9 @@
                                     <Label fx:id="lbl_kullanici_eposta" styleClass="cbeyaz" text="#" />
                                  </children>
                               </VBox>
-                              <VBox alignment="CENTER" styleClass="filtre-item-container">
-                                 <children>
-                                    <Label fx:id="lbl_app_son_orer" styleClass="cbeyaz" text="Son Senkron: Yapılmadı" />
-                                 </children>
-                              </VBox>
                               <VBox alignment="CENTER" layoutX="10.0" layoutY="76.0" styleClass="filtre-item-container">
                                  <children>
-                                    <Label styleClass="cbeyaz" text="v2.007" />
+                                    <Label styleClass="cbeyaz" text="v2.010H" />
                                  </children>
                               </VBox>
                            </children>

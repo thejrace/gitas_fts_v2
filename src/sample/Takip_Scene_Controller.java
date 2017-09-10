@@ -47,7 +47,6 @@ public class Takip_Scene_Controller implements Initializable {
     @FXML private Label lbl_stats_yeni_iys;
     @FXML private Label lbl_kullanici_eposta;
     @FXML private Label lbl_stats_zayi_sefer;
-    @FXML private Label lbl_app_son_orer;
     @FXML private Button btn_filtre_a;
     @FXML private Button btn_filtre_b;
     @FXML private Button btn_filtre_c;
@@ -170,10 +169,6 @@ public class Takip_Scene_Controller implements Initializable {
             data.getNode().setStyle("-fx-pie-color: " + renkler[i % renkler.length] + ";");
             i++;
         }
-    }
-
-    public void orer_senkron_guncelle( String val ){
-        lbl_app_son_orer.setText("Son Senkron: " + val);
     }
 
     public void pie_data_guncelle(String name, double value) {
