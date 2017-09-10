@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>E:\gitas_fts_v2\out\artifacts\gitas_fts_v2_jar\gitas_fts_v2.jar</jar>
+  <outfile>C:\Users\Jeppe-PC\Desktop\Gitas Filo Takip Sistemi.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\Jeppe-PC\Desktop\app_ico.ico</icon>
+  <singleInstance>
+    <mutexName>gtfs_2010h</mutexName>
+    <windowTitle>Gitaş Filo Takip Sistemi</windowTitle>
+  </singleInstance>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.6.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+  </jre>
+  <messages>
+    <startupErr>Program başlatılırkenbir hata oluştu.</startupErr>
+    <bundledJreErr>Bilgisayarınızda Java Runtime Environment bulunamadı veya dosyaları bozulmuş.</bundledJreErr>
+    <jreVersionErr>Programı kullanabilmek için Java Runtime Environment bilgisayarınızda kurulu olmalıdır.</jreVersionErr>
+    <launcherErr>Java Runtime Environment başlatılırken bir hata oluştu.</launcherErr>
+    <instanceAlreadyExistsMsg>Program zaten çalışıyor.</instanceAlreadyExistsMsg>
+  </messages>
+</launch4jConfig>

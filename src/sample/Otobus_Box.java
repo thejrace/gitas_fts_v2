@@ -646,6 +646,7 @@ public class Otobus_Box {
         Platform.runLater(new Runnable() {
             @Override
             public void run(){
+                otobus_plaka_kontrol();
                 main_info.setText(ui_main_notf);
                 info.setText(ui_notf);
                 update_led(ui_led);
@@ -695,19 +696,39 @@ public class Otobus_Box {
                         kaydet.setOnAction(evo -> {
                             kaydet.setDisable(true);
                             kaydet.setText("İşlem yapılıyor...");
-                            Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_bildirim&oto=" + kod + "&aktif_plaka=" + aktif.get_input_val() + "&ruhsat_plaka=" + ruhsat.get_input_val());
-                            request.kullanici_pc_parametreleri_ekle();
-                            request.action();
-                            JSONObject output = new JSONObject(request.get_value());
-                            int ok = output.getInt("ok");
-                            if (ok == 1) {
-                                kaydet.setText("Kaydet");
-                                aktif_plaka = aktif.get_input_val();
-                                otobus_plaka_kontrol();
-                            } else {
-                                kaydet.setText("Herhangi bir değişiklik yapılmadı.");
-                            }
-                            kaydet.setDisable(false);
+                            Thread th = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_bildirim&oto=" + kod + "&aktif_plaka=" + aktif.get_input_val() + "&ruhsat_plaka=" + ruhsat.get_input_val());
+                                    request.kullanici_pc_parametreleri_ekle();
+                                    request.action();
+                                    JSONObject output = new JSONObject(request.get_value());
+                                    int ok = output.getInt("ok");
+                                    if (ok == 1) {
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                kaydet.setText("Kaydet");
+                                                aktif_plaka = aktif.get_input_val();
+                                                otobus_plaka_kontrol();
+                                                kaydet.setDisable(false);
+                                            }
+                                        });
+                                    } else {
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                kaydet.setText("Herhangi bir değişiklik yapılmadı.");
+                                                kaydet.setDisable(false);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                            th.setDaemon(true);
+                            th.start();
+
+
                         });
                         return null;
                     }
@@ -986,14 +1007,19 @@ public class Otobus_Box {
     public ArrayList<Alarm_Data> get_alarmlar(){
         ArrayList<Alarm_Data> output = new ArrayList<>();
         Alarm_Data alarm_item;
+        ArrayList<String> silinecekler = new ArrayList<>();
+        Ayarlar_Genel_Data alarm_ayarlar = User_Config.ayarlari_oku();
         //System.out.println(kod+ " Alarmlar: -- >" + alarmlar.size() );
         for (Map.Entry<String, Alarm_Data> entry : alarmlar.entrySet()) {
             alarm_item = entry.getValue();
-            if( !alarm_item.get_goruldu() ){
+            if( !alarm_item.get_goruldu() && alarm_ayarlar.alarm_cb_kontrol( alarm_item.get_type() )  ){
                 //alarm_item.goruldu(true);
                 output.add(alarm_item);
+            } else {
+                silinecekler.add( entry.getKey() );
             }
         }
+        for( int j = 0; j < silinecekler.size(); j++ ) alarmlar.remove(silinecekler.get(j));
         return output;
     }
 
