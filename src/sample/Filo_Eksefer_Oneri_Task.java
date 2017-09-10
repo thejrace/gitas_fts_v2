@@ -48,7 +48,7 @@ public class Filo_Eksefer_Oneri_Task extends Task<ArrayList<Oneri_Sefer_Data>> {
         Document sefer_doc = null;
 
         Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=ek_sefer_oneri_init&bolge="+bolge );
-        request.kullanici_pc_parametreleri_ekle(true);
+        request.kullanici_pc_parametreleri_ekle();
         request.action();
         JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
 

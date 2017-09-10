@@ -196,7 +196,7 @@
                            <children>
                               <VBox alignment="CENTER" styleClass="filtre-item-container">
                                  <children>
-                                    <Label fx:id="lbl_kullanici_eposta" styleClass="cbeyaz" text="huseyinozbekk@gmail.com" />
+                                    <Label fx:id="lbl_kullanici_eposta" styleClass="cbeyaz" text="#" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" styleClass="filtre-item-container">

@@ -139,7 +139,7 @@ public class Popup_Mesaj_Box extends ScrollPane {
     public void update_data( String tarih ){
 
         Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=mesaj_download&oto="+oto+"&tarih="+tarih );
-        request.kullanici_pc_parametreleri_ekle(true);
+        request.kullanici_pc_parametreleri_ekle();
         request.action();
         JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
         mesajlar = data.getJSONArray("mesaj_data");

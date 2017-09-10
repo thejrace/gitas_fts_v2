@@ -184,40 +184,6 @@ public class User_Config {
         }
     }
 
-    // configte eposta var, onun kontrolu
-    public static JSONObject ilk_acilis_kullanici_kontrolu(){
-        Web_Request request = new Web_Request( Web_Request.SERVIS_URL, "&req=kullanici_kontrol");
-        request.kullanici_pc_parametreleri_ekle( true );
-        request.action();
-        return new JSONObject( request.get_value() );
-    }
-
-    // formla giriş - kayıt
-    public static JSONObject giris_kayit_form_submit( String eposta, String pass ){
-        Web_Request request = new Web_Request( Web_Request.SERVIS_URL, "&req=kullanici_kontrol&eposta="+eposta+"&pass="+pass);
-        request.kullanici_pc_parametreleri_ekle( false );
-        request.action();
-        return new JSONObject( request.get_value() );
-    }
-
-    // onay bekleme kullanici kontrolu
-    public static JSONObject kullanici_kontrol( String eposta ){
-        Web_Request request = new Web_Request( Web_Request.SERVIS_URL, "&req=kullanici_kontrol&eposta="+eposta);
-        request.kullanici_pc_parametreleri_ekle( false );
-        request.action();
-        return new JSONObject( request.get_value() );
-    }
-
-    // sunucudan gelen config sync
-    public static void config_guncelle( String yeni_config ){
-        try{
-            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(CONFIG_JSON, false)));
-            writer.print(yeni_config);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void config_reset(){
         try{

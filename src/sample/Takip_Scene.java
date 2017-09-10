@@ -38,7 +38,7 @@ public class Takip_Scene extends Application {
     private int OTOBUS_SAYAC = 0;
     private Sefer_Rapor_Data header_rapor_data;
     private Filo_Rapor_Data filo_header_data;
-;
+    private boolean ozet_thread_shutdown = false;
 
 
     @Override
@@ -50,7 +50,6 @@ public class Takip_Scene extends Application {
             controller = fxmlLoader.getController();
             primaryStage.setTitle("Gitaş Filo Takip");
             primaryStage.initStyle(StageStyle.DECORATED);
-
             try {
                 Font.loadFont(getClass().getResource("resources/font/montserratbold.otf").toExternalForm().replace("%20", " "), 10);
                 Font.loadFont(getClass().getResource("resources/font/montserratsemibold.otf").toExternalForm().replace("%20", " "), 10);
@@ -58,22 +57,18 @@ public class Takip_Scene extends Application {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             primaryStage.setScene(new Scene(root, 1024, 768));
             primaryStage.getIcons().add(new Image(getClass().getResource("resources/img/app_ico.png").toExternalForm()));
             primaryStage.show();
-
             stage = primaryStage;
         } catch( Exception e ){
             e.printStackTrace();
         }
-
         // pencere boyutuna gore kutulari dizme event
         controller.screen_resize_cb();
-
         controller.init_filtre();
         controller.ayarlar_init();
-
+        controller.init_piechart();
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
@@ -83,21 +78,17 @@ public class Takip_Scene extends Application {
                 System.exit(0);
             }
         });
-
         controller.add_filtre_listener(new Filtre_Listener() {
             @Override
             public void on_filtre_set( String kapi, Otobus_Box_Filtre_Data filtre_data ) {
                 otobus_kutular_filtre( kapi, filtre_data );
             }
         });
-
         // grafik, istatistik ve piechart data
         header_rapor_data = new Sefer_Rapor_Data("", 0, 0, 0, 0, 0, 0, 0,0,0 );
         filo_header_data = new Filo_Rapor_Data();
         canli_durum = new Sefer_Rapor_Data(0, 0, 0, 0, 0);
-
         otobus_kutular_init();
-
         Filo_Login_Task filo_login_task = new Filo_Login_Task( User_Config.app_filo5_data );
         filo_login_task.yap(new Cookie_Refresh_Listener() {
             @Override
@@ -108,9 +99,8 @@ public class Takip_Scene extends Application {
                 }
             }
         });
-
         controller.alarm_popup_init();
-
+        ozet_thread();
     }
 
 
@@ -129,22 +119,8 @@ public class Takip_Scene extends Application {
                 box_item.add_alarm_listener( new Alarm_Listener(){
                     @Override
                     public void on_ui_finished( ArrayList<Alarm_Data> yeni_alarmlar ){
-
                         controller.alarmlari_guncelle( kod, yeni_alarmlar );
-                        for (Map.Entry<String, Integer> entry : box_item.get_ozet().entrySet()) for( int k = 0; k < entry.getValue(); k++ ) header_rapor_data.arttir( entry.getKey() );
-                        if( box_item.get_filtre_data(Otobus_Box_Filtre.FD_ZAYI) ){
-                            filo_header_data.ekle( Otobus_Box_Filtre.FD_ZAYI, box_item.get_ozet().get(Sefer_Data.DIPTAL));
-                            filo_header_data.ekle( Otobus_Box_Filtre.FD_ZAYI, box_item.get_ozet().get(Sefer_Data.DYARIM));
-                        }
-                        if( box_item.get_filtre_data(Otobus_Box_Filtre.FD_NOT) ) filo_header_data.ekle( Otobus_Box_Filtre.FD_NOT, box_item.get_ekstra_ozet().get(Otobus_Box_Filtre.FD_NOT));
-                        if( box_item.get_filtre_data(Otobus_Box_Filtre.FD_IYS) ) filo_header_data.ekle( Otobus_Box_Filtre.FD_IYS, box_item.get_ekstra_ozet().get(Otobus_Box_Filtre.FD_IYS));
-                        if( box_item.get_filtre_data(Otobus_Box_Filtre.FD_PLAKA) ) filo_header_data.arttir( Otobus_Box_Filtre.FD_PLAKA);
-                        canli_durum.arttir( box_item.get_durum() );
-                        header_rapor_data.km_arttir(box_item.get_gitas_km(), box_item.get_iett_km());
-                        OTOBUS_SAYAC++;
-                        gunluk_ozet();
-
-
+                        if( OTOBUS_SAYAC < otobus_kutular.size() ) OTOBUS_SAYAC++;
                     }
                 });
                 controller.add_otobus_box(box_item.get_ui());
@@ -155,21 +131,66 @@ public class Takip_Scene extends Application {
         }
     }
 
-    private void orer_download_ui(){
-        Platform.runLater(new Runnable() {
+    private void ozet_thread(){
+
+        Thread th = new Thread(new Runnable() {
+            private int sleep = 10000;
             @Override
             public void run() {
-                if( FILTRE_INIT ){
-                    // ilk veriyi aldiktan sonra kayitli filtreyi uygula
-                    Otobus_Box_Filtre otobus_box_filtre = controller.get_filtre_obj();
-                    Otobus_Box_Filtre_Data filtre_data = new Otobus_Box_Filtre_Data();
-                    filtre_data.set_str_vals( otobus_box_filtre.get_filtre_data() );
-                    otobus_kutular_filtre( otobus_box_filtre.get_kapi(), filtre_data );
-                    FILTRE_INIT = false;
-                    controller.enable_filtre_btn_container();
+                Otobus_Box otobus_box;
+                while( !ozet_thread_shutdown ){
+                    System.out.println("OZET THREAD");
+                    if( OTOBUS_SAYAC == otobus_kutular.size() ){
+                        sleep = 20000;
+
+                        header_rapor_data = new Sefer_Rapor_Data("", 0, 0, 0, 0, 0, 0, 0,0,0 );
+                        filo_header_data = new Filo_Rapor_Data();
+                        canli_durum = new Sefer_Rapor_Data(0, 0, 0, 0, 0);
+
+                        for (Map.Entry<String, Otobus_Box> entry : otobus_kutular.entrySet()) {
+                            otobus_box = entry.getValue();
+                            for (Map.Entry<String, Integer> ozet_entry : otobus_box.get_ozet().entrySet()) for( int k = 0; k < ozet_entry.getValue(); k++ ) header_rapor_data.arttir( ozet_entry.getKey() );
+                            if( otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_ZAYI) ){
+                                filo_header_data.ekle( Otobus_Box_Filtre.FD_ZAYI, otobus_box.get_ozet().get(Sefer_Data.DIPTAL));
+                                filo_header_data.ekle( Otobus_Box_Filtre.FD_ZAYI, otobus_box.get_ozet().get(Sefer_Data.DYARIM));
+                            }
+                            if( otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_NOT) ) filo_header_data.ekle( Otobus_Box_Filtre.FD_NOT, otobus_box.get_ekstra_ozet().get(Otobus_Box_Filtre.FD_NOT));
+                            if( otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_IYS) ) filo_header_data.ekle( Otobus_Box_Filtre.FD_IYS, otobus_box.get_ekstra_ozet().get(Otobus_Box_Filtre.FD_IYS));
+                            if( otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_PLAKA) ) filo_header_data.arttir( Otobus_Box_Filtre.FD_PLAKA);
+                            canli_durum.arttir( otobus_box.get_durum() );
+                            header_rapor_data.km_arttir(otobus_box.get_gitas_km(), otobus_box.get_iett_km());
+                        }
+
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                if( FILTRE_INIT ){
+                                    // ilk veriyi aldiktan sonra kayitli filtreyi uygula
+                                    Otobus_Box_Filtre otobus_box_filtre = controller.get_filtre_obj();
+                                    Otobus_Box_Filtre_Data filtre_data = new Otobus_Box_Filtre_Data();
+                                    filtre_data.set_str_vals( otobus_box_filtre.get_filtre_data() );
+                                    otobus_kutular_filtre( otobus_box_filtre.get_kapi(), filtre_data );
+                                    FILTRE_INIT = false;
+                                    controller.enable_filtre_btn_container();
+                                } else {
+                                    System.out.println("HEADRE GUNCELLE");
+                                    otobus_kutular_filtre(prev_filtre_kapi, prev_filtre_data);
+                                    controller.header_ozet_guncelle( header_rapor_data, canli_durum, filo_header_data );
+                                }
+                            }
+                        });
+                    }
+                    try {
+                        Thread.sleep( sleep );
+                    } catch( InterruptedException e ){
+                        e.printStackTrace();
+                    }
                 }
+
             }
         });
+        th.setDaemon(true);
+        th.start();
     }
 
     private void otobus_kutular_filtre( String kapi, Otobus_Box_Filtre_Data filtre_data ){
@@ -211,11 +232,9 @@ public class Takip_Scene extends Application {
         }
     }
 
-    private void gunluk_ozet(){
-
+    /*private void gunluk_ozet(){
         if( OTOBUS_SAYAC == otobus_kutular.size() ){
-            System.out.println("OREEEEER INIT UI");
-            orer_download_ui();
+
             otobus_kutular_filtre( prev_filtre_kapi, prev_filtre_data );
             controller.header_ozet_guncelle( header_rapor_data, canli_durum, filo_header_data );
             canli_durum = new Sefer_Rapor_Data(0, 0, 0, 0, 0 );
@@ -223,7 +242,7 @@ public class Takip_Scene extends Application {
             filo_header_data = new Filo_Rapor_Data();
             OTOBUS_SAYAC = 0;
         }
-    }
+    }*/
 
 
 

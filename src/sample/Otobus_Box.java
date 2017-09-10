@@ -41,7 +41,7 @@ public class Otobus_Box {
     private String cookie = "INIT", bolge;
     private Orer_Download orer_download;
     private PDKS_Download pdks_download;
-    private ArrayList<String> suruculer = new ArrayList<>();
+    private Map<String, String> suruculer = new HashMap<>();
 
     private Label   main_info,
                     info,
@@ -265,6 +265,7 @@ public class Otobus_Box {
     private void update_thread_start(){
 
         Thread th = new Thread(new Runnable() {
+            private int sleep;
             @Override
             public void run() {
 
@@ -273,26 +274,26 @@ public class Otobus_Box {
                 } catch( InterruptedException e ){
                     e.printStackTrace();
                 }
-
+                sleep = 90000;
                 while( run ){
 
                     if( !cookie.equals("INIT") ){
+                        sleep = 90000;
                         // orer kontrol
                         orer_download = new Orer_Download( kod, cookie );
                         orer_download.yap();
                         update( orer_download.get_seferler(), orer_download.get_aktif_sefer_verisi() );
-
-                        for( Alarm_Listener listener : listeners ) listener.on_ui_finished( get_alarmlar() );
 
                         // pdks kontrol
                         pdks_download = new PDKS_Download( kod, cookie );
                         pdks_download.yap();
                         suruculer = pdks_download.get_suruculer();
 
+                        for( Alarm_Listener listener : listeners ) listener.on_ui_finished( get_alarmlar() );
 
                         // plaka kontrol
                         Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=otobus_plaka_kontrol&web_req=true&oto="+kod);
-                        request.kullanici_pc_parametreleri_ekle(true);
+                        request.kullanici_pc_parametreleri_ekle();
                         request.action();
                         JSONObject plaka_veri = new JSONObject( request.get_value()).getJSONObject("data").getJSONObject("plaka_data");
                         aktif_plaka = plaka_veri.getString("aktif_plaka");
@@ -300,9 +301,11 @@ public class Otobus_Box {
                         //System.out.println( plaka_veri.getString("aktif_plaka") + " --- " + plaka_veri.getString("ruhsat_plaka") );
 
                         // iys-not kontrol
+                    } else {
+                        sleep = 5000;
                     }
                     try {
-                        Thread.sleep(90000 );
+                        Thread.sleep( sleep );
                     } catch( InterruptedException e ){
                         e.printStackTrace();
                     }
@@ -318,6 +321,8 @@ public class Otobus_Box {
     private void update( JSONArray data, String durak_data ) {
 
         if( data.length() == 0 ) return;
+
+        new_data = data;
 
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         Date date = new Date();
@@ -617,7 +622,16 @@ public class Otobus_Box {
         int suruculer_size = suruculer.size();
         if ( suruculer_size == 0 ) {
             alarm_kontrol(new Alarm_Data(Alarm_Data.BELIRSIZ_SURUCU, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_BELIRSIZ_SURUCU, "1"));
-        } else if( suruculer_size > 1 ) {
+        } else if( suruculer_size == 1 ) {
+            // surucu bilgisi gelmişse önceki alarmi kaldir
+            String alarm_id = "";
+            for (Map.Entry<String, Alarm_Data> entry : alarmlar.entrySet()) {
+                if( entry.getValue().get_type() == Alarm_Data.BELIRSIZ_SURUCU ){
+                    alarm_id = entry.getKey();
+                }
+            }
+            if( !alarm_id.equals("") ) alarmlar.remove(alarm_id);
+        } else {
             // sefer nonun cokta onemi yok bi kere vericez alarmi
             alarm_kontrol(new Alarm_Data(Alarm_Data.SURUCU_DEGISIMI, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_SURUCU_DEGISTI, "1"));
         }
@@ -647,7 +661,6 @@ public class Otobus_Box {
     }
 
     private void set_event_handlers(){
-
         if( User_Config.izin_kontrol( User_Config.IOB_PLAKA_DEGISTIRME ) ) {
             box_header_plaka.setOnMousePressed(event -> {
                 if (plaka_popup == null) {
@@ -682,7 +695,7 @@ public class Otobus_Box {
                             kaydet.setDisable(true);
                             kaydet.setText("İşlem yapılıyor...");
                             Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_bildirim&oto=" + kod + "&aktif_plaka=" + aktif.get_input_val() + "&ruhsat_plaka=" + ruhsat.get_input_val());
-                            request.kullanici_pc_parametreleri_ekle(true);
+                            request.kullanici_pc_parametreleri_ekle();
                             request.action();
                             JSONObject output = new JSONObject(request.get_value());
                             int ok = output.getInt("ok");
@@ -702,18 +715,11 @@ public class Otobus_Box {
                 plaka_ui_th.start();
             });
         }
-
         btn_sefer.setOnMousePressed( ev -> {
             btn_sefer.setDisable(true);
             Thread plan_thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto="+kod+"&baslangic=AT&bitis=" );
-                    request.kullanici_pc_parametreleri_ekle(true);
-                    request.action();
-                    JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
-                    new_data = data.getJSONArray("orer_data");
-
                     if( sefer_popup == null || sefer_plan_table == null ) {
                         sefer_popup = new Obarey_Popup(kod + " Sefer Planı", ui_container.getScene().getRoot());
                         sefer_popup.init(true);
@@ -729,7 +735,7 @@ public class Otobus_Box {
                     }
                     sefer_plan_table = new Filo_Table( kod );
                     sefer_plan_table.init();
-                    sefer_plan_table.update_data( new_data, data.getJSONArray("orer_versiyon_data") );
+                    sefer_plan_table.update_data( new_data, new JSONArray() );
                     sefer_plan_table.update_ui();
                     sefer_popup.set_content( sefer_plan_table.get() );
                     Platform.runLater(new Runnable() {
@@ -847,7 +853,7 @@ public class Otobus_Box {
         btn_surucu.setOnMousePressed(event -> {
             if( surucu_popup == null || surucu_box == null ) {
                 surucu_popup = new Obarey_Popup(kod + " Sürücü Bilgileri", ui_container.getScene().getRoot());
-                surucu_box = new Surucu_Box( kod );
+                surucu_box = new Surucu_Box( kod, suruculer );
             }
             if( surucu_popup.ison() ) return;
             btn_surucu.setDisable(true);
@@ -1053,7 +1059,7 @@ class Filo_Task_Template {
             return Jsoup.connect(url + oto)
                     .cookie("PHPSESSID", cookie )
                     .method(org.jsoup.Connection.Method.POST)
-                    .timeout(10*1000)
+                    .timeout(20*1000)
                     .execute();
         } catch (IOException | NullPointerException e) {
             System.out.println( "["+Common.get_current_hmin() + "]  "+  oto + " " + logprefix + "veri alım hatası. Tekrar deneniyor[1].");
@@ -1178,13 +1184,13 @@ class Orer_Download extends Filo_Task_Template {
 }
 
 class PDKS_Download extends Filo_Task_Template {
-    private ArrayList<String> data = new ArrayList<>();
+    private Map<String, String> data = new HashMap<>();
     public PDKS_Download( String oto, String cookie ){
         this.oto = oto;
         this.cookie = cookie;
         this.logprefix = "Sürücü PDKS";
     }
-    public ArrayList<String> get_suruculer(){
+    public Map<String, String> get_suruculer(){
         return data;
     }
     public void yap(){
@@ -1196,14 +1202,14 @@ class PDKS_Download extends Filo_Task_Template {
     }
     private void pdks_ayikla( Document document ){
         if( error ){
-            data = new ArrayList<>();
+            data = new HashMap<>();
             return;
         }
         Elements table = null;
         Elements rows = null;
         Element row = null;
         Elements cols = null;
-        String kart_basma_col_text, surucu;
+        String kart_basma_col_text, surucu, sicil_no;
         try {
             table = document.select("table");
             rows = table.select("tr");
@@ -1215,8 +1221,9 @@ class PDKS_Download extends Filo_Task_Template {
 
                 try {
                     surucu = Common.regex_trim(kart_basma_col_text.substring(25));
+                    sicil_no = Common.regex_trim(cols.get(4).text()).substring(16, 22);
                     if (kart_basma_col_text.contains("PDKS_Kart Binen ")) {
-                        if( !data.contains(surucu)) data.add( surucu );
+                        if( !data.containsKey(sicil_no)) data.put( sicil_no, surucu );
 
                         //put("sicil_no", Common.regex_trim(cols.get(4).text()).substring(16, 22));
                         //data.put("isim", Common.regex_trim(kart_basma_col_text.substring(25)) );
@@ -1228,6 +1235,7 @@ class PDKS_Download extends Filo_Task_Template {
                         sicil_no = Common.regex_trim(cols.get(4).text()).substring(15, 21);
                         isim = Common.regex_trim(kart_basma_col_text.substring(24));*/
                     }
+
                     //System.out.println(oto + " PDKS --> [" + tip + " " + sicil_no + "] [" + isim + "]");
                 } catch( NullPointerException | IndexOutOfBoundsException e ){
                     e.printStackTrace();
@@ -1238,7 +1246,7 @@ class PDKS_Download extends Filo_Task_Template {
         } catch( NullPointerException e ){
             System.out.println( "["+Common.get_current_hmin() + "]  "+ aktif_tarih  + " " +  oto + " ORER sürücü PDKS ayıklama hatası. Tekrar deneniyor.");
             e.printStackTrace();
-            data = new ArrayList<>();
+            data = new HashMap<>();
         }
     }
     // noktaya istek, surucu isim ve telefon alma

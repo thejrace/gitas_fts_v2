@@ -196,7 +196,7 @@ public class Filo_Table {
                         public void run() {
                             String dp_val = dp.getValue().toString();
                             Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto="+kod+"&baslangic="+dp_val+"&bitis=" );
-                            request.kullanici_pc_parametreleri_ekle(true);
+                            request.kullanici_pc_parametreleri_ekle();
                             request.action();
                             JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
                             update_data( data.getJSONArray("orer_data"), data.getJSONArray("orer_versiyon_data") );

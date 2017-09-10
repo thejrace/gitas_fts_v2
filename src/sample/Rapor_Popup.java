@@ -59,7 +59,7 @@ public class Rapor_Popup {
 
                 final String params = "&baslangic="+tfrom+"&bitis="+tto;
                 Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=filo_rapor&oto="+kod+params );
-                request.kullanici_pc_parametreleri_ekle(true);
+                request.kullanici_pc_parametreleri_ekle();
                 request.action();
                 JSONObject data = new JSONObject(request.get_value()).getJSONObject("data").getJSONObject("rapor_data");
 

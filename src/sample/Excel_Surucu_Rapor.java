@@ -28,7 +28,7 @@ public class Excel_Surucu_Rapor {
             ArrayList<String> ekli_suruculer = new ArrayList<>();
             try {
                 Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=excel_surucu_rapor&oto=OBAREY&baslangic="+tarih+"&bitis=" );
-                request.kullanici_pc_parametreleri_ekle(true);
+                request.kullanici_pc_parametreleri_ekle();
                 request.action();
                 JSONArray data = new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("surucu_data");
 

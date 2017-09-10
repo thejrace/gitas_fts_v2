@@ -26,13 +26,8 @@ public class Web_Request {
 
     }
 
-    public void kullanici_pc_parametreleri_ekle( boolean eposta_ekle ){
-        if( eposta_ekle ){
-            this.params += "&eposta="+User_Config.eposta_veri_al()+"&bilgisayar_adi="+Common.bilgisayar_adini_al()+"&bilgisayar_hash="+Common.mac_hash();
-        } else {
-            this.params += "&bilgisayar_adi="+Common.bilgisayar_adini_al()+"&bilgisayar_hash="+Common.mac_hash();
-        }
-
+    public void kullanici_pc_parametreleri_ekle(){
+        this.params += "&eposta="+User_Config.eposta_veri_al() ;
     }
 
     public void action(){

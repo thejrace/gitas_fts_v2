@@ -79,18 +79,6 @@ public class Takip_Scene_Controller implements Initializable {
     @Override
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 
-        pie_data = FXCollections.observableArrayList(
-                new PieChart.Data("Tamam", 0),
-                new PieChart.Data("Bekleyen", 0),
-                new PieChart.Data("Aktif", 0),
-                new PieChart.Data("İptal", 0),
-                new PieChart.Data("Yarım", 0)
-        );
-        header_pie_chart = new PieChart( pie_data );
-        header_pie_chart.setLegendVisible(false);
-        header_pie_chart.setMinWidth(300);
-        header_pie_chart_container.getChildren().add( header_pie_chart );
-
         //HBox.setMargin(btn_header_alarmlar, new Insets( 0, 5, 0, 5));
         HBox.setMargin(btn_header_ayarlar, new Insets( 0, 5, 0, 5));
         HBox.setMargin(btn_header_secenekler, new Insets( 0, 5, 0, 5));
@@ -111,13 +99,21 @@ public class Takip_Scene_Controller implements Initializable {
             secenekler_popup_th.setDaemon(true);
             secenekler_popup_th.start();
         });
+        lbl_kullanici_eposta.setText( User_Config.eposta_veri_al() );
+    }
 
-        /*btn_header_alarmlar.setOnMousePressed( ev -> {
-            alarm_popup.show( alarm_popup.get_son_alarmlar() );
-        });*/
-
-        //lbl_kullanici_eposta.setText( User_Config.eposta_veri_al() );
-
+    public void init_piechart(){
+        pie_data = FXCollections.observableArrayList(
+                new PieChart.Data("Tamam", 0),
+                new PieChart.Data("Bekleyen", 0),
+                new PieChart.Data("Aktif", 0),
+                new PieChart.Data("İptal", 0),
+                new PieChart.Data("Yarım", 0)
+        );
+        header_pie_chart = new PieChart( pie_data );
+        header_pie_chart.setLegendVisible(false);
+        header_pie_chart.setMinWidth(300);
+        header_pie_chart_container.getChildren().add( header_pie_chart );
     }
 
     public void init_filtre(){

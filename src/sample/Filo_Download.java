@@ -27,7 +27,7 @@ public class Filo_Download implements Runnable {
 
         while( aktif ){
             Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=filo_download");
-            request.kullanici_pc_parametreleri_ekle(true);
+            request.kullanici_pc_parametreleri_ekle();
             request.action();
             JSONObject output = new JSONObject( request.get_value() );
             listener.on_download_finish( output.getJSONObject("data") );

@@ -36,7 +36,7 @@ public class Popup_IYS_Box extends ScrollPane {
         mesaj_ul.setSpacing(10);
 
         Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=iys_download&oto="+oto );
-        request.kullanici_pc_parametreleri_ekle(true);
+        request.kullanici_pc_parametreleri_ekle();
         request.action();
         JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
         JSONArray iys_data = data.getJSONArray("iys_data");

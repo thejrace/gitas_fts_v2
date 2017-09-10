@@ -89,7 +89,7 @@ public class Popup_Zayiat_Rapor_Box extends VBox {
                 @Override
                 protected Void call(){
                     Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=zayiat_raporu&dtkey="+dtkey+"&baslangic="+gun+"&bitis=" );
-                    request.kullanici_pc_parametreleri_ekle(true);
+                    request.kullanici_pc_parametreleri_ekle();
                     request.action();
 
                     try {
@@ -132,7 +132,7 @@ public class Popup_Zayiat_Rapor_Box extends VBox {
                 @Override
                 protected Void call(){
                     Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=zayiat_raporu&dtkey="+dtkey+"&baslangic="+baslangic+"&bitis="+bitis );
-                    request.kullanici_pc_parametreleri_ekle(true);
+                    request.kullanici_pc_parametreleri_ekle();
                     request.action();
                     try {
                         JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
@@ -170,7 +170,7 @@ public class Popup_Zayiat_Rapor_Box extends VBox {
                 @Override
                 protected Void call(){
                     Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=zayiat_raporu&dtkey="+dtkey+"&baslangic=&bitis=" );
-                    request.kullanici_pc_parametreleri_ekle(true);
+                    request.kullanici_pc_parametreleri_ekle();
                     request.action();
                     try {
                         JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");

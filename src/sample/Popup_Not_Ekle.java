@@ -111,7 +111,7 @@ public class Popup_Not_Ekle extends VBox {
                 @Override
                 protected Void call(){
                     Web_Request dt_request = new Web_Request(Web_Request.SERVIS_URL, "&req=not_ekle&kapi_kodu="+oto+"&plaka="+plaka_val+"&icerik="+not_val+"&"+alarm_params+"&tip="+not_tip );
-                    dt_request.kullanici_pc_parametreleri_ekle(true);
+                    dt_request.kullanici_pc_parametreleri_ekle();
                     dt_request.action();
                     data = new JSONObject(dt_request.get_value());
                     return null;

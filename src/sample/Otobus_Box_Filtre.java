@@ -97,6 +97,7 @@ public class Otobus_Box_Filtre {
                 @Override
                 protected Void call(){
                     Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=filtre_guncelleme&g1="+g1+"&g2="+g2+"&g3="+g3+"&filtre_kapi="+kapi );
+                    request.kullanici_pc_parametreleri_ekle();
                     request.action();
                     // TODO
                     JSONObject new_data = new JSONObject();

@@ -50,7 +50,7 @@ public class Popup_Not_Box extends ScrollPane {
         try {
 
             Web_Request dt_request = new Web_Request(Web_Request.SERVIS_URL, "&req=not_download&oto="+oto );
-            dt_request.kullanici_pc_parametreleri_ekle(true);
+            dt_request.kullanici_pc_parametreleri_ekle();
             dt_request.action();
             JSONArray dt_data = new JSONObject(dt_request.get_value()).getJSONObject("data").getJSONArray("not_data");
 

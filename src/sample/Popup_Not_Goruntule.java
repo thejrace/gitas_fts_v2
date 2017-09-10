@@ -108,7 +108,7 @@ public class Popup_Not_Goruntule extends ScrollPane {
                     @Override
                     protected Void call(){
                         Web_Request dt_request = new Web_Request(Web_Request.SERVIS_URL, "&req=not_tamamla&not_gid="+data.getString("gid"));
-                        dt_request.kullanici_pc_parametreleri_ekle(true);
+                        dt_request.kullanici_pc_parametreleri_ekle();
                         dt_request.action();
                         JSONObject output =   new JSONObject(dt_request.get_value());
                         durum = output.getInt("ok");
@@ -170,7 +170,7 @@ public class Popup_Not_Goruntule extends ScrollPane {
                     @Override
                     protected Void call(){
                         Web_Request dt_request = new Web_Request(Web_Request.SERVIS_URL, "&req=not_bildirim_ekle&not_gid="+data.getString("gid")+"&icerik="+bildirim_val);
-                        dt_request.kullanici_pc_parametreleri_ekle(true);
+                        dt_request.kullanici_pc_parametreleri_ekle();
                         dt_request.action();
                         JSONObject output =   new JSONObject(dt_request.get_value());
                         durum = output.getInt("ok");

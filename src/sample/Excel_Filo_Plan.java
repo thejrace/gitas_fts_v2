@@ -40,7 +40,7 @@ public class Excel_Filo_Plan {
             try {
 
                 Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto=OBAREY&excel=true&baslangic="+tarih+"&bitis=" );
-                request.kullanici_pc_parametreleri_ekle(true);
+                request.kullanici_pc_parametreleri_ekle();
                 request.action();
                 JSONArray data = new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("orer_data");
 

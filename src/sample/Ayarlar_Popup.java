@@ -243,6 +243,7 @@ public class Ayarlar_Popup {
                 protected Void call(){
 
                     request = new Web_Request(Web_Request.SERVIS_URL, "&req=ayar_guncelleme&alarmlar="+alarm_str_final+"&orer_frekans=0&mesaj_frekans=0&iys_frekans=0" );
+                    request.kullanici_pc_parametreleri_ekle();
                     request.action();
 
                     return null;
