@@ -18,22 +18,46 @@ public class Surucu_Box {
 
     private String oto;
     private VBox surucu_ul, surucu_li;
-    private Map<String, String> suruculer;
+    private ArrayList<Surucu> suruculer;
 
-    public Surucu_Box( String _oto, Map<String, String> _suruculer ){
+    public Surucu_Box( String _oto ){
         oto = _oto;
-        suruculer = _suruculer;
+
     }
 
     public VBox get_ui(){
         return surucu_ul;
     }
 
-    public void init(){
+    public void init(  ArrayList<Surucu> _suruculer ){
+        suruculer = _suruculer;
         surucu_ul = new VBox();
 
         surucu_ul.getStylesheets().addAll( Filo_Table.class.getResource("resources/css/common.css").toExternalForm() );
-        for (Map.Entry<String, String> entry : suruculer.entrySet()) {
+
+        for( Surucu surucu : suruculer ){
+
+            surucu_li = new VBox();
+            surucu_li.getStyleClass().add("popup-surucu-container");
+            surucu_li.setAlignment(Pos.CENTER);
+
+            Label lbl_surucu_isim = new Label(surucu.get_isim());
+            Label lbl_surucu_sicil = new Label( "Sicil No: " + surucu.get_sicil_no() );
+            Label lbl_surucu_tel = new Label( "Telefon: " + surucu.get_telefon() );
+            lbl_surucu_isim.setAlignment(Pos.CENTER);
+            lbl_surucu_sicil.setAlignment(Pos.CENTER);
+            lbl_surucu_tel.setAlignment(Pos.CENTER);
+            lbl_surucu_isim.getStyleClass().add("popup-surucu-isim");
+            lbl_surucu_sicil.getStyleClass().add("popup-surucu-info");
+            lbl_surucu_tel.getStyleClass().add("popup-surucu-info");
+
+            surucu_li.getChildren().addAll( lbl_surucu_isim, lbl_surucu_tel, lbl_surucu_sicil );
+            surucu_ul.getChildren().add( surucu_li );
+
+        }
+
+
+        /*for (Map.Entry<String, String> entry : suruculer.entrySet()) {
 
             surucu_li = new VBox();
             surucu_li.getStyleClass().add("popup-surucu-container");
@@ -76,7 +100,7 @@ public class Surucu_Box {
                 th.setDaemon(true);
                 th.start();
             });
-        }
+        }*/
     }
 
 }

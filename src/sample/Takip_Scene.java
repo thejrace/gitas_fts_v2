@@ -39,7 +39,7 @@ public class Takip_Scene extends Application {
     private Sefer_Rapor_Data header_rapor_data;
     private Filo_Rapor_Data filo_header_data;
     private boolean ozet_thread_shutdown = false;
-
+    private Thread plaka_kontrol_thread;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -90,6 +90,7 @@ public class Takip_Scene extends Application {
         canli_durum = new Sefer_Rapor_Data(0, 0, 0, 0, 0);
         otobus_kutular_init();
         Filo_Login_Task filo_login_task = new Filo_Login_Task( User_Config.app_filo5_data );
+        controller.app_status_guncelle("Filoya giriş yapılıyor..");
         filo_login_task.yap(new Cookie_Refresh_Listener() {
             @Override
             public void on_refresh(Map<String, String> cookies) {
@@ -97,8 +98,15 @@ public class Takip_Scene extends Application {
                 for (Map.Entry<String, Otobus_Box> entry : otobus_kutular.entrySet()) {
                     entry.getValue().cookie_guncelle( cookies.get(entry.getValue().get_bolge() ) );
                 }
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        controller.app_status_guncelle("Aktif..");
+                    }
+                });
             }
         });
+        plaka_kontrol_thread();
         controller.alarm_popup_init();
         ozet_thread();
     }
@@ -243,6 +251,38 @@ public class Takip_Scene extends Application {
             OTOBUS_SAYAC = 0;
         }
     }*/
+
+    private void plaka_kontrol_thread(){
+
+        plaka_kontrol_thread = new Thread(new Runnable() {
+            private boolean shutdown = false;
+            private Web_Request req;
+
+            @Override
+            public void run() {
+                while( !shutdown ){
+                    req = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_kontrol_toplu");
+                    req.action();
+                    JSONArray degisimler = new JSONObject(req.get_value()).getJSONObject("data").getJSONArray("plaka_degisimler");
+                    JSONObject item;
+                    for( int j = 0; j < degisimler.length(); j++ ){
+                        item = degisimler.getJSONObject(j);
+                        otobus_kutular.get( item.getString("kapi_kodu") ).plakalari_guncelle( item.getString("aktif_plaka"), item.getString("ruhsat_plaka") );
+                    }
+                    try {
+                        Thread.sleep(30000 );
+                    } catch( InterruptedException e ){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        plaka_kontrol_thread.setDaemon(true);
+        plaka_kontrol_thread.start();
+
+
+
+    }
 
 
 

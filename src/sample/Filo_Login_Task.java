@@ -108,6 +108,7 @@ public class Filo_Login_Task {
             res = Jsoup.connect("http://filo5.iett.gov.tr/login.php?sayfa=/_FYS.php&aday=x")
                     .data("login", kullanici, "password", pass )
                     .method(org.jsoup.Connection.Method.POST)
+                    .timeout(0)
                     .execute();
 
             cookies.put(bolge, res.cookies().get("PHPSESSID") );
@@ -116,7 +117,7 @@ public class Filo_Login_Task {
         } catch( IOException e ){
             System.out.println( bolge + " Bölgesi filo giriş hatası tekrar deneniyor.");
             cookies.put(bolge, "INIT" );
-            //login_thread( bolge, kullanici, pass );
+            login_thread( bolge, kullanici, pass );
         }
     }
 

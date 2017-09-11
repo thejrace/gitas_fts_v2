@@ -110,6 +110,7 @@ public class Filo_Eksefer_Oneri_Task extends Task<ArrayList<Oneri_Sefer_Data>> {
                     js_con = Jsoup.connect("http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&hat=" + Common.hat_kod_sef(hat_kod))
                             .cookie("PHPSESSID", cookie)
                             .method(org.jsoup.Connection.Method.POST)
+                            .timeout(0)
                             .execute();
 
                     sefer_doc = js_con.parse();

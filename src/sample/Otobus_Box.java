@@ -41,7 +41,7 @@ public class Otobus_Box {
     private String cookie = "INIT", bolge;
     private Orer_Download orer_download;
     private PDKS_Download pdks_download;
-    private Map<String, String> suruculer = new HashMap<>();
+    private ArrayList<Surucu> suruculer = new ArrayList<>();
 
     private Label   main_info,
                     info,
@@ -270,7 +270,7 @@ public class Otobus_Box {
             public void run() {
 
                 try {
-                    Thread.sleep( index * 2000 );
+                    Thread.sleep( index * 5000 );
                 } catch( InterruptedException e ){
                     e.printStackTrace();
                 }
@@ -282,22 +282,23 @@ public class Otobus_Box {
                         // orer kontrol
                         orer_download = new Orer_Download( kod, cookie );
                         orer_download.yap();
-                        update( orer_download.get_seferler(), orer_download.get_aktif_sefer_verisi() );
+
+                        if( !orer_download.get_error() ) update( orer_download.get_seferler(), orer_download.get_aktif_sefer_verisi() );
 
                         // pdks kontrol
-                        pdks_download = new PDKS_Download( kod, cookie );
+                        /*pdks_download = new PDKS_Download( kod, cookie );
                         pdks_download.yap();
-                        suruculer = pdks_download.get_suruculer();
+                        suruculer = pdks_download.get_suruculer();*/
 
                         for( Alarm_Listener listener : listeners ) listener.on_ui_finished( get_alarmlar() );
 
                         // plaka kontrol
-                        Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=otobus_plaka_kontrol&web_req=true&oto="+kod);
+                        /*Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=otobus_plaka_kontrol&web_req=true&oto="+kod);
                         request.kullanici_pc_parametreleri_ekle();
                         request.action();
                         JSONObject plaka_veri = new JSONObject( request.get_value()).getJSONObject("data").getJSONObject("plaka_data");
                         aktif_plaka = plaka_veri.getString("aktif_plaka");
-                        ruhsat_plaka = plaka_veri.getString("ruhsat_plaka");
+                        ruhsat_plaka = plaka_veri.getString("ruhsat_plaka");*/
                         //System.out.println( plaka_veri.getString("aktif_plaka") + " --- " + plaka_veri.getString("ruhsat_plaka") );
 
                         // iys-not kontrol
@@ -661,6 +662,11 @@ public class Otobus_Box {
         });
     }
 
+    public void plakalari_guncelle( String _aktif_plaka, String _ruhsat_plaka ){
+        aktif_plaka = _aktif_plaka;
+        ruhsat_plaka = _ruhsat_plaka;
+    }
+
     private void set_event_handlers(){
 
         if( User_Config.izin_kontrol( User_Config.IOB_PLAKA_DEGISTIRME ) ) {
@@ -882,7 +888,7 @@ public class Otobus_Box {
         btn_surucu.setOnMousePressed(event -> {
             if( surucu_popup == null || surucu_box == null ) {
                 surucu_popup = new Obarey_Popup(kod + " Sürücü Bilgileri", ui_container.getScene().getRoot());
-                surucu_box = new Surucu_Box( kod, suruculer );
+                surucu_box = new Surucu_Box( kod );
             }
             if( surucu_popup.ison() ) return;
             btn_surucu.setDisable(true);
@@ -895,8 +901,22 @@ public class Otobus_Box {
                 }
                 @Override
                 protected String call(){
+
+                    Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=pdks_detay&oto="+kod );
+                    request.kullanici_pc_parametreleri_ekle();
+                    request.action();
+                    JSONArray data = new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("pdks_data");
+                    int size = data.length();
+                    if( size > 0 ){
+                        suruculer = new ArrayList<>();
+                        JSONObject surucu_item;
+                        for( int j = 0; j < size; j++ ){
+                            surucu_item = data.getJSONObject(j);
+                            suruculer.add(new Surucu( surucu_item.getString("sicil_no"), surucu_item.getString("isim"), surucu_item.getString("telefon") ) );
+                        }
+                    }
                     surucu_popup.init(true);
-                    surucu_box.init();
+                    surucu_box.init( suruculer );
                     return null;
                 }
             });
@@ -1093,7 +1113,7 @@ class Filo_Task_Template {
             return Jsoup.connect(url + oto)
                     .cookie("PHPSESSID", cookie )
                     .method(org.jsoup.Connection.Method.POST)
-                    .timeout(20*1000)
+                    .timeout(0)
                     .execute();
         } catch (IOException | NullPointerException e) {
             System.out.println( "["+Common.get_current_hmin() + "]  "+  oto + " " + logprefix + "veri alım hatası. Tekrar deneniyor[1].");
@@ -1109,6 +1129,9 @@ class Filo_Task_Template {
             System.out.println(  "["+Common.get_current_hmin() + "]  "+ aktif_tarih  + " " +  oto + " "+ logprefix + " parse hatası. Tekrar deneniyor.");
         }
         return null;
+    }
+    public boolean get_error(){
+        return error;
     }
 }
 
