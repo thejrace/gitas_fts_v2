@@ -101,7 +101,7 @@ public class Takip_Scene extends Application {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        controller.app_status_guncelle("Aktif..");
+                        controller.app_status_guncelle("Aktif");
                     }
                 });
             }
@@ -147,7 +147,6 @@ public class Takip_Scene extends Application {
             public void run() {
                 Otobus_Box otobus_box;
                 while( !ozet_thread_shutdown ){
-                    System.out.println("OZET THREAD");
                     if( OTOBUS_SAYAC == otobus_kutular.size() ){
                         sleep = 20000;
 
@@ -181,7 +180,6 @@ public class Takip_Scene extends Application {
                                     FILTRE_INIT = false;
                                     controller.enable_filtre_btn_container();
                                 } else {
-                                    System.out.println("HEADRE GUNCELLE");
                                     otobus_kutular_filtre(prev_filtre_kapi, prev_filtre_data);
                                     controller.header_ozet_guncelle( header_rapor_data, canli_durum, filo_header_data );
                                 }
@@ -240,28 +238,18 @@ public class Takip_Scene extends Application {
         }
     }
 
-    /*private void gunluk_ozet(){
-        if( OTOBUS_SAYAC == otobus_kutular.size() ){
-
-            otobus_kutular_filtre( prev_filtre_kapi, prev_filtre_data );
-            controller.header_ozet_guncelle( header_rapor_data, canli_durum, filo_header_data );
-            canli_durum = new Sefer_Rapor_Data(0, 0, 0, 0, 0 );
-            header_rapor_data = new Sefer_Rapor_Data("", 0, 0, 0, 0, 0, 0, 0,0,0 );
-            filo_header_data = new Filo_Rapor_Data();
-            OTOBUS_SAYAC = 0;
-        }
-    }*/
-
     private void plaka_kontrol_thread(){
 
         plaka_kontrol_thread = new Thread(new Runnable() {
             private boolean shutdown = false;
-            private Web_Request req;
+            private Web_Request req, req_komple;
+            private long komple_update_timestamp = 0;
 
             @Override
             public void run() {
                 while( !shutdown ){
                     req = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_kontrol_toplu");
+                    req.kullanici_pc_parametreleri_ekle();
                     req.action();
                     JSONArray degisimler = new JSONObject(req.get_value()).getJSONObject("data").getJSONArray("plaka_degisimler");
                     JSONObject item;
@@ -269,6 +257,19 @@ public class Takip_Scene extends Application {
                         item = degisimler.getJSONObject(j);
                         otobus_kutular.get( item.getString("kapi_kodu") ).plakalari_guncelle( item.getString("aktif_plaka"), item.getString("ruhsat_plaka") );
                     }
+
+                    if( Common.get_unix() - komple_update_timestamp >= 120 ){
+                        req_komple = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_komple_kontrol_toplu");
+                        req_komple.kullanici_pc_parametreleri_ekle();
+                        req_komple.action();
+                        JSONArray plaka_data = new JSONObject(req_komple.get_value()).getJSONObject("data").getJSONArray("plaka_data");
+                        for( int j = 0; j < plaka_data.length(); j++ ){
+                            item = plaka_data.getJSONObject(j);
+                            otobus_kutular.get( item.getString("kapi_kodu") ).plakalari_guncelle( item.getString("aktif_plaka"), item.getString("ruhsat_plaka") );
+                        }
+                        komple_update_timestamp = Common.get_unix();
+                    }
+
                     try {
                         Thread.sleep(30000 );
                     } catch( InterruptedException e ){

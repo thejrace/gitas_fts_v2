@@ -1113,7 +1113,7 @@ class Filo_Task_Template {
             return Jsoup.connect(url + oto)
                     .cookie("PHPSESSID", cookie )
                     .method(org.jsoup.Connection.Method.POST)
-                    .timeout(0)
+                    .timeout(50000)
                     .execute();
         } catch (IOException | NullPointerException e) {
             System.out.println( "["+Common.get_current_hmin() + "]  "+  oto + " " + logprefix + "veri alım hatası. Tekrar deneniyor[1].");
