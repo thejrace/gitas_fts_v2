@@ -95,12 +95,40 @@ public class Ayarlar_Popup {
 
 
 
-        /*VBox frekans_ayarlar = new VBox();
+        VBox frekans_ayarlar = new VBox();
         frekans_ayarlar.setSpacing(25);
         orer_container.setSpacing(25);
-        Label orer_header = new Label("Filo Senkron ( Saniye )");
+        Label orer_header = new Label("Bildirim & Veri Alma ( Saniye )");
         orer_header.getStyleClass().addAll("cek", "fs13", "fbold");
         frekans_ayarlar.getChildren().add( orer_header );
+
+        HBox orer_frekans_input_cont = new HBox();
+        orer_frekans_input_cont.setAlignment(Pos.CENTER);
+        orer_frekans_input_cont.setSpacing(5);
+        Label orer_lbl = new Label("Alarm Frekans");
+        orer_lbl.getStyleClass().addAll("cbeyaz", "fs11", "fbold");
+        orer_lbl.setPrefWidth(100);
+        final TextField alarm_freakans = new TextField();
+        alarm_freakans.getStyleClass().addAll("input-kucuk", "grigrad");
+        alarm_freakans.setText(String.valueOf(User_Config.app_ayarlar.getInt("alarm_frekans")));
+        orer_frekans_input_cont.getChildren().addAll( orer_lbl, alarm_freakans );
+        frekans_ayarlar.getChildren().add( orer_frekans_input_cont );
+
+        orer_frekans_input_cont = new HBox();
+        orer_frekans_input_cont.setAlignment(Pos.CENTER);
+        orer_frekans_input_cont.setSpacing(5);
+        orer_lbl = new Label("Alarm Kaybolma ( 0: iptal )");
+        orer_lbl.setWrapText(true);
+        orer_lbl.getStyleClass().addAll("cbeyaz", "fs11", "fbold");
+        orer_lbl.setPrefWidth(100);
+        final TextField alarm_kaybolma_frekans = new TextField();
+        alarm_kaybolma_frekans.getStyleClass().addAll("input-kucuk", "grigrad");
+        alarm_kaybolma_frekans.setText(String.valueOf(User_Config.app_ayarlar.getInt("alarm_kaybolma_frekans")));
+        orer_frekans_input_cont.getChildren().addAll( orer_lbl, alarm_kaybolma_frekans );
+        frekans_ayarlar.getChildren().add( orer_frekans_input_cont );
+
+
+        /*
 
         HBox orer_frekans_input_cont = new HBox();
         orer_frekans_input_cont.setAlignment(Pos.CENTER);
@@ -141,7 +169,7 @@ public class Ayarlar_Popup {
 
         VBox orer_alarm_cont = new VBox();
         orer_alarm_cont.setSpacing(25);
-        Label orer_header = new Label("Alarmlar");
+        orer_header = new Label("Alarmlar");
         orer_header.getStyleClass().addAll("cek", "fs13", "fbold");
 
         HBox alarm_cb_container = new HBox();
@@ -189,12 +217,14 @@ public class Ayarlar_Popup {
         alarm_cb_container.getChildren().addAll( cb_grup_1, cb_grup_2, cb_grup_3, cb_grup_4);
         orer_alarm_cont.getChildren().addAll( orer_header, alarm_cb_container );
 
-        orer_container.getChildren().addAll( /*frekans_ayarlar,*/ orer_alarm_cont );
+        orer_container.getChildren().addAll( frekans_ayarlar, orer_alarm_cont );
         GButton kaydet = new GButton("KAYDET", GButton.CMORB );
         main.setContent( new VBox( orer_container, kaydet ) );
 
         kaydet.setOnMousePressed(ev->{
             kaydet.setDisable(true);
+            final String alarm_frekans_val = alarm_freakans.getText(),
+                    alarm_kaybolma_frekans_val = alarm_kaybolma_frekans.getText();
             /*final String  orer_frekans_val = orer_frekans_input.getText(),
                     mesaj_frekans_val = mesaj_frekans_input.getText(),
                     iys_frekans_val = iys_frekans_input.getText();
@@ -203,6 +233,7 @@ public class Ayarlar_Popup {
                 kaydet.setText("Kaydet");
                 return;
             }*/
+            if( alarm_frekans_val.equals("") || !Common.is_numeric(alarm_frekans_val) || alarm_kaybolma_frekans_val.equals("") || !Common.is_numeric(alarm_kaybolma_frekans_val)  ) return;
             kaydet.setText("Kaydediliyor...");
             String alarm_str = "";
             alarm_str += alarm_str_olustur(cb_iptal.isSelected());
@@ -230,6 +261,8 @@ public class Ayarlar_Popup {
                         JSONObject new_data = new JSONObject();
                         new_data.put("alarmlar", alarm_str_final );
                         new_data.put("izinler",  izinler_cache );
+                        new_data.put("alarm_frekans", alarm_frekans_val );
+                        new_data.put("alarm_kaybolma_frekans", alarm_kaybolma_frekans_val );
                         User_Config.init_app_data("ayarlar_data", new_data );
                         for( Ayarlar_Listener listener : listeners ) {
                             listener.alarm_ayarlar_degisim( alarm_str_final );
@@ -242,7 +275,7 @@ public class Ayarlar_Popup {
                 @Override
                 protected Void call(){
 
-                    request = new Web_Request(Web_Request.SERVIS_URL, "&req=ayar_guncelleme&alarmlar="+alarm_str_final+"&orer_frekans=0&mesaj_frekans=0&iys_frekans=0" );
+                    request = new Web_Request(Web_Request.SERVIS_URL, "&req=ayar_guncelleme&alarmlar="+alarm_str_final+"&orer_frekans=0&mesaj_frekans=0&iys_frekans=0&alarm_frekans="+alarm_frekans_val+"&alarm_kaybolma_frekans="+alarm_kaybolma_frekans_val );
                     request.kullanici_pc_parametreleri_ekle();
                     request.action();
 

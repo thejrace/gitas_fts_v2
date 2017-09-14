@@ -96,28 +96,30 @@ public class Alarm_Popup {
                             public void run() {
                                 set_content();
                                 popup.show( parent, 20, 20 );
-                                final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
-                                exec.schedule(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Platform.runLater(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                try {
-                                                    popup.hide();
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
+                                if( User_Config.app_ayarlar.getInt("alarm_kaybolma_frekans") > 0 ){
+                                    final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
+                                    exec.schedule(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Platform.runLater(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        popup.hide();
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
                                                 }
-                                            }
-                                        });
-                                    }
-                                }, 20, TimeUnit.SECONDS);
-                                exec.shutdown();
+                                            });
+                                        }
+                                    }, User_Config.app_ayarlar.getInt("alarm_kaybolma_frekans"), TimeUnit.SECONDS);
+                                    exec.shutdown();
+                                }
                             }
                         });
                     }
                     try {
-                        Thread.sleep(60000);
+                        Thread.sleep(User_Config.app_ayarlar.getInt("alarm_frekans") * 1000 );
                     } catch(InterruptedException e) {
                         e.printStackTrace();
                     }
