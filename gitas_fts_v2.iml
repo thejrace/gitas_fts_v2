@@ -11,5 +11,6 @@
     <orderEntry type="library" name="json-20160810" level="project" />
     <orderEntry type="library" name="commons-codec-1.10" level="project" />
     <orderEntry type="library" name="jsoup-1.10.2" level="project" />
+    <orderEntry type="library" name="json_linked" level="project" />
   </component>
 </module>

@@ -465,7 +465,10 @@ public class Secenekler_Popup {
         button_cont.setSpacing(10);
         GButton excel_btn = new GButton("GÜNLÜK RAPOR", GButton.CMORK);
         GButton surucu_excel_btn = new GButton( "SÜRÜCÜ RAPOR", GButton.CMORK);
-        button_cont.getChildren().addAll( excel_btn, surucu_excel_btn );
+        GButton iys_excel_btn = new GButton( "IYS RAPOR", GButton.CMORK);
+        GButton pdks_excel_btn = new GButton( "PDKS RAPOR", GButton.CMORK);
+        GButton mesaj_excel_btn = new GButton( "MESAJLAR RAPOR", GButton.CMORK);
+        button_cont.getChildren().addAll( excel_btn, surucu_excel_btn, pdks_excel_btn, iys_excel_btn, mesaj_excel_btn );
 
         CheckBox cb_tamam = new CheckBox("Tamam");
         CheckBox cb_bekleyen = new CheckBox("Bekleyen");
@@ -527,6 +530,39 @@ public class Secenekler_Popup {
             });
             th.setDaemon(true);
             th.start();
+        });
+
+        iys_excel_btn.setOnMousePressed( ev -> {
+            Excel_IYS_Rapor rapor = new Excel_IYS_Rapor( excel_dp.getValue().toString() );
+            rapor.on_finish(new Refresh_Listener() {
+                @Override
+                public void on_refresh() {
+                    System.out.println("Bitti");
+                }
+            });
+            rapor.init();
+        });
+
+        pdks_excel_btn.setOnMousePressed( ev -> {
+            Excel_PDKS_Rapor rapor = new Excel_PDKS_Rapor( excel_dp.getValue().toString() );
+            rapor.on_finish(new Refresh_Listener() {
+                @Override
+                public void on_refresh() {
+                    System.out.println("Bitti 22");
+                }
+            });
+            rapor.init();
+        });
+
+        mesaj_excel_btn.setOnMousePressed( ev -> {
+            Excel_Mesaj_Rapor rapor = new Excel_Mesaj_Rapor( excel_dp.getValue().toString() );
+            rapor.on_finish(new Refresh_Listener() {
+                @Override
+                public void on_refresh() {
+                    System.out.println("Bitti 232");
+                }
+            });
+            rapor.init();
         });
 
 
