@@ -35,6 +35,7 @@ public class Alarm_Popup {
     private boolean run = true;
 
     private AnchorPane content_container;
+    private Map<String, Alarm_Goruldu_Listener> listeners = new HashMap<>();
 
     private Map<String, ArrayList<Alarm_Data>> alarmlar = new HashMap<>();
 
@@ -56,7 +57,14 @@ public class Alarm_Popup {
         int index = 0;
         for (Map.Entry<String, ArrayList<Alarm_Data>> entry : alarmlar.entrySet()) {
             try {
-                alarm_box = new Alarm_Box( index, entry.getValue() );
+
+                alarm_box = new Alarm_Box(index, entry.getValue(), new Alarm_Goruldu_Listener() {
+                    @Override
+                    public void goruldu_yap(String key) {
+                        System.out.println( key + " --- ALARM GÖRÜLDÜ YAP! 222");
+                        listeners.get(entry.getKey()).goruldu_yap( key );
+                    }
+                });
                 alarm_ul.getChildren().add( alarm_box );
                 index++;
             } catch( NullPointerException e ){
@@ -81,8 +89,9 @@ public class Alarm_Popup {
         show_interval_start();
     }
 
-    public synchronized void alarm_ekle( String otobus_kod, ArrayList<Alarm_Data> yeni_alarmlar ){
+    public synchronized void alarm_ekle( String otobus_kod, ArrayList<Alarm_Data> yeni_alarmlar, Alarm_Goruldu_Listener listener ){
         alarmlar.put( otobus_kod, yeni_alarmlar );
+        if( !listeners.containsKey(otobus_kod)) listeners.put( otobus_kod, listener );
     }
 
     public void show_interval_start(){

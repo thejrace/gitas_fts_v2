@@ -7,20 +7,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/json-20160810.jar" afterPath="$PROJECT_DIR$/libs/json-20160810.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Popup_Mesaj_Box.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Popup_Mesaj_Box.class" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4$3.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/gitas_fts_v2_jar/gitas_fts_v2.jar" afterPath="$PROJECT_DIR$/out/artifacts/gitas_fts_v2_jar/gitas_fts_v2.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3$3.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3$3.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4$3.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4$3.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$5.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$6.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$7.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$7.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gitas_fts_v2.iml" afterPath="$PROJECT_DIR$/gitas_fts_v2.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/execfg.xml" afterPath="$PROJECT_DIR$/execfg.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/resources/fxml/gitas_main.fxml" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/resources/fxml/gitas_main.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Alarm_Box.java" afterPath="$PROJECT_DIR$/src/sample/Alarm_Box.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Alarm_Popup.java" afterPath="$PROJECT_DIR$/src/sample/Alarm_Popup.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Otobus_Box.java" afterPath="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Secenekler_Popup.java" afterPath="$PROJECT_DIR$/src/sample/Secenekler_Popup.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Takip_Scene.java" afterPath="$PROJECT_DIR$/src/sample/Takip_Scene.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java" afterPath="$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" afterPath="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -83,78 +92,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Secenekler_Popup.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Secenekler_Popup.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="665">
-              <caret line="561" column="48" lean-forward="false" selection-start-line="561" selection-start-column="48" selection-end-line="561" selection-end-column="48" />
-              <folding>
-                <element signature="method#geribildirim_init#0;class#Secenekler_Popup#0" expanded="false" />
-                <element signature="method#raporlar_init#0;class#Secenekler_Popup#0" expanded="false" />
-                <element signature="method#zayiat_popup_init#0;class#Secenekler_Popup#0" expanded="false" />
-                <element signature="method#istatistik_rapor_init#0;class#Secenekler_Popup#0" expanded="false" />
-                <element signature="method#eksefer_oneri_init#0;class#Secenekler_Popup#0" expanded="false" />
-                <element signature="method#eksefer_oneri_cb#0;class#Secenekler_Popup#0" expanded="false" />
-                <element signature="e#24183#24184#0" expanded="true" />
-                <element signature="e#24254#24255#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Excel_IYS_Rapor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Excel_IYS_Rapor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="681">
-              <caret line="158" column="5" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="158" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Excel_PDKS_Rapor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Excel_PDKS_Rapor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="64">
-              <caret line="10" column="27" lean-forward="false" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Excel_Mesaj_Rapor.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/sample/Excel_Mesaj_Rapor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1488">
-              <caret line="97" column="72" lean-forward="true" selection-start-line="97" selection-start-column="72" selection-end-line="97" selection-end-column="72" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Otobus_Box.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1072">
-              <caret line="321" column="61" lean-forward="false" selection-start-line="321" selection-start-column="61" selection-end-line="321" selection-end-column="61" />
+            <state relative-caret-position="-4">
+              <caret line="318" column="0" lean-forward="true" selection-start-line="318" selection-start-column="0" selection-end-line="318" selection-end-column="0" />
               <folding>
                 <element signature="method#Otobus_Box#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#create_ui#0;class#Otobus_Box#0" expanded="false" />
-                <element signature="method#update_thread_start#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#update#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#update_ui#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#plakalari_guncelle#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#set_event_handlers#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#otobus_plaka_kontrol#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#hat_detay_olustur#0;class#Otobus_Box#0" expanded="false" />
-                <element signature="method#alarm_kontrol#0;class#Otobus_Box#0" expanded="false" />
-                <element signature="method#get_alarmlar#0;class#Otobus_Box#0" expanded="false" />
                 <element signature="method#update_led#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="class#Filo_Task_Template#0" expanded="false" />
+                <element signature="class#Orer_Download#0" expanded="false" />
                 <element signature="method#sefer_veri_ayikla#0;class#Orer_Download#0" expanded="false" />
                 <element signature="class#PDKS_Download#0" expanded="false" />
                 <element signature="method#surucu_noktaya_istek#0;class#PDKS_Download#0" expanded="false" />
@@ -165,13 +119,79 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="User_Config.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/User_Config.java">
+      <file leaf-file-name="Takip_Scene.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2480">
-              <caret line="185" column="0" lean-forward="false" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+            <state relative-caret-position="-263">
+              <caret line="119" column="78" lean-forward="false" selection-start-line="119" selection-start-column="78" selection-end-line="119" selection-end-column="78" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Takip_Scene_Controller.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="313">
+              <caret line="230" column="0" lean-forward="true" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
               <folding>
-                <element signature="method#config_tojson_cevir#0;class#User_Config#0" expanded="false" />
+                <element signature="method#init_filtre#0;class#Takip_Scene_Controller#0" expanded="false" />
+                <element signature="method#ayarlar_init#0;class#Takip_Scene_Controller#0" expanded="false" />
+                <element signature="e#6604#6605#0" expanded="true" />
+                <element signature="e#6650#6651#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Alarm_Popup.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Popup.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Alarm_Box.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Box.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="44" column="17" lean-forward="false" selection-start-line="44" selection-start-column="17" selection-end-line="44" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Ayarlar_Listener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/Ayarlar_Listener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Alarm_Goruldu_Listener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Goruldu_Listener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="48">
+              <caret line="3" column="35" lean-forward="false" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Alarm_Data.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Data.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-786">
+              <caret line="12" column="35" lean-forward="false" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="35" />
+              <folding>
+                <element signature="e#3167#3168#0" expanded="true" />
+                <element signature="e#3202#3203#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -182,8 +202,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -223,8 +243,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/sample/Rapor_Box_Toplam.java" />
-        <option value="$PROJECT_DIR$/src/sample/Rapor_Stat_Box.java" />
         <option value="$PROJECT_DIR$/src/sample/Rapor_Stat_HBox.java" />
         <option value="$PROJECT_DIR$/src/sample/Rapor_Stat_VBox.java" />
         <option value="$PROJECT_DIR$/src/sample/Rapor_Filtre_Data.java" />
@@ -260,20 +278,22 @@
         <option value="$PROJECT_DIR$/src/sample/Filo_Eksefer_Oneri_Task.java" />
         <option value="$PROJECT_DIR$/src/sample/Filo_Login_Task.java" />
         <option value="$PROJECT_DIR$/src/sample/Surucu_Box.java" />
-        <option value="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" />
-        <option value="$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java" />
-        <option value="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
-        <option value="$PROJECT_DIR$/src/sample/Takip_Scene.java" />
         <option value="$PROJECT_DIR$/src/sample/resources/css/common.css" />
         <option value="$PROJECT_DIR$/src/sample/Ayarlar_Genel_Data.java" />
         <option value="$PROJECT_DIR$/src/sample/Ayarlar_Popup.java" />
-        <option value="$PROJECT_DIR$/src/sample/Alarm_Popup.java" />
         <option value="$PROJECT_DIR$/src/sample/Popup_Mesaj_Box.java" />
         <option value="$PROJECT_DIR$/libs/json-20160810.jar!/org/json/JSONObject.class" />
         <option value="$PROJECT_DIR$/src/sample/Excel_PDKS_Rapor.java" />
         <option value="$PROJECT_DIR$/src/sample/Excel_IYS_Rapor.java" />
-        <option value="$PROJECT_DIR$/src/sample/Secenekler_Popup.java" />
         <option value="$PROJECT_DIR$/src/sample/Excel_Mesaj_Rapor.java" />
+        <option value="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" />
+        <option value="$PROJECT_DIR$/src/sample/Secenekler_Popup.java" />
+        <option value="$PROJECT_DIR$/src/sample/Alarm_Goruldu_Listener.java" />
+        <option value="$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java" />
+        <option value="$PROJECT_DIR$/src/sample/Takip_Scene.java" />
+        <option value="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
+        <option value="$PROJECT_DIR$/src/sample/Alarm_Popup.java" />
+        <option value="$PROJECT_DIR$/src/sample/Alarm_Box.java" />
       </list>
     </option>
   </component>
@@ -474,6 +494,21 @@
               <item name="gitas_fts_v2" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="sample" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="fxml" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gitas_fts_v2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gitas_fts_v2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="sample" type="462c0819:PsiDirectoryNode" />
+              <item name="Ayarlar_Popup.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="gitas_fts_v2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gitas_fts_v2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="sample" type="462c0819:PsiDirectoryNode" />
               <item name="Otobus_Box.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
             <path>
@@ -487,10 +522,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="AndroidView" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -813,12 +848,14 @@
       <workItem from="1505551770384" duration="4171000" />
       <workItem from="1505665794500" duration="3292000" />
       <workItem from="1505669634365" duration="790000" />
-      <workItem from="1505670961041" duration="2739000" />
+      <workItem from="1505670961041" duration="4061000" />
+      <workItem from="1505684512480" duration="3363000" />
+      <workItem from="1506081016654" duration="3778000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119538000" />
+    <option name="totallyTimeSpent" value="128001000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -842,11 +879,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32790446" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3072747" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3072747" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33659065" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19402985" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19829424" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -887,27 +924,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/sample/Filo_Harita_Request_Task.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="132" column="50" lean-forward="true" selection-start-line="132" selection-start-column="50" selection-end-line="132" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/resources/css/filo_table.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/jsoup-1.10.2.jar!/org/jsoup/helper/HttpConnection.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="293" column="0" lean-forward="false" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Sefer_Rapor_Data.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="505">
@@ -938,13 +954,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/resources/fxml/start.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
@@ -1011,7 +1027,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1328">
           <caret line="91" column="60" lean-forward="false" selection-start-line="91" selection-start-column="60" selection-end-line="91" selection-end-column="60" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1050,35 +1065,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Data.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Box.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Filo_Eksefer_Oneri_Task.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1488">
           <caret line="112" column="39" lean-forward="false" selection-start-line="112" selection-start-column="39" selection-end-line="112" selection-end-column="39" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="178" column="24" lean-forward="false" selection-start-line="178" selection-start-column="24" selection-end-line="178" selection-end-column="24" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/resources/css/gitas_main.css">
@@ -1109,26 +1100,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="174" column="35" lean-forward="false" selection-start-line="174" selection-start-column="16" selection-end-line="174" selection-end-column="35" />
-          <folding>
-            <element signature="method#init_filtre#0;class#Takip_Scene_Controller#0" expanded="false" />
-            <element signature="method#ayarlar_init#0;class#Takip_Scene_Controller#0" expanded="false" />
-            <element signature="e#6604#6605#0" expanded="false" />
-            <element signature="e#6650#6651#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="110" column="22" lean-forward="false" selection-start-line="110" selection-start-column="22" selection-end-line="110" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Ayarlar_Genel_Data.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -1136,24 +1107,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Popup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="97" column="61" lean-forward="false" selection-start-line="97" selection-start-column="61" selection-end-line="97" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/resources/css/common.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="520" column="22" lean-forward="false" selection-start-line="520" selection-start-column="22" selection-end-line="520" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Ayarlar_Popup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="287" column="11" lean-forward="true" selection-start-line="287" selection-start-column="11" selection-end-line="287" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -1168,48 +1125,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2480">
           <caret line="185" column="0" lean-forward="false" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
-          <folding>
-            <element signature="method#config_tojson_cevir#0;class#User_Config#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1072">
-          <caret line="321" column="61" lean-forward="false" selection-start-line="321" selection-start-column="61" selection-end-line="321" selection-end-column="61" />
-          <folding>
-            <element signature="method#Otobus_Box#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#create_ui#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#update_thread_start#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#update#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#update_ui#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#plakalari_guncelle#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#otobus_plaka_kontrol#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#hat_detay_olustur#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#alarm_kontrol#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#get_alarmlar#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#update_led#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#sefer_veri_ayikla#0;class#Orer_Download#0" expanded="false" />
-            <element signature="class#PDKS_Download#0" expanded="false" />
-            <element signature="method#surucu_noktaya_istek#0;class#PDKS_Download#0" expanded="false" />
-            <element signature="method#nokta_parse_html#0;class#PDKS_Download#0" expanded="false" />
-            <element signature="method#nokta_ayikla#0;class#PDKS_Download#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Listener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Filo_Download_Listener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -1217,13 +1132,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
           <caret line="6" column="51" lean-forward="false" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Refresh_Listener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="5" column="33" lean-forward="false" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -1241,31 +1149,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Excel_PDKS_Rapor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="10" column="27" lean-forward="false" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Excel_Surucu_Rapor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="39" column="16" lean-forward="false" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="92" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Excel_IYS_Rapor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="681">
-          <caret line="158" column="5" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="158" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1277,10 +1164,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Excel_Mesaj_Rapor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Excel_IYS_Rapor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="681">
+          <caret line="158" column="5" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="158" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="209" column="44" lean-forward="true" selection-start-line="209" selection-start-column="44" selection-end-line="209" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Ayarlar_Popup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="255" column="43" lean-forward="false" selection-start-line="255" selection-start-column="43" selection-end-line="255" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Secenekler_Popup.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="561" column="48" lean-forward="false" selection-start-line="561" selection-start-column="48" selection-end-line="561" selection-end-column="48" />
+        <state relative-caret-position="-464">
+          <caret line="481" column="35" lean-forward="false" selection-start-line="481" selection-start-column="35" selection-end-line="481" selection-end-column="35" />
           <folding>
             <element signature="method#geribildirim_init#0;class#Secenekler_Popup#0" expanded="false" />
             <element signature="method#raporlar_init#0;class#Secenekler_Popup#0" expanded="false" />
@@ -1288,19 +1208,142 @@
             <element signature="method#istatistik_rapor_init#0;class#Secenekler_Popup#0" expanded="false" />
             <element signature="method#eksefer_oneri_init#0;class#Secenekler_Popup#0" expanded="false" />
             <element signature="method#eksefer_oneri_cb#0;class#Secenekler_Popup#0" expanded="false" />
-            <element signature="e#24183#24184#0" expanded="true" />
-            <element signature="e#24254#24255#0" expanded="true" />
+            <element signature="e#21328#22673#0" expanded="false" />
+            <element signature="e#22672#22673#0" expanded="false" />
+            <element signature="e#22994#24073#0" expanded="false" />
+            <element signature="e#24072#24073#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Excel_Mesaj_Rapor.java">
+    <entry file="file://$PROJECT_DIR$/src/sample/Excel_PDKS_Rapor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1488">
-          <caret line="97" column="72" lean-forward="true" selection-start-line="97" selection-start-column="72" selection-end-line="97" selection-end-column="72" />
+        <state relative-caret-position="48">
+          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Listener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Filo_Download_Listener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Filtre_Listener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="17" lean-forward="false" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Refresh_Listener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Goruldu_Listener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="3" column="35" lean-forward="false" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Ayarlar_Listener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Data.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-786">
+          <caret line="12" column="35" lean-forward="false" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="35" />
+          <folding>
+            <element signature="e#3167#3168#0" expanded="true" />
+            <element signature="e#3202#3203#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-263">
+          <caret line="119" column="78" lean-forward="false" selection-start-line="119" selection-start-column="78" selection-end-line="119" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="230" column="0" lean-forward="true" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
+          <folding>
+            <element signature="method#init_filtre#0;class#Takip_Scene_Controller#0" expanded="false" />
+            <element signature="method#ayarlar_init#0;class#Takip_Scene_Controller#0" expanded="false" />
+            <element signature="e#6604#6605#0" expanded="true" />
+            <element signature="e#6650#6651#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4">
+          <caret line="318" column="0" lean-forward="true" selection-start-line="318" selection-start-column="0" selection-end-line="318" selection-end-column="0" />
+          <folding>
+            <element signature="method#Otobus_Box#0;class#Otobus_Box#0" expanded="false" />
+            <element signature="method#create_ui#0;class#Otobus_Box#0" expanded="false" />
+            <element signature="method#update#0;class#Otobus_Box#0" expanded="false" />
+            <element signature="method#update_ui#0;class#Otobus_Box#0" expanded="false" />
+            <element signature="method#plakalari_guncelle#0;class#Otobus_Box#0" expanded="false" />
+            <element signature="method#set_event_handlers#0;class#Otobus_Box#0" expanded="false" />
+            <element signature="method#otobus_plaka_kontrol#0;class#Otobus_Box#0" expanded="false" />
+            <element signature="method#hat_detay_olustur#0;class#Otobus_Box#0" expanded="false" />
+            <element signature="method#update_led#0;class#Otobus_Box#0" expanded="false" />
+            <element signature="class#Filo_Task_Template#0" expanded="false" />
+            <element signature="class#Orer_Download#0" expanded="false" />
+            <element signature="method#sefer_veri_ayikla#0;class#Orer_Download#0" expanded="false" />
+            <element signature="class#PDKS_Download#0" expanded="false" />
+            <element signature="method#surucu_noktaya_istek#0;class#PDKS_Download#0" expanded="false" />
+            <element signature="method#nokta_parse_html#0;class#PDKS_Download#0" expanded="false" />
+            <element signature="method#nokta_ayikla#0;class#PDKS_Download#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Popup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Box.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="44" column="17" lean-forward="false" selection-start-line="44" selection-start-column="17" selection-end-line="44" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>

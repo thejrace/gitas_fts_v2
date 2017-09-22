@@ -15,7 +15,7 @@
   <manifest></manifest>
   <icon>C:\Users\Jeppe-PC\Desktop\app_ico.ico</icon>
   <singleInstance>
-    <mutexName>gtfs_2010h</mutexName>
+    <mutexName>gtfs_2010h1</mutexName>
     <windowTitle>Gitaş Filo Takip Sistemi</windowTitle>
   </singleInstance>
   <jre>

@@ -1024,6 +1024,19 @@ public class Otobus_Box {
         }
     }
 
+    public void alarm_goruldu_tetik( String key ){
+        System.out.println( key + " --- ALARM GÖRÜLDÜ YAP2222!");
+
+        try {
+            System.out.println(alarmlar.get(key).get_goruldu());
+            System.out.println(alarmlar.get(key));
+            alarmlar.get(key).goruldu(true);
+            System.out.println(alarmlar.get(key).get_goruldu());
+        } catch( NullPointerException e ){
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<Alarm_Data> get_alarmlar(){
         ArrayList<Alarm_Data> output = new ArrayList<>();
         Alarm_Data alarm_item;
@@ -1032,14 +1045,17 @@ public class Otobus_Box {
         //System.out.println(kod+ " Alarmlar: -- >" + alarmlar.size() );
         for (Map.Entry<String, Alarm_Data> entry : alarmlar.entrySet()) {
             alarm_item = entry.getValue();
+
             if( !alarm_item.get_goruldu() && alarm_ayarlar.alarm_cb_kontrol( alarm_item.get_type() )  ){
                 //alarm_item.goruldu(true);
+                System.out.println( alarm_item.get_key() + " gorulmemis");
                 output.add(alarm_item);
             } else {
+                System.out.println( entry.getKey() + " -- SIL ALARMI");
                 silinecekler.add( entry.getKey() );
             }
         }
-        for( int j = 0; j < silinecekler.size(); j++ ) alarmlar.remove(silinecekler.get(j));
+        for( int j = 0; j < silinecekler.size(); j++ ) alarmlar.get(silinecekler.get(j)).goruldu(true);
         return output;
     }
 

@@ -18,7 +18,7 @@ public class Alarm_Box extends VBox {
     private int index;
     private int silinen_count = 0, li_count = 0;
 
-    public Alarm_Box( int index, ArrayList<Alarm_Data> data ){
+    public Alarm_Box( int index, ArrayList<Alarm_Data> data, Alarm_Goruldu_Listener listener ){
         super();
 
         if( data.size() == 0 ) return;
@@ -33,6 +33,18 @@ public class Alarm_Box extends VBox {
         this.getStylesheets().add(Obarey_Popup.class.getResource("resources/css/common.css").toExternalForm());
         this.getStyleClass().add("alarm-box");
         for( Alarm_Data alarm : data ){
+
+            if( alarm.get_goruldu() ){
+                try {
+                    HBox li = (HBox) this.lookup( "#" + alarm.get_key() );
+                    li.setVisible(false);
+                    li.getChildren().clear();
+                } catch( NullPointerException e ){
+                    e.printStackTrace();
+
+                }
+                continue;
+            }
 
             alarm_li = new HBox();
             alarm_li.getStyleClass().add("alarm-li");
@@ -59,7 +71,9 @@ public class Alarm_Box extends VBox {
                 silinen_count++;
 
                 HBox li = (HBox) this.lookup( "#" + alarm.get_key() );
-                alarm.goruldu(true);
+                //alarm.goruldu(true);
+                listener.goruldu_yap( alarm.get_key() );
+                System.out.println( alarm.get_key() + " --- ALARM GÖRÜLDÜ YAP! 111");
                 li.setVisible(false);
                 li.getChildren().clear();
                 if( silinen_count == li_count  ){

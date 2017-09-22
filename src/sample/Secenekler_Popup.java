@@ -493,17 +493,26 @@ public class Secenekler_Popup {
 
         excel_btn.setOnMousePressed( event -> {
             if( excel_dp.getValue() == null ) return;
+            excel_btn.setDisable(true);
+            excel_btn.setText("İşlem yapılıyor...");
             Thread th = new Thread( new Task<String>(){
 
                 @Override
                 protected String call(){
-                    Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Yapılıyor.."); }});
+                    //Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Yapılıyor.."); }});
                     Excel_Filo_Plan fp = new Excel_Filo_Plan(excel_dp.getValue().toString());
-                    if( fp.init( cb_tamam.isSelected(), cb_bekleyen.isSelected(), cb_aktif.isSelected(), cb_iptal.isSelected(), cb_yarim.isSelected(), cb_plaka.isSelected() ) ){
+                    fp.init( cb_tamam.isSelected(), cb_bekleyen.isSelected(), cb_aktif.isSelected(), cb_iptal.isSelected(), cb_yarim.isSelected(), cb_plaka.isSelected() );
+                    Platform.runLater( new Runnable(){ @Override public void run(){
+                        //lbl_notf.setText("İşlem Tamamlandı.");
+                        excel_btn.setDisable(false);
+                        excel_btn.setText("GÜNLÜK RAPOR");
+                    }});
+
+                    /*if( fp.init( cb_tamam.isSelected(), cb_bekleyen.isSelected(), cb_aktif.isSelected(), cb_iptal.isSelected(), cb_yarim.isSelected(), cb_plaka.isSelected() ) ){
                         Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Tamamlandı.."); }});
                     } else {
                         Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("Verilen tarihin verisi yok."); }});
-                    }
+                    }*/
                     return null;
                 }
 
@@ -515,16 +524,24 @@ public class Secenekler_Popup {
 
         surucu_excel_btn.setOnMousePressed( ev -> {
             if( excel_dp.getValue() == null ) return;
+            surucu_excel_btn.setDisable(true);
+            surucu_excel_btn.setText("İşlem yapılıyor...");
             Thread th = new Thread( new Task<String>(){
                 @Override
                 protected String call(){
-                    Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Yapılıyor.."); }});
+                    //Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Yapılıyor.."); }});
                     Excel_Surucu_Rapor fp = new Excel_Surucu_Rapor(excel_dp.getValue().toString());
-                    if( fp.init() ){
+                    fp.init();
+                    Platform.runLater( new Runnable(){ @Override public void run(){
+                        //lbl_notf.setText("İşlem Tamamlandı.");
+                        surucu_excel_btn.setDisable(false);
+                        surucu_excel_btn.setText("SÜRÜCÜ RAPOR");
+                    }});
+                    /*if( fp.init() ){
                         Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("İşlem Tamamlandı.."); }});
                     } else {
                         Platform.runLater( new Runnable(){ @Override public void run(){ lbl_notf.setText("Verilen tarihin verisi yok."); }});
-                    }
+                    }*/
                     return null;
                 }
             });
@@ -533,33 +550,54 @@ public class Secenekler_Popup {
         });
 
         iys_excel_btn.setOnMousePressed( ev -> {
+            if( excel_dp.getValue() == null ) return;
+            iys_excel_btn.setDisable(true);
+            iys_excel_btn.setText("İşlem yapılıyor...");
             Excel_IYS_Rapor rapor = new Excel_IYS_Rapor( excel_dp.getValue().toString() );
             rapor.on_finish(new Refresh_Listener() {
                 @Override
                 public void on_refresh() {
-                    System.out.println("Bitti");
+                    Platform.runLater( new Runnable(){ @Override public void run(){
+                        //lbl_notf.setText("İşlem Tamamlandı.");
+                        iys_excel_btn.setDisable(false);
+                        iys_excel_btn.setText("IYS RAPOR");
+                    }});
                 }
             });
             rapor.init();
         });
 
         pdks_excel_btn.setOnMousePressed( ev -> {
+            if( excel_dp.getValue() == null ) return;
+            pdks_excel_btn.setDisable(true);
+            pdks_excel_btn.setText("İşlem yapılıyor...");
             Excel_PDKS_Rapor rapor = new Excel_PDKS_Rapor( excel_dp.getValue().toString() );
             rapor.on_finish(new Refresh_Listener() {
                 @Override
                 public void on_refresh() {
-                    System.out.println("Bitti 22");
+                    Platform.runLater( new Runnable(){ @Override public void run(){
+                        lbl_notf.setText("İşlem Tamamlandı.");
+                        pdks_excel_btn.setDisable(false);
+                        pdks_excel_btn.setText("PDKS RAPOR");
+                    }});
                 }
             });
             rapor.init();
         });
 
         mesaj_excel_btn.setOnMousePressed( ev -> {
+            if( excel_dp.getValue() == null ) return;
+            mesaj_excel_btn.setDisable(true);
+            mesaj_excel_btn.setText("İşlem yapılıyor...");
             Excel_Mesaj_Rapor rapor = new Excel_Mesaj_Rapor( excel_dp.getValue().toString() );
             rapor.on_finish(new Refresh_Listener() {
                 @Override
                 public void on_refresh() {
-                    System.out.println("Bitti 232");
+                    Platform.runLater( new Runnable(){ @Override public void run(){
+                        lbl_notf.setText("İşlem Tamamlandı.");
+                        mesaj_excel_btn.setDisable(false);
+                        mesaj_excel_btn.setText("MESAJLAR RAPOR");
+                    }});
                 }
             });
             rapor.init();

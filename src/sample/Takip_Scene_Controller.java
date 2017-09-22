@@ -231,8 +231,8 @@ public class Takip_Scene_Controller implements Initializable {
 
 
 
-    public void alarmlari_guncelle( String kod, ArrayList<Alarm_Data> data ){
-        alarm_popup.alarm_ekle( kod, data );
+    public void alarmlari_guncelle( String kod, ArrayList<Alarm_Data> data, Alarm_Goruldu_Listener listener ){
+        alarm_popup.alarm_ekle( kod, data, listener );
     }
 
     public void alarm_popup_init(){
