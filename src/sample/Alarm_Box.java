@@ -35,14 +35,14 @@ public class Alarm_Box extends VBox {
         for( Alarm_Data alarm : data ){
 
             if( alarm.get_goruldu() ){
-                try {
+                /*try {
                     HBox li = (HBox) this.lookup( "#" + alarm.get_key() );
                     li.setVisible(false);
                     li.getChildren().clear();
                 } catch( NullPointerException e ){
                     e.printStackTrace();
 
-                }
+                }*/
                 continue;
             }
 

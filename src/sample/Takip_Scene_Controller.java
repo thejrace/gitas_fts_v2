@@ -257,7 +257,6 @@ public class Takip_Scene_Controller implements Initializable {
         } catch( IndexOutOfBoundsException e ){
             e.printStackTrace();
         }
-
     }
     public Otobus_Box_Filtre get_filtre_obj(){
         return otobus_box_filtre;

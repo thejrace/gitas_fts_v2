@@ -130,7 +130,6 @@ public class Takip_Scene extends Application {
                         controller.alarmlari_guncelle(kod, yeni_alarmlar, new Alarm_Goruldu_Listener() {
                             @Override
                             public void goruldu_yap(String key) {
-                                System.out.println(key + " --- ALARM GÖRÜLDÜ YAP! 333");
                                 box_item.alarm_goruldu_tetik( key );
                             }
                         });

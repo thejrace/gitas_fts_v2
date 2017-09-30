@@ -89,7 +89,8 @@ public class Main extends Application {
                             Thread th = new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Web_Request req = new Web_Request( Web_Request.SERVIS_URL2 , "&req=app_data&eposta="+User_Config.eposta_veri_al() );
+                                    Web_Request req = new Web_Request( Web_Request.SERVIS_URL2 , "&req=app_data" );
+                                    req.kullanici_pc_parametreleri_ekle();
                                     req.action();
                                     JSONObject val = new JSONObject(req.get_value());
 

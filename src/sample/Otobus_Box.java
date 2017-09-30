@@ -85,7 +85,8 @@ public class Otobus_Box {
     private Map<String, Integer> ekstra_ozet = new HashMap<>();
     private Map<String, Boolean> filtre_data = new HashMap<>();
     private double gitas_km = 0, iett_km = 0;
-
+    private double hat_gitas_km = 0, hat_iett_km = 0;
+    private boolean hat_km_alindi = false;
     public Otobus_Box( String kod, int index, String ruhsat_plaka, String aktif_plaka ){
         this.kod = kod;
         this.index = index;
@@ -285,23 +286,17 @@ public class Otobus_Box {
 
                         if( !orer_download.get_error() ) update( orer_download.get_seferler(), orer_download.get_aktif_sefer_verisi() );
 
-                        // pdks kontrol
-                        /*pdks_download = new PDKS_Download( kod, cookie );
-                        pdks_download.yap();
-                        suruculer = pdks_download.get_suruculer();*/
+                        if( !hat_km_alindi && !hat.equals("#") ){
+                            Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=hat_km_download&hat="+hat);
+                            request.kullanici_pc_parametreleri_ekle();
+                            request.action();
+                            JSONObject data_json = new JSONObject( request.get_value()).getJSONObject("data");
+                            hat_iett_km = data_json.getDouble("iett_km");
+                            hat_gitas_km = data_json.getDouble("gitas_km");
+                            hat_km_alindi = true;
+                        }
 
                         for( Alarm_Listener listener : listeners ) listener.on_ui_finished( get_alarmlar() );
-
-                        // plaka kontrol
-                        /*Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=otobus_plaka_kontrol&web_req=true&oto="+kod);
-                        request.kullanici_pc_parametreleri_ekle();
-                        request.action();
-                        JSONObject plaka_veri = new JSONObject( request.get_value()).getJSONObject("data").getJSONObject("plaka_data");
-                        aktif_plaka = plaka_veri.getString("aktif_plaka");
-                        ruhsat_plaka = plaka_veri.getString("ruhsat_plaka");*/
-                        //System.out.println( plaka_veri.getString("aktif_plaka") + " --- " + plaka_veri.getString("ruhsat_plaka") );
-
-                        // iys-not kontrol
                     } else {
                         sleep = 5000;
                     }
@@ -341,6 +336,9 @@ public class Otobus_Box {
                 hat_verisi_alindi = false,
                 tum_seferler_bekleyen = false;
 
+
+        iett_km = 0;
+        gitas_km = 0;
         JSONObject sefer, onceki_sefer, sonraki_sefer;
         for (int x = 0; x < data.length(); x++) {
             sefer = data.getJSONObject(x);
@@ -349,6 +347,23 @@ public class Otobus_Box {
                 sefer_ozet.replace(durum, sefer_ozet.get(durum), sefer_ozet.get(durum) + 1);
             } else {
                 sefer_ozet.put(durum, 1);
+            }
+
+            if( durum.equals(Sefer_Data.DTAMAM) ) {
+                if( sefer.getString("guzergah").substring( sefer.getString("hat").length() + 1, sefer.getString("hat").length() + 2  ).equals("D") ){
+                    // ilk sefer donus
+                    // yarim sefer km si ekliyoruz
+                    //System.out.println("Başlangıç D");
+                    try {
+                        iett_km += hat_iett_km / 2;
+                        gitas_km += hat_gitas_km / 2;
+                    } catch( NullPointerException e ){
+                        e.printStackTrace();
+                    }
+                } else if( sefer.getString("guzergah").substring( sefer.getString("hat").length() + 1, sefer.getString("hat").length() + 2  ).equals("G") ) {
+                    iett_km += hat_iett_km;
+                    gitas_km += hat_gitas_km;
+                }
             }
         }
 
@@ -408,6 +423,10 @@ public class Otobus_Box {
                 ui_hat_data = sefer_hat;
                 hat_verisi_alindi = true;
             }
+
+
+
+
 
             sonraki_sefer = null;
             // bir sonraki sefer varsa aliyoruz verisini
@@ -733,8 +752,6 @@ public class Otobus_Box {
                             });
                             th.setDaemon(true);
                             th.start();
-
-
                         });
                         return null;
                     }
@@ -749,15 +766,11 @@ public class Otobus_Box {
             Thread plan_thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto="+kod+"&baslangic=AT&bitis=" );
-                    request.kullanici_pc_parametreleri_ekle();
-                    request.action();
-                    JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
-                    new_data = data.getJSONArray("orer_data");
-
                     if( sefer_popup == null || sefer_plan_table == null ) {
                         sefer_popup = new Obarey_Popup(kod + " Sefer Planı", ui_container.getScene().getRoot());
                         sefer_popup.init(true);
+                        sefer_plan_table = new Filo_Table( kod );
+                        sefer_plan_table.init();
                     }
                     if( sefer_popup.ison() ){
                         Platform.runLater(new Runnable() {
@@ -768,9 +781,9 @@ public class Otobus_Box {
                         });
                         return;
                     }
-                    sefer_plan_table = new Filo_Table( kod );
-                    sefer_plan_table.init();
-                    sefer_plan_table.update_data( new_data, data.getJSONArray("orer_versiyon_data") );
+                    sefer_plan_table.set_canli_data( new_data );
+                    sefer_plan_table.set_data( new_data, new JSONArray() );
+                    sefer_plan_table.update_data();
                     sefer_plan_table.update_ui();
                     sefer_popup.set_content( sefer_plan_table.get() );
                     Platform.runLater(new Runnable() {
@@ -1025,13 +1038,10 @@ public class Otobus_Box {
     }
 
     public void alarm_goruldu_tetik( String key ){
-        System.out.println( key + " --- ALARM GÖRÜLDÜ YAP2222!");
-
+        //System.out.println( key + " --- ALARM GÖRÜLDÜ YAP2222!");
         try {
-            System.out.println(alarmlar.get(key).get_goruldu());
-            System.out.println(alarmlar.get(key));
             alarmlar.get(key).goruldu(true);
-            System.out.println(alarmlar.get(key).get_goruldu());
+            //System.out.println(alarmlar.get(key).get_goruldu());
         } catch( NullPointerException e ){
             e.printStackTrace();
         }
@@ -1048,10 +1058,10 @@ public class Otobus_Box {
 
             if( !alarm_item.get_goruldu() && alarm_ayarlar.alarm_cb_kontrol( alarm_item.get_type() )  ){
                 //alarm_item.goruldu(true);
-                System.out.println( alarm_item.get_key() + " gorulmemis");
+                //System.out.println( alarm_item.get_key() + " gorulmemis");
                 output.add(alarm_item);
             } else {
-                System.out.println( entry.getKey() + " -- SIL ALARMI");
+                //System.out.println( entry.getKey() + " -- SIL ALARMI");
                 silinecekler.add( entry.getKey() );
             }
         }

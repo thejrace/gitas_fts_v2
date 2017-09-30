@@ -27,7 +27,7 @@ public class Web_Request {
     }
 
     public void kullanici_pc_parametreleri_ekle(){
-        this.params += "&eposta="+User_Config.eposta_veri_al() ;
+        this.params += "&eposta="+User_Config.eposta_veri_al()+"&bilgisayar_adi="+Common.bilgisayar_adini_al()+"&bilgisayar_hash="+Common.mac_hash();
     }
 
     public void action(){

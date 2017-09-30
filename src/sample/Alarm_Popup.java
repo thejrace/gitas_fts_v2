@@ -57,11 +57,10 @@ public class Alarm_Popup {
         int index = 0;
         for (Map.Entry<String, ArrayList<Alarm_Data>> entry : alarmlar.entrySet()) {
             try {
-
                 alarm_box = new Alarm_Box(index, entry.getValue(), new Alarm_Goruldu_Listener() {
                     @Override
                     public void goruldu_yap(String key) {
-                        System.out.println( key + " --- ALARM GÖRÜLDÜ YAP! 222");
+                        //System.out.println( key + " --- ALARM GÖRÜLDÜ YAP! 222");
                         listeners.get(entry.getKey()).goruldu_yap( key );
                     }
                 });

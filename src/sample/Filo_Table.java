@@ -42,11 +42,17 @@ public class Filo_Table {
     private boolean versiyon_birden_fazla;
     private int versiyon = 0;
     private boolean dp_gizle = false;
+    private char aktif_kaynak = 'A';
+
 
     // eski veriler incelendikten sonra aktif gune dondugu zaman db den almiyoruz veriyi
     // cunku 1 saat kadar gecmis olabilir db senkrona gore
     // popup acildiginda aldigimiz en son veriyi tutuyoruz
     private JSONArray son_aktif_data = new JSONArray();
+    private JSONArray canli_data = new JSONArray();
+    private Map<String, String> suruculer_temp = new HashMap<>();
+
+
 
 
     public Filo_Table( String kod ){
@@ -59,6 +65,7 @@ public class Filo_Table {
             versiyon_cont.getChildren().clear();
             //height_cont.getChildren().addAll(dp_container, thead);
             for( int j = 0; j < rows.size(); j++ ) height_cont.getChildren().add( rows.get(j) );
+            // versiyonlar için buttonlar ve event handler
             if( versiyon_birden_fazla ){
                 for( int k = 1; k <= versiyonlar.length() ; k++ ){
                     final int k_ref = k;
@@ -73,7 +80,8 @@ public class Filo_Table {
                         sefer_plan_table.dp_gizle();
                         sefer_plan_table.init();
                         sefer_plan_table.versiyon_sec( k_ref );
-                        sefer_plan_table.update_data( son_aktif_data, new JSONArray() );
+                        sefer_plan_table.set_data( son_aktif_data, new JSONArray() );
+                        sefer_plan_table.update_data(  );
                         sefer_plan_table.update_ui();
                         sefer_popup.set_content( sefer_plan_table.get() );
                         Platform.runLater(new Runnable() {
@@ -101,28 +109,29 @@ public class Filo_Table {
     public boolean get_eski_veri_goruntuleniyor(){
         return eski_veri_goruntuleniyor;
     }
-    public void update_data( JSONArray oto, JSONArray versiyon_data  ){
-
-        // db den degil direk orer requestten gelen taze veriyi tutuyoruz
-        son_aktif_data = oto;
+    public void update_data(){
 
         JSONObject sefer, onceki_sefer = new JSONObject();
         rows.clear();
-        versiyonlar = versiyon_data;
-        versiyon_birden_fazla = false;
-        if( versiyon_data.length() > 1 ){
-            versiyon_birden_fazla = true;
+
+        if( aktif_kaynak == 'A' ){
+            Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_surucu_data&oto="+kod+"&baslangic=&bitis=" );
+            request.kullanici_pc_parametreleri_ekle();
+            request.action();
+            JSONArray sdata = new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("orer_data");
+            for( int j = 0; j < sdata.length(); j++ ){
+                suruculer_temp.put( sdata.getJSONObject(j).getString("orer"), sdata.getJSONObject(j).getString("surucu") );
+            }
         }
-
-
-        for( int x = 0; x < oto.length(); x++ ){
-            sefer = oto.getJSONObject(x);
+        String surucu_isim;
+        for( int x = 0; x < son_aktif_data.length(); x++ ){
+            sefer = son_aktif_data.getJSONObject(x);
             // en son versiyon harici olanlari gosterme
-            if( versiyon_birden_fazla && sefer.getInt("versiyon") != versiyon_data.getInt(versiyon_data.length()-1) ) continue;
+            if( versiyon_birden_fazla && sefer.getInt("versiyon") != versiyonlar.getInt(versiyonlar.length()-1) ) continue;
             // ayni versiyon olan orerleri listelicez kontrol
             if( versiyon != 0 && sefer.getInt("versiyon") != versiyon ) continue;
 
-            if( !oto.isNull(x-1) ) onceki_sefer = oto.getJSONObject(x-1);
+            if( !son_aktif_data.isNull(x-1) ) onceki_sefer = son_aktif_data.getJSONObject(x-1);
             HBox sefer_row = new HBox();
             sefer_row.setPadding( new Insets( 2, 0 ,2, 0));
             switch( sefer.getString("durum") ){
@@ -145,10 +154,22 @@ public class Filo_Table {
             String bekleme = "0";
             if( onceki_sefer.length() > 0 ) bekleme = String.valueOf(Sefer_Sure.hesapla( onceki_sefer.getString("bitis"), sefer.getString("gidis") ) )+ " DK";
 
+            if( aktif_kaynak == 'A' ){
+                if( suruculer_temp.containsKey(sefer.getString("orer") ) ){
+                    surucu_isim = suruculer_temp.get(sefer.getString("orer"));
+                } else {
+                    surucu_isim = "BELIRSIZ SURUCU";
+                }
+            } else {
+                surucu_isim = sefer.getString("surucu");
+            }
+
+
+
             sefer_row.getChildren().addAll(
                     new Filo_Table_Sefer_Label( sefer.getString("no"), Filo_Table_Sefer_Label.WTD_37 ).get(),
                     new Filo_Table_Sefer_Label( sefer.getString("guzergah"), Filo_Table_Sefer_Label.WTD_80 ).get(),
-                    new Filo_Table_Sefer_Label( sefer.getString("surucu"), Filo_Table_Sefer_Label.WTD_150 ).get(),
+                    new Filo_Table_Sefer_Label(surucu_isim, Filo_Table_Sefer_Label.WTD_150 ).get(),
                     new Filo_Table_Sefer_Label( sefer.getString("gelis"), Filo_Table_Sefer_Label.WTD_60 ).get(),
                     new Filo_Table_Sefer_Label( sefer.getString("orer"), Filo_Table_Sefer_Label.WTD_60 ).get(),
                     new Filo_Table_Sefer_Label( bekleme, Filo_Table_Sefer_Label.WTD_60 ).get(),
@@ -164,6 +185,18 @@ public class Filo_Table {
         }
 
     }
+    public void set_canli_data( JSONArray _canli_data ){
+        canli_data = _canli_data;
+    }
+    public void set_data( JSONArray sefer_data, JSONArray versiyon_data ){
+        // db den degil direk orer requestten gelen taze veriyi tutuyoruz
+        son_aktif_data = sefer_data;
+        versiyonlar = versiyon_data;
+        versiyon_birden_fazla = false;
+        if( versiyon_data.length() > 1 ){
+            versiyon_birden_fazla = true;
+        }
+    }
 
     public void init(){
 
@@ -174,7 +207,16 @@ public class Filo_Table {
         ust_cont = new VBox();
         versiyon_cont = new HBox();
         versiyon_cont.setSpacing(10);
+        versiyon_cont.setPadding(new Insets(0,0,10,0));
         versiyon_cont.setAlignment(Pos.CENTER);
+
+        HBox veri_kaynak_cont = new HBox();
+        veri_kaynak_cont.setSpacing(10.0);
+        veri_kaynak_cont.setAlignment(Pos.CENTER);
+        veri_kaynak_cont.setPadding(new Insets(10, 0, 10, 0));
+
+        final GButton kaynak_btn = new GButton("SUNUCUDAN AL", GButton.CMORK );
+        veri_kaynak_cont.getChildren().addAll(kaynak_btn);
 
         table.getStylesheets().addAll( Filo_Table.class.getResource("resources/css/common.css").toExternalForm() );
         dp_container = new HBox();
@@ -186,39 +228,48 @@ public class Filo_Table {
 
             GButton dp_getir = new GButton("GETİR", GButton.CMORK );
             dp_container.getChildren().addAll( dp, dp_getir);
-            ust_cont.getChildren().addAll( dp_container, versiyon_cont );
+            ust_cont.getChildren().addAll( dp_container, veri_kaynak_cont, versiyon_cont );
             HBox.setMargin( dp_getir, new Insets(0, 0 , 0, 20 ) );
 
-            dp_getir.setOnMousePressed(ev -> {
-                try {
-                    Thread thread = new Thread(new Runnable() {
+            kaynak_btn.setOnMousePressed( ev -> {
+                if( aktif_kaynak == 'S' ){
+                    aktif_kaynak = 'A';
+                    // aktif filodan canlı veriyi al
+                    Thread th = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            String dp_val = dp.getValue().toString();
-                            Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto="+kod+"&baslangic="+dp_val+"&bitis=" );
-                            request.kullanici_pc_parametreleri_ekle();
-                            request.action();
-                            JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
-                            update_data( data.getJSONArray("orer_data"), data.getJSONArray("orer_versiyon_data") );
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    update_ui();
-                                }
-                            });
-
+                            try {
+                                set_data( canli_data, new JSONArray() );
+                                update_data();
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        update_ui();
+                                    }
+                                });
+                            } catch( Exception e ){
+                                e.printStackTrace();
+                            }
                         }
                     });
-                    thread.setDaemon(true);
-                    thread.start();
-                } catch( NullPointerException e ){
-                    e.printStackTrace();
+                    th.setDaemon(true);
+                    th.start();
+                    kaynak_btn.setText("SUNUCUDAN AL");
+                } else {
+                    aktif_kaynak = 'S';
+                    // sunucudan aliniyor
+                    sunucu_veri_download("AT");
+                    kaynak_btn.setText("AKTİF GÜNE DÖN");
                 }
             });
 
+            dp_getir.setOnMousePressed(ev -> {
+                // arşiv görüntüleniyorsa kaynak otomatik sunucu olacak
+                aktif_kaynak = 'S';
+                kaynak_btn.setText("AKTİF GÜNE DÖN");
+                sunucu_veri_download(dp.getValue().toString());
+            });
         }
-
-
         height_cont = new VBox(); // row 2
         height_cont.getStyleClass().add( "filo-table-height-cont" );
 
@@ -231,23 +282,41 @@ public class Filo_Table {
                 new Filo_Table_Sefer_Thead_Label( "SÜRÜCÜ", Filo_Table_Sefer_Label.WTD_150 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "GELİŞ", Filo_Table_Sefer_Label.WTD_60 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "ORER", Filo_Table_Sefer_Label.WTD_60 ).get(),
-                new Filo_Table_Sefer_Thead_Label( "BEKLEME", Filo_Table_Sefer_Label.WTD_60 ).get(),
+                new Filo_Table_Sefer_Thead_Label( "BEK.", Filo_Table_Sefer_Label.WTD_60 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "AMİR", Filo_Table_Sefer_Label.WTD_60 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "GİDİŞ", Filo_Table_Sefer_Label.WTD_60 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "TAHMİN", Filo_Table_Sefer_Label.WTD_60 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "BİTİŞ", Filo_Table_Sefer_Label.WTD_60 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "DKODU", Filo_Table_Sefer_Label.WTD_37 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "SÜRE", Filo_Table_Sefer_Label.WTD_60 ).get(),
-                new Filo_Table_Sefer_Thead_Label( "VER", Filo_Table_Sefer_Label.WTD_60 ).get()
+                new Filo_Table_Sefer_Thead_Label( "VER", Filo_Table_Sefer_Label.WTD_37 ).get()
         );
         thead_container.getChildren().addAll( ust_cont, thead );
         //height_cont.getChildren().add(thead);
-
         table.getChildren().addAll( thead_container, height_cont );
-
-
     }
 
+    private void sunucu_veri_download( String tarih ){
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto="+kod+"&baslangic="+tarih+"&bitis=" );
+                request.kullanici_pc_parametreleri_ekle();
+                request.action();
+                JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
+                set_data( data.getJSONArray("orer_data"), data.getJSONArray("orer_versiyon_data") );
+                update_data();
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        update_ui();
+                    }
+                });
+            }
+        });
+        th.setDaemon(true);
+        th.start();
+    }
 
     public VBox get(){
        return table;
