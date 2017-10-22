@@ -7,63 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$3$1$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$3$1$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$3$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$4$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$4$2.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/gitas_fts_v2_jar/gitas_fts_v2.jar" afterPath="$PROJECT_DIR$/out/artifacts/gitas_fts_v2_jar/gitas_fts_v2.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$2$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$2$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$3$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$3$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$3.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Task_Template.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Task_Template.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Orer_Download.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Orer_Download.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$10.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$10.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$3.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$4.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$5.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$6.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$7.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$8.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$9.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$9.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/PDKS_Download.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/PDKS_Download.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$2$1$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$2$1$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$2$1$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$2$1$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$2$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$2$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$5$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$5$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$5.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$6$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$6$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$6.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$7$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$7$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$7.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Secenekler_Popup.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/resources/css/common.css" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/resources/css/common.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/resources/css/gitas_main.css" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/resources/css/gitas_main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Alarm_Box.java" afterPath="$PROJECT_DIR$/src/sample/Alarm_Box.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Alarm_Popup.java" afterPath="$PROJECT_DIR$/src/sample/Alarm_Popup.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Common.java" afterPath="$PROJECT_DIR$/src/sample/Common.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Filo_Table.java" afterPath="$PROJECT_DIR$/src/sample/Filo_Table.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Main.java" afterPath="$PROJECT_DIR$/src/sample/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Otobus_Box.java" afterPath="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Secenekler_Popup.java" afterPath="$PROJECT_DIR$/src/sample/Secenekler_Popup.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Web_Request.java" afterPath="$PROJECT_DIR$/src/sample/Web_Request.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/resources/css/common.css" afterPath="$PROJECT_DIR$/src/sample/resources/css/common.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/resources/css/gitas_main.css" afterPath="$PROJECT_DIR$/src/sample/resources/css/gitas_main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" afterPath="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ver_log.txt" afterPath="$PROJECT_DIR$/ver_log.txt" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -163,13 +108,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="255" column="55" lean-forward="true" selection-start-line="255" selection-start-column="55" selection-end-line="255" selection-end-column="55" />
+            <state relative-caret-position="30">
+              <caret line="248" column="25" lean-forward="true" selection-start-line="248" selection-start-column="25" selection-end-line="248" selection-end-column="25" />
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gitas_main.fxml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="248">
+              <caret line="208" column="78" lean-forward="false" selection-start-line="208" selection-start-column="78" selection-end-line="208" selection-end-column="78" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
           </provider>
         </entry>
       </file>
@@ -258,7 +216,6 @@
         <option value="$PROJECT_DIR$/src/sample/Excel_PDKS_Rapor.java" />
         <option value="$PROJECT_DIR$/src/sample/Excel_IYS_Rapor.java" />
         <option value="$PROJECT_DIR$/src/sample/Excel_Mesaj_Rapor.java" />
-        <option value="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" />
         <option value="$PROJECT_DIR$/src/sample/Alarm_Goruldu_Listener.java" />
         <option value="$PROJECT_DIR$/src/sample/Takip_Scene_Controller.java" />
         <option value="$PROJECT_DIR$/src/sample/resources/Test.java" />
@@ -276,6 +233,7 @@
         <option value="$PROJECT_DIR$/src/sample/Common.java" />
         <option value="$PROJECT_DIR$/src/sample/Web_Request.java" />
         <option value="$PROJECT_DIR$/src/sample/Main.java" />
+        <option value="$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml" />
       </list>
     </option>
   </component>
@@ -852,12 +810,12 @@
       <workItem from="1506929644455" duration="2315000" />
       <workItem from="1507304705262" duration="1081000" />
       <workItem from="1508663303390" duration="10043000" />
-      <workItem from="1508688661242" duration="3244000" />
+      <workItem from="1508688661242" duration="3496000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="164978000" />
+    <option name="totallyTimeSpent" value="165230000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1110,16 +1068,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1032">
-          <caret line="209" column="44" lean-forward="false" selection-start-line="209" selection-start-column="44" selection-end-line="209" selection-end-column="44" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/resources/fxml/start.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1173,6 +1121,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
           <caret line="21" column="40" lean-forward="false" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1322,10 +1271,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="255" column="55" lean-forward="true" selection-start-line="255" selection-start-column="55" selection-end-line="255" selection-end-column="55" />
+        <state relative-caret-position="30">
+          <caret line="248" column="25" lean-forward="true" selection-start-line="248" selection-start-column="25" selection-end-line="248" selection-end-column="25" />
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/resources/fxml/gitas_main.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="208" column="78" lean-forward="false" selection-start-line="208" selection-start-column="78" selection-end-line="208" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
   </component>

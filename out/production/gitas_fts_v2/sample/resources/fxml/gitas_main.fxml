@@ -206,7 +206,7 @@
                               </VBox>
                               <VBox alignment="CENTER" layoutX="10.0" layoutY="76.0" styleClass="filtre-item-container">
                                  <children>
-                                    <Label styleClass="cbeyaz" text="v2.010H.1" />
+                                    <Label styleClass="cbeyaz" text="v2.010H.2" />
                                  </children>
                               </VBox>
                            </children>

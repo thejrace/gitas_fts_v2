@@ -4,3 +4,10 @@
 v2.010H.1 - [18.09.2017]
 	- Alarm frekans ve kaybolma ayarları eklendi.
 	- PDKS, IYS ve Mesaj Excel raporlama eklendi.
+
+v2.010H.2 - [22.10.2017]
+	- Elle filo ve plaka download eklendi.
+	- Filo güncellenme logu UI'ye eklendi.
+	- Alarm kaybolma kapalı iken, silinen alarmların çerçeveleri kalma bugu düzeltildi.
+	- Giriş ve kayıt formunda hata durumunda alert gösterme eklendi. Kullanıcı isterse geri bildirim gönderebiliyor.
+	- Bilgisayar hash değişme bugu düzeltildi.
