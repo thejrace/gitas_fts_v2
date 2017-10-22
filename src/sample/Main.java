@@ -8,8 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -17,8 +16,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -89,33 +91,52 @@ public class Main extends Application {
                             Thread th = new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Web_Request req = new Web_Request( Web_Request.SERVIS_URL2 , "&req=app_data" );
-                                    req.kullanici_pc_parametreleri_ekle();
-                                    req.action();
-                                    JSONObject val = new JSONObject(req.get_value());
-
-                                    Platform.runLater(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                stage.close();
-                                                User_Config.init_app_data("init", val.getJSONObject("data") );
-                                                Takip_Scene main_scene = new Takip_Scene();
-                                                main_scene.start(new Stage());
-                                            } catch(Exception e ){
-                                                e.printStackTrace();
+                                    try {
+                                        Web_Request req = new Web_Request( Web_Request.SERVIS_URL2 , "&req=app_data" );
+                                        req.kullanici_pc_parametreleri_ekle();
+                                        req.action();
+                                        JSONObject val = new JSONObject(req.get_value()).getJSONObject("data");
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    stage.close();
+                                                    User_Config.init_app_data("init", val );
+                                                    Takip_Scene main_scene = new Takip_Scene();
+                                                    main_scene.start(new Stage());
+                                                } catch(Exception e ){
+                                                    e.printStackTrace();
+                                                }
                                             }
-                                        }
-                                    });
+                                        });
+                                    } catch( JSONException e ){
+                                        e.printStackTrace();
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                stage.close();
+                                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                                alert.setTitle("Gitaş Filo Takip Sistemi");
+                                                alert.setHeaderText("Hata oluştu. Kod: KYB_1");
+                                                alert.setContentText("Sistem yöneticisine hatayı bildirin.");
+                                                ButtonType button_gonder = new ButtonType("Bildirim Gönder");
+                                                ButtonType button_iptal = new ButtonType("İptal", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                                alert.getButtonTypes().setAll(button_gonder, button_iptal );
+                                                Optional<ButtonType> result = alert.showAndWait();
+                                                if (result.get() == button_gonder ){
+                                                    Web_Request req = new Web_Request( Web_Request.SERVIS_URL2 , "&req=app_hata_log&hata_kodu=KYB_1" );
+                                                    req.kullanici_pc_parametreleri_ekle();
+                                                    req.action();
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             });
                             th.setDaemon(true);
                             th.start();
-
-
                         }
                     });
-
                 } else if( kontrol == User_Config.CONFIG_YOK_MOD ){
                     // config olustur
                     System.out.println("[ BAŞLANGIÇ KULLANICI KONTROLÜ ] CONFIG DOSYASI YOK");
@@ -247,7 +268,7 @@ public class Main extends Application {
                 }
                 @Override
                 protected Void call(){
-                    Web_Request req = new Web_Request( Web_Request.SERVIS_URL , "&req=form&form_type="+form_type+"&eposta="+eposta+"&pass="+pass );
+                    Web_Request req = new Web_Request( Web_Request.SERVIS_URL , "&req=form&form_type="+form_type+"&eposta="+eposta+"&pass="+pass+"&bilgisayar_adi="+Common.bilgisayar_adini_al()+"&bilgisayar_hash="+ DigestUtils.sha256Hex(Common.bilgisayar_adini_al()) );
                     req.action();
                     val = new JSONObject(req.get_value());
                     return null;

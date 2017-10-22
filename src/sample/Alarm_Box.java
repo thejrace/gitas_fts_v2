@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Alarm_Box extends VBox {
 
     private int index;
-    private int silinen_count = 0, li_count = 0;
+    private int silinen_count = 0, li_count = 0, gorunen_count = 0;
 
     public Alarm_Box( int index, ArrayList<Alarm_Data> data, Alarm_Goruldu_Listener listener ){
         super();
@@ -43,9 +43,10 @@ public class Alarm_Box extends VBox {
                     e.printStackTrace();
 
                 }*/
+
                 continue;
             }
-
+            gorunen_count++;
             alarm_li = new HBox();
             alarm_li.getStyleClass().add("alarm-li");
             alarm_li.setId( alarm.get_key() );
@@ -83,8 +84,14 @@ public class Alarm_Box extends VBox {
 
             });
 
+
+
         }
 
+    }
+
+    public int alarm_li_sayisi(){
+        return gorunen_count;
     }
 
 }

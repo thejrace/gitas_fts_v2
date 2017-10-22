@@ -31,7 +31,6 @@ public class Alarm_Popup {
     private Popup popup = null;
     private Node parent;
     private VBox alarm_ul = new VBox();
-    private double last_timestamp = 0;
     private boolean run = true;
 
     private AnchorPane content_container;
@@ -64,7 +63,7 @@ public class Alarm_Popup {
                         listeners.get(entry.getKey()).goruldu_yap( key );
                     }
                 });
-                alarm_ul.getChildren().add( alarm_box );
+                if( alarm_box.alarm_li_sayisi() > 0 ) alarm_ul.getChildren().add( alarm_box );
                 index++;
             } catch( NullPointerException e ){
                 e.printStackTrace();

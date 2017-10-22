@@ -63,6 +63,7 @@ public class Common {
             StringBuilder sb = new StringBuilder();
             while (true) {
                 String line = inn.readLine();
+                System.out.println(inn.readLine());
                 if (line == null)
                     break;
                 Matcher mm = pattern.matcher(line);

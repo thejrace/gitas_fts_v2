@@ -57,10 +57,10 @@ public class Secenekler_Popup {
 
         ScrollPane geribildirim_wrapper  = new ScrollPane();
         geribildirim_wrapper.setMinWidth(700);
-        geribildirim_wrapper.setPrefHeight(250);
+        geribildirim_wrapper.setPrefHeight(350);
         VBox geribildirim_tab_cont = new VBox();
         geribildirim_tab_cont.setMinWidth(700);
-        geribildirim_tab_cont.setPrefHeight(250);
+        geribildirim_tab_cont.setPrefHeight(350);
         geribildirim_tab_cont.setAlignment(Pos.TOP_CENTER);
         geribildirim_tab_cont.setSpacing(20);
         geribildirim_tab_cont.getStyleClass().add("secenekler-tab");
@@ -126,13 +126,17 @@ public class Secenekler_Popup {
 
         ScrollPane wrapper  = new ScrollPane();
         wrapper.setMinWidth(700);
-        wrapper.setPrefHeight(250);
+        wrapper.setPrefHeight(350);
+        wrapper.setFitToWidth(true);
+        wrapper.setFitToHeight(true);
+
         VBox tab_cont = new VBox();
         tab_cont.setMinWidth(700);
-        tab_cont.setPrefHeight(250);
+        tab_cont.setPrefHeight(350);
         tab_cont.setAlignment(Pos.TOP_CENTER);
         tab_cont.getStyleClass().add("secenekler-tab");
         tab_cont.setFillWidth(true);
+
         tab_cont.setPadding(new Insets( 10, 10, 20, 10 ));
 
         surucu_rapor_btn = new GButton("Sürücü - Zayi Sefer Raporları", GButton.CMORB );
@@ -205,10 +209,12 @@ public class Secenekler_Popup {
 
         ScrollPane km_wrapper  = new ScrollPane();
         km_wrapper.setMinWidth(700);
-        km_wrapper.setPrefHeight(250);
+        km_wrapper.setPrefHeight(350);
+        km_wrapper.setFitToWidth(true);
+        km_wrapper.setFitToHeight(true);
         VBox km_tab_cont = new VBox();
         km_tab_cont.setMinWidth(700);
-        km_tab_cont.setPrefHeight(250);
+        km_tab_cont.setPrefHeight(350);
         km_tab_cont.setAlignment(Pos.TOP_CENTER);
         km_tab_cont.setSpacing(20);
         km_tab_cont.getStyleClass().add("secenekler-tab");
@@ -298,10 +304,10 @@ public class Secenekler_Popup {
 
         ScrollPane eksefer_wrapper  = new ScrollPane();
         eksefer_wrapper.setMinWidth(700);
-        eksefer_wrapper.setPrefHeight(250);
+        eksefer_wrapper.setPrefHeight(350);
         VBox eksefer_tab_cont = new VBox();
         eksefer_tab_cont.setMinWidth(700);
-        eksefer_tab_cont.setPrefHeight(250);
+        eksefer_tab_cont.setPrefHeight(350);
         eksefer_tab_cont.setAlignment(Pos.TOP_CENTER);
         eksefer_tab_cont.getStyleClass().add("secenekler-tab");
         eksefer_tab_cont.setFillWidth(true);
@@ -448,10 +454,12 @@ public class Secenekler_Popup {
 
         ScrollPane excel_wrapper  = new ScrollPane();
         excel_wrapper.setMinWidth(700);
-        excel_wrapper.setPrefHeight(250);
+        excel_wrapper.setPrefHeight(350);
+        excel_wrapper.setFitToWidth(true);
+        excel_wrapper.setFitToHeight(true);
         VBox excel_tab_cont = new VBox();
         excel_tab_cont.setMinWidth(700);
-        excel_tab_cont.setPrefHeight(250);
+        excel_tab_cont.setPrefHeight(350);
         excel_tab_cont.setAlignment(Pos.TOP_CENTER);
         excel_tab_cont.setSpacing(20);
         excel_tab_cont.getStyleClass().add("secenekler-tab");

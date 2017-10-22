@@ -156,13 +156,13 @@
 
 .otobus-takip-box{
 	-fx-pref-width:300;
-	-fx-pref-height:190;
+	-fx-pref-height:210;
 	-fx-padding:10;
 }
 
 
 .otobus-takip-box-header {
-	-fx-pref-height:50;
+	-fx-pref-height:30;
 	/*-fx-background-color:#a13e97;*/
 	/*-fx-background-color: linear-gradient(to top left, #a13e97 0%, #c965bf 75%);*/
 	 -fx-background-image: url("../img/bg_box_header.png");
@@ -281,6 +281,40 @@
     -fx-cursor:hand;
 
 }
+
+
+.box-vd-log-container {
+	-fx-background-color:#353535;
+	-fx-padding:2 0 2 0;
+}
+.box-vd-log-container .label .text {
+	-fx-fill:#c7c7c7;
+	-fx-font-size:10;
+}
+.box-vd-log-container .button {
+
+	-fx-padding:2 4 2 4;
+	-fx-border-radius:0;
+}
+.box-vd-log-container .button .text{
+	-fx-fill:#c7c7c7;
+	-fx-font-family:"Montserrat SemiBold";
+	-fx-font-size:10;
+}
+
+.btn-vd-log-default {
+	-fx-background-color:#585858;
+}
+.btn-vd-log-yesil {
+	-fx-background-color:#526441;
+}
+.btn-vd-log-kirmizi {
+	-fx-background-color:#593232;
+}
+.btn-vd-log-mavi {
+	-fx-background-color:#3f5b66;
+}
+
 
 .box-header-plaka .text {
     -fx-fill:#000;

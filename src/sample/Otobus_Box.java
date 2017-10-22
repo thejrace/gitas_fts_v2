@@ -42,6 +42,7 @@ public class Otobus_Box {
     private Orer_Download orer_download;
     private PDKS_Download pdks_download;
     private ArrayList<Surucu> suruculer = new ArrayList<>();
+    private ArrayList<String> filo_vdl_log = new ArrayList<>();
 
     private Label   main_info,
                     info,
@@ -54,6 +55,8 @@ public class Otobus_Box {
                     box_header_plaka;
     private Circle led;
     private Button btn_sefer, btn_surucu, btn_alarm, btn_mesaj, btn_harita, btn_rapor, btn_iys, btn_notlar;
+    private Button btn_vdl_filo, btn_vdl_plaka, btn_vdl_gecmis; // veri download log
+    private Label lbl_vdl_filo, lbl_vdl_plaka;
     private VBox ui_container;
     private VBox box_content;
     private String  ui_led = "VY",
@@ -69,7 +72,8 @@ public class Otobus_Box {
                             harita_popup,
                             rapor_popup,
                             plaka_popup,
-                            not_popup;
+                            not_popup,
+                            vd_log_popup;
 
     private Filo_Table sefer_plan_table;
     private Surucu_Box surucu_box;
@@ -258,9 +262,100 @@ public class Otobus_Box {
         if( User_Config.izin_kontrol(User_Config.IOB_HARITA ) ) nav_cont_test.getChildren().add(btn_harita);
         if( User_Config.izin_kontrol(User_Config.IOB_NOTLAR ) ) nav_cont_test.getChildren().add(btn_notlar);
 
+        AnchorPane vd_log_container = new AnchorPane();
+        vd_log_container.getStyleClass().add("box-vd-log-container");
+
+        HBox fd_container = new HBox();
+        fd_container.setSpacing(5);
+        fd_container.setAlignment(Pos.CENTER);
+
+        HBox sw_container = new HBox();
+        sw_container.setSpacing(10);
+        sw_container.setAlignment(Pos.CENTER);
+
+        btn_vdl_filo = new Button("F");
+        btn_vdl_filo.getStyleClass().add("btn-vd-log-default");
+        btn_vdl_plaka = new Button("P");
+        btn_vdl_plaka.getStyleClass().add("btn-vd-log-default");
+        btn_vdl_gecmis = new Button("G");
+        btn_vdl_gecmis.getStyleClass().add("btn-vd-log-mavi");
+
+
+        lbl_vdl_filo = new Label("xx:xx (x)");
+        lbl_vdl_plaka = new Label("xx:xx");
+
+        fd_container.getChildren().addAll( btn_vdl_filo, lbl_vdl_filo, btn_vdl_plaka, lbl_vdl_plaka );
+        sw_container.getChildren().addAll( btn_vdl_gecmis );
+        vd_log_container.getChildren().addAll( fd_container, sw_container );
+
+        AnchorPane.setLeftAnchor(fd_container, 10.0);
+        AnchorPane.setTopAnchor(fd_container, 1.0);
+        AnchorPane.setTopAnchor(sw_container, 1.0);
+        AnchorPane.setRightAnchor(sw_container, 10.0);
+
         // box content elemanlari ekle
-        box_content.getChildren().addAll( main_info, info, ozet_cont,nav_cont_test );
+        box_content.getChildren().addAll( main_info, info, ozet_cont,nav_cont_test, vd_log_container );
         ui_container.getChildren().addAll( box_header, box_content );
+    }
+
+    private void orer_download( boolean thread ){
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                btn_vdl_filo.getStyleClass().clear();
+                btn_vdl_filo.getStyleClass().addAll("button","btn-vd-log-yesil");
+            }
+        });
+        if( thread ){
+            // buttonla tetik
+            Thread th = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    orer_download_inner();
+                }
+            });
+            th.setDaemon(true);
+            th.start();
+        } else {
+            // normal sayacli tetik
+           orer_download_inner();
+        }
+    }
+
+    private void orer_download_inner(){
+        final long fd_ts = Common.get_unix();
+        // orer kontrol
+        orer_download = new Orer_Download( kod, cookie );
+        orer_download.yap();
+        if( !orer_download.get_error() ){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    btn_vdl_filo.getStyleClass().clear();
+                    btn_vdl_filo.getStyleClass().addAll("button","btn-vd-log-default");
+                    String lupdate = String.valueOf(Common.get_unix() - fd_ts);
+
+                    lbl_vdl_filo.setText( Common.get_current_hmin() + " (" + lupdate + ")" );
+                    vd_log_ekle( "[OK] " + Common.get_current_hmin() + " (" + lupdate + ")" );
+                }
+            });
+            update( orer_download.get_seferler(), orer_download.get_aktif_sefer_verisi() );
+        } else {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    btn_vdl_filo.getStyleClass().clear();
+                    btn_vdl_filo.getStyleClass().addAll("button", "btn-vdl-log-kirmizi");
+                    vd_log_ekle( "[HATA] " + Common.get_current_hmin()  );
+                }
+            });
+        }
+    }
+
+    private void vd_log_ekle( String log ){
+        if( filo_vdl_log.size() == 25 ) filo_vdl_log.clear();
+        filo_vdl_log.add( log );
     }
 
     private void update_thread_start(){
@@ -271,7 +366,7 @@ public class Otobus_Box {
             public void run() {
 
                 try {
-                    Thread.sleep( index * 5000 );
+                    Thread.sleep( index * 2000 );
                 } catch( InterruptedException e ){
                     e.printStackTrace();
                 }
@@ -280,12 +375,7 @@ public class Otobus_Box {
 
                     if( !cookie.equals("INIT") ){
                         sleep = 90000;
-                        // orer kontrol
-                        orer_download = new Orer_Download( kod, cookie );
-                        orer_download.yap();
-
-                        if( !orer_download.get_error() ) update( orer_download.get_seferler(), orer_download.get_aktif_sefer_verisi() );
-
+                        orer_download( false );
                         if( !hat_km_alindi && !hat.equals("#") ){
                             Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=hat_km_download&hat="+hat);
                             request.kullanici_pc_parametreleri_ekle();
@@ -295,7 +385,6 @@ public class Otobus_Box {
                             hat_gitas_km = data_json.getDouble("gitas_km");
                             hat_km_alindi = true;
                         }
-
                         for( Alarm_Listener listener : listeners ) listener.on_ui_finished( get_alarmlar() );
                     } else {
                         sleep = 5000;
@@ -310,8 +399,6 @@ public class Otobus_Box {
         });
         th.setDaemon(true);
         th.start();
-
-
     }
 
     private void update( JSONArray data, String durak_data ) {
@@ -348,9 +435,8 @@ public class Otobus_Box {
             } else {
                 sefer_ozet.put(durum, 1);
             }
-
             if( durum.equals(Sefer_Data.DTAMAM) ) {
-                if( sefer.getString("guzergah").substring( sefer.getString("hat").length() + 1, sefer.getString("hat").length() + 2  ).equals("D") ){
+                if( x == 0 && sefer.getString("guzergah").substring( sefer.getString("hat").length() + 1, sefer.getString("hat").length() + 2  ).equals("D") ){
                     // ilk sefer donus
                     // yarim sefer km si ekliyoruz
                     //System.out.println("Başlangıç D");
@@ -360,7 +446,8 @@ public class Otobus_Box {
                     } catch( NullPointerException e ){
                         e.printStackTrace();
                     }
-                } else if( sefer.getString("guzergah").substring( sefer.getString("hat").length() + 1, sefer.getString("hat").length() + 2  ).equals("G") ) {
+                }
+                if( sefer.getString("guzergah").substring( sefer.getString("hat").length() + 1, sefer.getString("hat").length() + 2  ).equals("G") ) {
                     iett_km += hat_iett_km;
                     gitas_km += hat_gitas_km;
                 }
@@ -681,12 +768,90 @@ public class Otobus_Box {
         });
     }
 
-    public void plakalari_guncelle( String _aktif_plaka, String _ruhsat_plaka ){
+    public void plaka_download(){
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_vdl_plaka.getStyleClass().clear();
+                        btn_vdl_plaka.getStyleClass().addAll("button", "btn-vd-log-yesil");
+                    }
+                });
+                Web_Request req = new Web_Request(Web_Request.SERVIS_URL, "&req=otobus_plaka_kontrol&oto="+kod);
+                req.kullanici_pc_parametreleri_ekle();
+                req.action();
+                JSONObject plaka_data = new JSONObject(req.get_value()).getJSONObject("data").getJSONObject("plaka_data");
+                plakalari_guncelle(plaka_data.getString("aktif_plaka"), plaka_data.getString("ruhsat_plaka"));
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_vdl_plaka.getStyleClass().clear();
+                        btn_vdl_plaka.getStyleClass().addAll("button", "btn-vd-log-default");
+                        lbl_vdl_plaka.setText(Common.get_current_hmin());
+                    }
+                });
+            }
+        });
+        th.setDaemon(true);
+        th.start();
+
+    }
+
+    public synchronized void plakalari_guncelle( String _aktif_plaka, String _ruhsat_plaka ){
         aktif_plaka = _aktif_plaka;
         ruhsat_plaka = _ruhsat_plaka;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                btn_vdl_plaka.getStyleClass().clear();
+                btn_vdl_plaka.getStyleClass().addAll("button", "btn-vd-log-default");
+                lbl_vdl_plaka.setText( Common.get_current_hmin() );
+            }
+        });
     }
 
     private void set_event_handlers(){
+
+        btn_vdl_plaka.setOnMousePressed( ev -> {
+            plaka_download();
+        });
+
+        btn_vdl_filo.setOnMousePressed( ev -> {
+            if( !cookie.equals("INIT") ) orer_download( true );
+        });
+
+        btn_vdl_gecmis.setOnMousePressed( ev -> {
+            if( vd_log_popup == null ){
+                vd_log_popup = new Obarey_Popup(kod + " VD Log", ui_container.getScene().getRoot());
+            }
+            if( vd_log_popup.ison() ) return;
+            Thread th = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    VBox ul = new VBox();
+                    ul.setSpacing(5);
+                    Label li;
+                    for( int j = filo_vdl_log.size() - 1; j >= 0; j-- ){
+                        li = new Label(filo_vdl_log.get(j));
+                        li.getStyleClass().addAll("fbold", "cbeyaz");
+                        ul.getChildren().add(li);
+                    }
+                    vd_log_popup.init(true);
+                    vd_log_popup.set_content( ul );
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            vd_log_popup.show(ev.getScreenX(), ev.getScreenY() );
+                        }
+                    });
+
+                }
+            });
+            th.setDaemon(true);
+            th.start();
+        });
 
         if( User_Config.izin_kontrol( User_Config.IOB_PLAKA_DEGISTIRME ) ) {
             box_header_plaka.setOnMousePressed(event -> {
@@ -1098,6 +1263,7 @@ public class Otobus_Box {
     public Map<String, Integer> get_ozet(){
         return sefer_ozet;
     }
+
     public Map<String, Integer> get_ekstra_ozet(){
         return ekstra_ozet;
     }
@@ -1105,6 +1271,7 @@ public class Otobus_Box {
     public double get_iett_km(){
         return iett_km;
     }
+
     public double get_gitas_km(){
         return gitas_km;
     }
@@ -1153,6 +1320,7 @@ class Filo_Task_Template {
             return req.parse();
         } catch( IOException | NullPointerException e ){
             System.out.println(  "["+Common.get_current_hmin() + "]  "+ aktif_tarih  + " " +  oto + " "+ logprefix + " parse hatası. Tekrar deneniyor.");
+            error = true;
         }
         return null;
     }
@@ -1194,7 +1362,7 @@ class Orer_Download extends Filo_Task_Template {
             table = document.select("table");
             rows = table.select("tr");
 
-            if( rows.size() == 1 ){
+            if( rows.size() == 1 || rows.size() == 0 ){
                 System.out.println(oto + " ORER Filo Veri Yok");
                 return;
             }
@@ -1252,6 +1420,7 @@ class Orer_Download extends Filo_Task_Template {
             e.printStackTrace();
             System.out.println( "["+Common.get_current_hmin() + "]  "+  oto+ " ORER sefer veri ayıklama hatası. Tekrar deneniyor.");
             seferler = new JSONArray();
+            error = true;
             //yap();
         }
     }

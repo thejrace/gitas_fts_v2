@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.json.JSONArray;
@@ -43,6 +44,8 @@ public class Filo_Table {
     private int versiyon = 0;
     private boolean dp_gizle = false;
     private char aktif_kaynak = 'A';
+    private GButton kaynak_btn, dp_getir;
+    private ScrollPane main_cont;
 
 
     // eski veriler incelendikten sonra aktif gune dondugu zaman db den almiyoruz veriyi
@@ -200,8 +203,19 @@ public class Filo_Table {
 
     public void init(){
 
+
+
         table = new VBox();
-        table.getStyleClass().add( "filo-table-item" );
+        //table.getStyleClass().add( "filo-table-item" );
+        main_cont = new ScrollPane();
+        main_cont.getStyleClass().add("filo-table-item");
+        main_cont.setMaxHeight(700);
+        //main_cont.setPrefHeight(700);
+        main_cont.setFitToHeight(true);
+        main_cont.setFitToWidth(true);
+        main_cont.setContent(table);
+
+
         //table.setId(kod);
 
         ust_cont = new VBox();
@@ -215,7 +229,7 @@ public class Filo_Table {
         veri_kaynak_cont.setAlignment(Pos.CENTER);
         veri_kaynak_cont.setPadding(new Insets(10, 0, 10, 0));
 
-        final GButton kaynak_btn = new GButton("SUNUCUDAN AL", GButton.CMORK );
+        kaynak_btn = new GButton("SUNUCUDAN AL", GButton.CMORK );
         veri_kaynak_cont.getChildren().addAll(kaynak_btn);
 
         table.getStylesheets().addAll( Filo_Table.class.getResource("resources/css/common.css").toExternalForm() );
@@ -226,12 +240,14 @@ public class Filo_Table {
             DatePicker dp = new DatePicker();
             dp.setValue(Common.dp_placeholder(Common.get_current_date()));
 
-            GButton dp_getir = new GButton("GETİR", GButton.CMORK );
+            dp_getir = new GButton("GETİR", GButton.CMORK );
             dp_container.getChildren().addAll( dp, dp_getir);
             ust_cont.getChildren().addAll( dp_container, veri_kaynak_cont, versiyon_cont );
             HBox.setMargin( dp_getir, new Insets(0, 0 , 0, 20 ) );
 
             kaynak_btn.setOnMousePressed( ev -> {
+                kaynak_btn.setDisable(true);
+                dp_getir.setDisable(true);
                 if( aktif_kaynak == 'S' ){
                     aktif_kaynak = 'A';
                     // aktif filodan canlı veriyi al
@@ -245,6 +261,9 @@ public class Filo_Table {
                                     @Override
                                     public void run() {
                                         update_ui();
+                                        kaynak_btn.setDisable(false);
+                                        dp_getir.setDisable(false);
+                                        kaynak_btn.setText("SUNUCUDAN AL");
                                     }
                                 });
                             } catch( Exception e ){
@@ -254,7 +273,7 @@ public class Filo_Table {
                     });
                     th.setDaemon(true);
                     th.start();
-                    kaynak_btn.setText("SUNUCUDAN AL");
+
                 } else {
                     aktif_kaynak = 'S';
                     // sunucudan aliniyor
@@ -265,6 +284,8 @@ public class Filo_Table {
 
             dp_getir.setOnMousePressed(ev -> {
                 // arşiv görüntüleniyorsa kaynak otomatik sunucu olacak
+                kaynak_btn.setDisable(true);
+                dp_getir.setDisable(true);
                 aktif_kaynak = 'S';
                 kaynak_btn.setText("AKTİF GÜNE DÖN");
                 sunucu_veri_download(dp.getValue().toString());
@@ -310,6 +331,8 @@ public class Filo_Table {
                     @Override
                     public void run() {
                         update_ui();
+                        kaynak_btn.setDisable(false);
+                        dp_getir.setDisable(false);
                     }
                 });
             }
@@ -318,8 +341,8 @@ public class Filo_Table {
         th.start();
     }
 
-    public VBox get(){
-       return table;
+    public ScrollPane get(){
+       return main_cont;
 
     }
 
