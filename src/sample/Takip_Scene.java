@@ -285,9 +285,6 @@ public class Takip_Scene extends Application {
         });
         plaka_kontrol_thread.setDaemon(true);
         plaka_kontrol_thread.start();
-
-
-
     }
 
 

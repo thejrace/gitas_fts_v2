@@ -808,6 +808,7 @@ public class Otobus_Box {
                 btn_vdl_plaka.getStyleClass().clear();
                 btn_vdl_plaka.getStyleClass().addAll("button", "btn-vd-log-default");
                 lbl_vdl_plaka.setText( Common.get_current_hmin() );
+                otobus_plaka_kontrol();
             }
         });
     }
