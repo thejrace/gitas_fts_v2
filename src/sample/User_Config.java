@@ -57,6 +57,8 @@ public class User_Config {
 
     public static JSONObject app_ayarlar, app_filtre, app_filo5_data;
     public static JSONArray app_otobusler;
+    public static Map<String, String> filo5_cookies;
+
     public static void init_app_data( String key, JSONObject guncel_data ){
         if( key.equals("init") ){
             app_ayarlar = guncel_data.getJSONObject("ayarlar");

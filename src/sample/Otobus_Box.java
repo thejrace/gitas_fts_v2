@@ -423,7 +423,6 @@ public class Otobus_Box {
                 hat_verisi_alindi = false,
                 tum_seferler_bekleyen = false;
 
-
         iett_km = 0;
         gitas_km = 0;
         JSONObject sefer, onceki_sefer, sonraki_sefer;

@@ -54,6 +54,29 @@ public class Common {
         return null;
     }
 
+
+
+    public static String read_file( String src ){
+
+        /// bufferlari kapat
+
+        try {
+            FileReader fr = new FileReader(src);
+            BufferedReader br = new BufferedReader(fr);
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while( line != null ){
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            return sb.toString();
+        } catch( IOException e ){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static String mac_hash(){
         try {
             String command = "ipconfig /all";

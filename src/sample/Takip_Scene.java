@@ -91,7 +91,7 @@ public class Takip_Scene extends Application {
         otobus_kutular_init();
         Filo_Login_Task filo_login_task = new Filo_Login_Task( User_Config.app_filo5_data );
         controller.app_status_guncelle("Filoya giriş yapılıyor..");
-        filo_login_task.yap(new Cookie_Refresh_Listener() {
+        /*filo_login_task.yap(new Cookie_Refresh_Listener() {
             @Override
             public void on_refresh(Map<String, String> cookies) {
                 if( otobus_kutular.isEmpty() ) return;
@@ -105,7 +105,11 @@ public class Takip_Scene extends Application {
                     }
                 });
             }
-        });
+        });*/
+        if( otobus_kutular.isEmpty() ) return;
+        for (Map.Entry<String, Otobus_Box> entry : otobus_kutular.entrySet()) {
+            entry.getValue().cookie_guncelle( User_Config.filo5_cookies.get(entry.getValue().get_bolge() ) );
+        }
         plaka_kontrol_thread();
         controller.alarm_popup_init();
         ozet_thread();
