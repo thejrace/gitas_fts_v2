@@ -111,8 +111,6 @@ public class Login_Test extends Application{
                     .timeout(0)
                     .execute();
 
-
-
             System.out.println(res.parse());
 
             //kaydet();

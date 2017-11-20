@@ -20,6 +20,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,6 +58,8 @@ public class Main extends Application {
         } catch( Exception e ){
             e.printStackTrace();
         }
+
+        User_Config.filo5_cookies = new HashMap<String, String>();
 
         acilis_popup_olustur();
         alt_notf.setText("GİRİŞ KONTROLLERİ YAPILIYOR...");
@@ -103,7 +106,10 @@ public class Main extends Application {
                                                     /*stage.close();
                                                     User_Config.init_app_data("init", val );
                                                     Takip_Scene main_scene = new Takip_Scene();
-                                                    main_scene.start(new Stage());*/
+                                                    main_scene.start(new Stage());
+*/
+
+
 
                                                     stage.close();
                                                     User_Config.init_app_data("init", val );

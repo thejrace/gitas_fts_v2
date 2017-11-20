@@ -29,9 +29,9 @@
             <String fx:value="fs11" />
          </styleClass>
       </Label>
-      <HBox prefHeight="110.0" prefWidth="200.0" alignment="CENTER" spacing="10" styleClass="cookie-login-bg"  >
+      <HBox prefHeight="110.0" prefWidth="200.0" alignment="CENTER" spacing="10" styleClass="cookie-login-bg" fx:id="wv_container" >
          <children>
-            <WebView prefHeight="200.0" prefWidth="300.0" fx:id="wv_1" />
+
             <VBox  alignment="CENTER"  spacing="20">
                <children>
                   <Label text="A Bölgesi" fx:id="info_lbl">
@@ -47,6 +47,53 @@
                         <String fx:value="input-uzun" />
                      </styleClass>
                   </TextField>
+                  <Button text="Tamam" fx:id="aok_btn" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="110.0" prefWidth="200.0" alignment="CENTER" spacing="10" styleClass="cookie-login-bg"  >
+         <children>
+
+            <VBox  alignment="CENTER"  spacing="20">
+               <children>
+                  <Label text="B Bölgesi" >
+                     <styleClass>
+                        <String fx:value="ctamam" />
+                        <String fx:value="fbold" />
+                        <String fx:value="fs10" />
+                     </styleClass>
+                  </Label>
+                  <TextField fx:id="tf2_sessid">
+                     <styleClass>
+                        <String fx:value="grigrad" />
+                        <String fx:value="input-uzun" />
+                     </styleClass>
+                  </TextField>
+                  <Button text="Tamam" fx:id="bok_btn" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="110.0" prefWidth="200.0" alignment="CENTER" spacing="10" styleClass="cookie-login-bg"  >
+         <children>
+
+            <VBox  alignment="CENTER"  spacing="20">
+               <children>
+                  <Label text="C Bölgesi" >
+                     <styleClass>
+                        <String fx:value="ctamam" />
+                        <String fx:value="fbold" />
+                        <String fx:value="fs10" />
+                     </styleClass>
+                  </Label>
+                  <TextField fx:id="tf3_sessid">
+                     <styleClass>
+                        <String fx:value="grigrad" />
+                        <String fx:value="input-uzun" />
+                     </styleClass>
+                  </TextField>
+                  <Button text="Tamam" fx:id="cok_btn" />
                </children>
             </VBox>
          </children>

@@ -112,7 +112,7 @@ public class Filo_Login_Task {
                     .execute();
 
             cookies.put(bolge, res.cookies().get("PHPSESSID") );
-            System.out.println( bolge + " Bölgesi filoya giriş yapıldı!");
+            System.out.println( bolge + " Bölgesi filoya giriş yapıldı! phpssid["+res.cookies().get("PHPSESSID")+"] -ts["+Common.get_unix()+"] ");
             //kaydet();
         } catch( IOException e ){
             System.out.println( bolge + " Bölgesi filo giriş hatası tekrar deneniyor.");

@@ -35,7 +35,7 @@ public class Filo_Captcha_Scene extends Application {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            primaryStage.setScene(new Scene(root, 500, 290));
+            primaryStage.setScene(new Scene(root, 500, 550));
             primaryStage.getIcons().add(new Image(getClass().getResource("resources/img/app_ico.png").toExternalForm()));
             primaryStage.show();
             stage = primaryStage;
