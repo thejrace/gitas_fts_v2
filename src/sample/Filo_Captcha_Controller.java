@@ -33,7 +33,7 @@ public class Filo_Captcha_Controller implements Initializable {
     @FXML
     private Label info_lbl;
     @FXML
-    private HBox wv_container;
+    private HBox wv_container, wv2_container, wv3_container;
 
     private int step_index = 0;
 
@@ -87,6 +87,8 @@ public class Filo_Captcha_Controller implements Initializable {
                     }
                 }
 
+                //dk_oasfilo ** 1040-filo
+
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
@@ -105,14 +107,18 @@ public class Filo_Captcha_Controller implements Initializable {
 
                 /**  WV2 **/
 
+
+
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        //wv_1 = new WebView();
-                        web_view( wv_1 );
-                        //wv_container.getChildren().add(0, wv_1);
+                        wv_2 = new WebView();
+                        web_view( wv_2 );
+                        wv2_container.getChildren().add(0, wv_2);
                     }
                 });
+
+                System.out.println(wv_init_count);
 
                 while( wv_init_count < 2 ){
                     System.out.println("wv_2 init bekleniyor..");
@@ -123,12 +129,16 @@ public class Filo_Captcha_Controller implements Initializable {
                     }
                 }
 
+                System.out.println(wv_init_count);
+
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        execute_login_script(wv_1, "dk_oasb", "oas125");
+                        execute_login_script(wv_2, "dk_oasb", "oas125");
                     }
                 });
+
+                System.out.println(wv_init_count);
 
                 while( login_th_counter < 2 ){
                     System.out.println("wv_2 cookie bekleniyor..");
@@ -145,11 +155,13 @@ public class Filo_Captcha_Controller implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        //wv_1 = new WebView();
-                        web_view( wv_1 );
-                        //wv_container.getChildren().add(0, wv_1);
+                        wv_3 = new WebView();
+                        web_view( wv_3 );
+                        wv3_container.getChildren().add(0, wv_3);
                     }
                 });
+
+                System.out.println(wv_init_count);
 
                 while( wv_init_count < 3 ){
                     System.out.println("wv_3 init bekleniyor..");
@@ -160,12 +172,16 @@ public class Filo_Captcha_Controller implements Initializable {
                     }
                 }
 
+                System.out.println(wv_init_count);
+
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
                         execute_login_script(wv_3, "dk_oasc", "oas165");
                     }
                 });
+
+                System.out.println(wv_init_count);
 
                 while( login_th_counter < 3 ){
                     System.out.println("wv_3 cookie bekleniyor..");
@@ -189,7 +205,7 @@ public class Filo_Captcha_Controller implements Initializable {
             User_Config.filo5_cookies.put("B", tf2_sessid.getText());
             User_Config.filo5_cookies.put("C", tf3_sessid.getText());
 
-            //listener.on_refresh();
+            listener.on_refresh();
 
 
         });
@@ -240,7 +256,6 @@ public class Filo_Captcha_Controller implements Initializable {
             //URL url = new URL("http://filo5.iett.gov.tr/login.php?sayfa=/_FYS.php&aday=x");
             //URL url = new URL("http://filo5.iett.gov.tr/login.php");
             we.setJavaScriptEnabled(true);
-            we.load(url.toString());
             we.getLoadWorker().stateProperty().addListener(
                     (ObservableValue<? extends Worker.State> observable,
                      Worker.State oldValue,
@@ -250,7 +265,7 @@ public class Filo_Captcha_Controller implements Initializable {
                         }
                         wv_init_count++;
                     });
-
+            we.load(url.toString());
        /* } catch( MalformedURLException e ){
             e.printStackTrace();
         }*/

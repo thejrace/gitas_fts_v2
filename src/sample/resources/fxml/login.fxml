@@ -52,7 +52,7 @@
             </VBox>
          </children>
       </HBox>
-      <HBox prefHeight="110.0" prefWidth="200.0" alignment="CENTER" spacing="10" styleClass="cookie-login-bg"  >
+      <HBox prefHeight="110.0" prefWidth="200.0" alignment="CENTER" spacing="10" styleClass="cookie-login-bg"  fx:id="wv2_container"  >
          <children>
 
             <VBox  alignment="CENTER"  spacing="20">
@@ -75,7 +75,7 @@
             </VBox>
          </children>
       </HBox>
-      <HBox prefHeight="110.0" prefWidth="200.0" alignment="CENTER" spacing="10" styleClass="cookie-login-bg"  >
+      <HBox prefHeight="110.0" prefWidth="200.0" alignment="CENTER" spacing="10" styleClass="cookie-login-bg"  fx:id="wv3_container" >
          <children>
 
             <VBox  alignment="CENTER"  spacing="20">
