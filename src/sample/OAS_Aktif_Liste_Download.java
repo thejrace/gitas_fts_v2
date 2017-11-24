@@ -45,6 +45,9 @@ public class OAS_Aktif_Liste_Download {
             public void run() {
                 while( !durdur ){
 
+                    tekrar_kontrol  = new HashMap<>();
+                    seferler_temp  = new HashMap<>();
+
                     try {
                         org.jsoup.Connection.Response sefer_verileri_req = Jsoup.connect("http://filo5.iett.gov.tr/oas.aktif.liste.php")
                                 .method(org.jsoup.Connection.Method.POST)
