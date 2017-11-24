@@ -35,7 +35,7 @@ public class Filo_Captcha_Scene extends Application {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            primaryStage.setScene(new Scene(root, 500, 550));
+            primaryStage.setScene(new Scene(root, 500, 250));
             primaryStage.getIcons().add(new Image(getClass().getResource("resources/img/app_ico.png").toExternalForm()));
             primaryStage.show();
             stage = primaryStage;
@@ -51,11 +51,6 @@ public class Filo_Captcha_Scene extends Application {
                 @Override
                 public void on_refresh() {
                     try{
-
-                        System.out.println(User_Config.filo5_cookies.get("A"));
-                        System.out.println(User_Config.filo5_cookies.get("B"));
-                        System.out.println(User_Config.filo5_cookies.get("C"));
-
                         stage.close();
                         Takip_Scene main_scene = new Takip_Scene();
                         main_scene.start(new Stage());

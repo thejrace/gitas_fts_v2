@@ -59,7 +59,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        User_Config.filo5_cookies = new HashMap<String, String>();
+        User_Config.filo5_cookie = "INIT";
 
         acilis_popup_olustur();
         alt_notf.setText("GİRİŞ KONTROLLERİ YAPILIYOR...");
@@ -103,14 +103,6 @@ public class Main extends Application {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    /*stage.close();
-                                                    User_Config.init_app_data("init", val );
-                                                    Takip_Scene main_scene = new Takip_Scene();
-                                                    main_scene.start(new Stage());
-*/
-
-
-
                                                     stage.close();
                                                     User_Config.init_app_data("init", val );
                                                     Filo_Captcha_Scene main_scene = new Filo_Captcha_Scene();
