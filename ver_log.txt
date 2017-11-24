@@ -11,3 +11,7 @@ v2.010H.2 - [22.10.2017]
 	- Alarm kaybolma kapalı iken, silinen alarmların çerçeveleri kalma bugu düzeltildi.
 	- Giriş ve kayıt formunda hata durumunda alert gösterme eklendi. Kullanıcı isterse geri bildirim gönderebiliyor.
 	- Bilgisayar hash değişme bugu düzeltildi.
+
+v2.010H.3C - [24.11.2017]
+    - Captcha ile giriş eklendi.
+    - Filoya giriş tek hesapla yapılıyor.
