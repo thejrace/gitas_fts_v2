@@ -103,18 +103,17 @@ public class Main extends Application {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    /*stage.close();
+                                                    stage.close();
                                                     User_Config.init_app_data("init", val );
                                                     Takip_Scene main_scene = new Takip_Scene();
                                                     main_scene.start(new Stage());
-*/
 
 
 
-                                                    stage.close();
+                                                    /*stage.close();
                                                     User_Config.init_app_data("init", val );
                                                     Filo_Captcha_Scene main_scene = new Filo_Captcha_Scene();
-                                                    main_scene.start(new Stage());
+                                                    main_scene.start(new Stage());*/
                                                 } catch(Exception e ){
                                                     e.printStackTrace();
                                                 }

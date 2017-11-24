@@ -108,7 +108,7 @@ public class Otobus_Box {
 
         create_ui();
         set_event_handlers();
-        update_thread_start();
+        //update_thread_start();
     }
 
     private void create_ui(){
@@ -358,6 +358,11 @@ public class Otobus_Box {
         filo_vdl_log.add( log );
     }
 
+    public void oas_update_init( JSONArray data ){
+        update( data, "YOK" );
+        for( Alarm_Listener listener : listeners ) listener.on_ui_finished( get_alarmlar() );
+    }
+
     private void update_thread_start(){
 
         Thread th = new Thread(new Runnable() {
@@ -433,23 +438,6 @@ public class Otobus_Box {
                 sefer_ozet.replace(durum, sefer_ozet.get(durum), sefer_ozet.get(durum) + 1);
             } else {
                 sefer_ozet.put(durum, 1);
-            }
-            if( durum.equals(Sefer_Data.DTAMAM) ) {
-                if( x == 0 && sefer.getString("guzergah").substring( sefer.getString("hat").length() + 1, sefer.getString("hat").length() + 2  ).equals("D") ){
-                    // ilk sefer donus
-                    // yarim sefer km si ekliyoruz
-                    //System.out.println("Başlangıç D");
-                    try {
-                        iett_km += hat_iett_km / 2;
-                        gitas_km += hat_gitas_km / 2;
-                    } catch( NullPointerException e ){
-                        e.printStackTrace();
-                    }
-                }
-                if( sefer.getString("guzergah").substring( sefer.getString("hat").length() + 1, sefer.getString("hat").length() + 2  ).equals("G") ) {
-                    iett_km += hat_iett_km;
-                    gitas_km += hat_gitas_km;
-                }
             }
         }
 
@@ -814,7 +802,7 @@ public class Otobus_Box {
 
     private void set_event_handlers(){
 
-        btn_vdl_plaka.setOnMousePressed( ev -> {
+        /*btn_vdl_plaka.setOnMousePressed( ev -> {
             plaka_download();
         });
 
@@ -851,7 +839,7 @@ public class Otobus_Box {
             });
             th.setDaemon(true);
             th.start();
-        });
+        });*/
 
         if( User_Config.izin_kontrol( User_Config.IOB_PLAKA_DEGISTIRME ) ) {
             box_header_plaka.setOnMousePressed(event -> {

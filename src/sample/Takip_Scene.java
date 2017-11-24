@@ -40,6 +40,7 @@ public class Takip_Scene extends Application {
     private Filo_Rapor_Data filo_header_data;
     private boolean ozet_thread_shutdown = false;
     private Thread plaka_kontrol_thread;
+    private OAS_Aktif_Liste_Download oas_aktif_liste_download;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -89,9 +90,9 @@ public class Takip_Scene extends Application {
         filo_header_data = new Filo_Rapor_Data();
         canli_durum = new Sefer_Rapor_Data(0, 0, 0, 0, 0);
         otobus_kutular_init();
-        Filo_Login_Task filo_login_task = new Filo_Login_Task( User_Config.app_filo5_data );
+        /*Filo_Login_Task filo_login_task = new Filo_Login_Task( User_Config.app_filo5_data );
         controller.app_status_guncelle("Filoya giriş yapılıyor..");
-        /*filo_login_task.yap(new Cookie_Refresh_Listener() {
+        filo_login_task.yap(new Cookie_Refresh_Listener() {
             @Override
             public void on_refresh(Map<String, String> cookies) {
                 if( otobus_kutular.isEmpty() ) return;
@@ -107,9 +108,10 @@ public class Takip_Scene extends Application {
             }
         });*/
         if( otobus_kutular.isEmpty() ) return;
-        for (Map.Entry<String, Otobus_Box> entry : otobus_kutular.entrySet()) {
+        /*for (Map.Entry<String, Otobus_Box> entry : otobus_kutular.entrySet()) {
             entry.getValue().cookie_guncelle( User_Config.filo5_cookies.get(entry.getValue().get_bolge() ) );
-        }
+        }*/
+        orer_download_thread();
         plaka_kontrol_thread();
         controller.alarm_popup_init();
         ozet_thread();
@@ -156,6 +158,7 @@ public class Takip_Scene extends Application {
             public void run() {
                 Otobus_Box otobus_box;
                 while( !ozet_thread_shutdown ){
+                    System.out.println(OTOBUS_SAYAC);
                     if( OTOBUS_SAYAC == otobus_kutular.size() ){
                         sleep = 20000;
 
@@ -245,6 +248,25 @@ public class Takip_Scene extends Application {
                 controller.remove_otobus_box( entry.getKey() );
             }
         }
+    }
+
+    private void orer_download_thread(){
+
+        oas_aktif_liste_download = new OAS_Aktif_Liste_Download();
+        ArrayList<String> temp_otobusler = new ArrayList<>();
+        for( int k = 0; k < User_Config.app_otobusler.length(); k++ ){
+            temp_otobusler.add(User_Config.app_otobusler.getJSONObject(k).getString("kapi_kodu"));
+        }
+        oas_aktif_liste_download.set_otobusler(temp_otobusler);
+        oas_aktif_liste_download.set_listener(new OAS_Listener() {
+            @Override
+            public void on_download(String oto, JSONArray seferler) {
+                otobus_kutular.get(oto).oas_update_init( seferler );
+            }
+        });
+        oas_aktif_liste_download.start();
+
+
     }
 
     private void plaka_kontrol_thread(){
