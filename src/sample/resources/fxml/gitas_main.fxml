@@ -14,6 +14,7 @@
 <?import java.lang.String?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ComboBox?>
 <ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Takip_Scene_Controller">
    <stylesheets>
       <URL value="@../css/gitas_main.css" />
@@ -201,12 +202,12 @@
                               </VBox>
                               <VBox alignment="CENTER" layoutX="10.0" layoutY="76.0" styleClass="filtre-item-container">
                                  <children>
-                                    <Label fx:id="lbl_app_status"  styleClass="cbeyaz" text="Beklemede" />
+                                    <ComboBox fx:id="profil_select" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" layoutX="10.0" layoutY="76.0" styleClass="filtre-item-container">
                                  <children>
-                                    <Label styleClass="cbeyaz" text="v2.010H.3C" />
+                                    <Label styleClass="cbeyaz" text="v2.010H.4C" />
                                  </children>
                               </VBox>
                            </children>

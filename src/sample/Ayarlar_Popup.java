@@ -1,22 +1,29 @@
 package sample;
 
+import com.sun.prism.image.Coords;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Created by Jeppe on 18.04.2017.
@@ -31,7 +38,7 @@ public class Ayarlar_Popup {
     private Obarey_Popup ekle_popup;
 
     private ArrayList<Ayarlar_Listener> listeners = new ArrayList<>();
-
+    private int anchorx = 0, anchory = 0;
 
     public void add_listener( Ayarlar_Listener listener ){
         listeners.add( listener );
@@ -77,6 +84,133 @@ public class Ayarlar_Popup {
         return popup.ison();
     }
 
+
+    public Tab otobus_ayarlar_init( boolean icerik ){
+        Tab tab = new Tab("Otobüsler");
+        tab.setClosable(false);
+        tab.setId("otobusler");
+        if( !icerik ) return tab;
+
+        VBox main = new VBox();
+
+
+        AnchorPane otobusler_container = new AnchorPane();
+        otobusler_container.setPrefWidth(500);
+        otobusler_container.setMinHeight(500);
+
+        ArrayList<String> keys = new ArrayList<>();
+        Map<String, Integer> data_index = new HashMap<>();
+        for( int k = 0; k < User_Config.app_otobusler.length(); k++ ){
+            keys.add(User_Config.app_otobusler.getJSONObject(k).getString("kapi_kodu"));
+            data_index.put(User_Config.app_otobusler.getJSONObject(k).getString("kapi_kodu"), k);
+        }
+        Collections.sort(keys, new Comparator<String>() {
+            @Override
+            public int compare(String str1, String str2) {
+                return  str1.compareTo(str2);
+            }
+        });
+
+        JSONObject otobus_object;
+
+
+
+        int hline = 0;
+        for( int j = 0; j < keys.size(); j++ ) {
+            otobus_object = User_Config.app_otobusler.getJSONObject(data_index.get(keys.get(j)));
+            String kod = otobus_object.getString("kapi_kodu");
+            final Otobus_Item item = new Otobus_Item( kod, anchorx, anchory );
+
+            // 7 col olacak
+            if( hline == 6 ){
+                anchory += 30;
+                anchorx = 0;
+                hline = 0;
+            } else {
+                anchorx += 100;
+                hline++;
+            }
+
+            final Common.Delta dragDelta = new Common.Delta();
+            item.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override public void handle(MouseEvent mouseEvent) {
+                    // record a delta distance for the drag and drop operation.
+                    dragDelta.x = item.getX() - mouseEvent.getSceneX();
+                    dragDelta.y = item.getY() - mouseEvent.getSceneY();
+                    item.setCursor(Cursor.MOVE);
+                }
+            });
+            item.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                @Override public void handle(MouseEvent mouseEvent) {
+                    item.setCursor(Cursor.HAND);
+                }
+            });
+            item.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                @Override public void handle(MouseEvent mouseEvent) {
+
+                    double drag_x = (mouseEvent.getSceneX() + dragDelta.x);
+                    double drag_y = (mouseEvent.getSceneY() + dragDelta.y);
+
+
+                    //System.out.println("DragX-> " + drag_x  +  "  XPrev-> " + item.getXPrev() );
+                    //System.out.println("DragY-> " + drag_y  +  "  YPrev-> " + item.getYPrev() );
+
+                    System.out.println(item.getXPrev()-drag_x);
+                    if( item.getXPrev() > drag_x ){
+
+                        // sola kayiyor
+                        System.out.println("SOLA KAYIYOR");
+
+                        item.inc_xlimit();
+                        System.out.println(item.get_xlimit());
+                        if( item.get_xlimit() >= 30 ){
+                            if( item.getXPrev() > 100 ){
+                                // 0 dan sola 100 gitmiyoruz
+                                item.setX( item.getXPrev() - 100 );
+                            }
+                            item.reset_xlimit();
+                        }
+
+
+                    } else {
+                        System.out.println("SAGA KAYIYOR");
+                        // saga kayiyior
+
+                        item.inc_xlimit();
+                        System.out.println(item.get_xlimit());
+                        if( item.get_xlimit() >= 30 ){
+                            if( item.getXPrev() < 500 ){
+                                item.setX(item.getXPrev() + 100 );
+                            }
+                            item.reset_xlimit();
+                        }
+
+                    }
+                    item.setXPrev(drag_x);
+                    /*item.setX(drag_x);
+                    item.setY(drag_y);*/
+                }
+            });
+            item.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                @Override public void handle(MouseEvent mouseEvent) {
+                    item.setCursor(Cursor.HAND);
+                }
+            });
+
+
+            otobusler_container.getChildren().add( item );
+        }
+
+
+
+
+        main.getChildren().add( otobusler_container );
+
+        tab.setContent(main);
+        return tab;
+
+    }
+
     public Tab genel_ayarlar_init( boolean icerik ){
 
         Tab tab = new Tab("Genel");
@@ -92,8 +226,6 @@ public class Ayarlar_Popup {
         main.setPadding(new Insets(15, 15, 15 , 15));
         HBox orer_container = new HBox();
         orer_container.setPadding(new Insets(10, 0, 10, 0) );
-
-
 
         VBox frekans_ayarlar = new VBox();
         frekans_ayarlar.setSpacing(25);
@@ -296,87 +428,7 @@ public class Ayarlar_Popup {
         return "0";
     }
 
-   /* public Tab otobus_ayarlar_init( boolean icerik ){
-        Tab tab = new Tab("Otobüsler");
-        tab.setClosable(false);
-        tab.setId("otobusler");
 
-        if( !icerik ) return tab;
-
-        ScrollPane main = new ScrollPane();
-        main.getStyleClass().addAll("ayarlar-tab", "tab-gri-bg");
-        main.setPadding(new Insets(15, 15, 15 , 15));
-
-        FlowPane otobus_liste_cont = new FlowPane();
-        otobus_liste_cont.setPrefWidth(850);
-        otobus_liste_cont.setHgap(5.0);
-        otobus_liste_cont.setVgap(5.0);
-
-        try {
-            Connection con = DBC.getInstance().getConnection();
-            Statement st = con.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM " + GitasDBT.OTOBUSLER );
-            while(res.next()){
-                otobus_liste_cont.getChildren().add( new Otobus_Item( res.getString("kod") ));
-            }
-
-            res.close();
-            st.close();
-            con.close();
-        } catch( SQLException e ){
-            e.printStackTrace();
-        }
-
-        GButton yeni_ekle = new GButton("OTOBÜS EKLE", GButton.CMORB );
-        VBox main_sub = new VBox();
-        main_sub.setSpacing(15);
-        main_sub.getChildren().addAll(yeni_ekle, otobus_liste_cont);
-        main.setContent( main_sub );
-
-
-        yeni_ekle.setOnMousePressed( ev -> {
-            if( ekle_popup == null ){
-                ekle_popup = new Obarey_Popup("Yeni Otobüs Ekle", root);
-                ekle_popup.init(true);
-            }
-
-            VBox ekle_form = new VBox();
-            ekle_form.setAlignment(Pos.CENTER);
-            ekle_form.setSpacing(15);
-            VBox input_container = new VBox();
-            Label lbl = new Label("Kod");
-            lbl.getStyleClass().addAll("cbeyaz", "fs11", "fbold");
-            TextField tf = new TextField();
-            tf.getStyleClass().addAll("grigrad", "input-mid");
-
-            input_container.getChildren().addAll( lbl, tf );
-            input_container.setAlignment(Pos.CENTER);
-            input_container.setSpacing(5);
-
-            ekle_form.getChildren().add( input_container );
-
-            input_container = new VBox();
-            input_container.setAlignment(Pos.CENTER);
-            input_container.setSpacing(5);
-
-            lbl = new Label("Ruhsat Plaka");
-            lbl.getStyleClass().addAll("cbeyaz", "fs11", "fbold");
-            TextField plaka_tf = new TextField();
-            plaka_tf.getStyleClass().addAll("grigrad", "input-mid");
-            input_container.getChildren().addAll( lbl, plaka_tf );
-            ekle_form.getChildren().add( input_container );
-
-            GButton ekle_submit = new GButton("Ekle", GButton.CMORK );
-            ekle_form.getChildren().add( ekle_submit );
-
-            ekle_popup.set_content( ekle_form );
-            ekle_popup.show( ev.getScreenX(), ev.getScreenY() );
-
-        });
-
-        tab.setContent( main );
-        return tab;
-    }*/
 
     public Tab hat_ayarlar_init( boolean icerik ){
         Tab tab = new Tab("Hatlar");
@@ -398,26 +450,83 @@ public class Ayarlar_Popup {
 
 class Otobus_Item extends HBox{
     private String oto;
-    public Otobus_Item( String oto ){
+    private CheckBox cb;
+    private double x, y, xprev, yprev, xlimit, ylimit;
+    public Otobus_Item( String oto, double _x, double _y ){
         super();
         this.oto = oto;
+        setId(oto);
         setSpacing(5);
-        setPadding(new Insets(0, 5, 0, 5 ) );
+        setPadding(new Insets(5, 10, 5, 10 ) );
         getStyleClass().add("otobus-item-bg");
         setAlignment(Pos.CENTER);
         Label oto_lbl = new Label( oto );
         oto_lbl.setPrefWidth(50);
-        oto_lbl.getStyleClass().addAll("flight", "fs11", "cbeyaz");
-        Button edit_btn = new Button("", new ImageView(new Image(getClass().getResourceAsStream("resources/img/ico_dt_editmor.png"))));
-        edit_btn.getStyleClass().addAll("cursor-hand", "dt-ico-btn");
-        getChildren().addAll( oto_lbl, edit_btn );
+        oto_lbl.getStyleClass().addAll("fbold", "fs11", "cbeyaz");
+        cb = new CheckBox();
+        getChildren().addAll( oto_lbl, cb );
 
-        edit_btn.setOnMousePressed(ev->{
+        System.out.println(oto +  " X: " + _x + " Y: " + _y );
 
+        x = _x;
+        y = _y;
+        xprev = _x;
+        yprev = _y;
+        xlimit = 0;
+        ylimit = 0;
 
+        AnchorPane.setLeftAnchor( this, x );
+        AnchorPane.setTopAnchor( this, y );
 
-        });
 
     }
+
+    public void inc_ylimit(){
+        ylimit++;
+    }
+    public void inc_xlimit(){
+        xlimit++;
+    }
+    public void reset_xlimit(){
+        xlimit = 0;
+    }
+    public void reset_ylimit(){
+        ylimit = 0;
+    }
+    public double get_xlimit(){
+        return xlimit;
+    }
+    public double get_ylimit(){
+        return ylimit;
+    }
+
+    public double getX(){
+        return x;
+    }
+    public double getY(){
+        return y;
+    }
+    public double getXPrev(){
+        return xprev;
+    }
+    public double getYPrev(){
+        return yprev;
+    }
+    public void setXPrev( double xp ){
+        xprev = xp;
+    }
+    public void setYPrev( double yp ){
+        yprev = yp;
+    }
+    public void setX( double _x ){
+        x = _x;
+        AnchorPane.setLeftAnchor(this, x);
+    }
+
+    public void setY( double _y ){
+        y = _y;
+        AnchorPane.setTopAnchor(this, y);
+    }
+
 
 }

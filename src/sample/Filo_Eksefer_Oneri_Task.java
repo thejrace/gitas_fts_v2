@@ -52,17 +52,7 @@ public class Filo_Eksefer_Oneri_Task extends Task<ArrayList<Oneri_Sefer_Data>> {
         request.action();
         JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
 
-        String cookie;
-        JSONObject cookies = User_Config.cookie_config_oku();
-        try {
-            // init varsa daha giris yapilmamis demektir bekliyoruz
-            if (cookies.getBoolean("init")) {
-            }
-            return;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            cookie = cookies.getString(bolge);
-        }
+
 
         String AKTIF_TARIH = data.getString("aktif_tarih");
         JSONArray otobus_db_data = data.getJSONArray("otobus_db_data");
@@ -108,7 +98,7 @@ public class Filo_Eksefer_Oneri_Task extends Task<ArrayList<Oneri_Sefer_Data>> {
                 hat_kod = hatlar_data.getString(k);
                 try {
                     js_con = Jsoup.connect("http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&hat=" + Common.hat_kod_sef(hat_kod))
-                            .cookie("PHPSESSID", cookie)
+                            .cookie("PHPSESSID", User_Config.filo5_cookie)
                             .method(org.jsoup.Connection.Method.POST)
                             .timeout(0)
                             .execute();

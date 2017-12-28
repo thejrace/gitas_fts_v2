@@ -46,18 +46,8 @@ public class Filo_Harita_Request_Task {
         return web_view;
     }
     public void init() {
-        String cookie;
-        JSONObject cookies = User_Config.cookie_config_oku();
-        System.out.println(cookies);
-        try {
-            // init varsa daha giris yapilmamis demektir bekliyoruz
-            if (cookies.getBoolean("init")) {
-            }
-            return;
-        } catch (JSONException e) {
-            //e.printStackTrace();
-            cookie = cookies.getString(bolge);
-        }
+
+
 
 
         //  http://maps.google.com/m/maps?f=q&hl=tr&z=17&q=41.1084,28.801027
@@ -125,7 +115,7 @@ public class Filo_Harita_Request_Task {
             web_view.setMaxHeight(512);
             try {
                 org.jsoup.Connection.Response js_con = Jsoup.connect("http://filo.iett.gov.tr/akyolbil/uyg.php?abc=1&talep=5&grup=3&hat="+oto)
-                        .cookie("PHPSESSID", cookie)
+                        .cookie("PHPSESSID", User_Config.filo5_cookie)
                         .method(org.jsoup.Connection.Method.POST)
                         .execute();
                 Document sefer_doc = js_con.parse();
@@ -186,7 +176,7 @@ public class Filo_Harita_Request_Task {
             }
 
             Map<String, List<String>> headers = new LinkedHashMap<>();
-            headers.put("Set-Cookie", Arrays.asList("PHPSESSID="+cookie));
+            headers.put("Set-Cookie", Arrays.asList("PHPSESSID="+User_Config.filo5_cookie));
             java.net.CookieHandler.getDefault().put(uri, headers);
             WebEngine engine = web_view.getEngine();
 
@@ -204,7 +194,12 @@ public class Filo_Harita_Request_Task {
                         // haritanınn aktif zoom degerini 1 yapıp tekrar eski haline getiriyorum. hızlı refresh gibi oluyor.
                         // yavas hızlarda problem yok ama cok hızlıya alınca biraz garip oluyor. idare eder simdilik ama ( 19.02.2017 )
                         // @FIXME Google Maps ve WebView ile ilgili refresh sıkıntısı var. Simdilik idare ediyor ama bakmak lazım.
-                        engine.executeScript(js_action);
+                        try {
+                            engine.executeScript(js_action);
+                        } catch( netscape.javascript.JSException e ){
+                            e.printStackTrace();
+                        }
+
                     } );
             engine.load(url.toString());
 

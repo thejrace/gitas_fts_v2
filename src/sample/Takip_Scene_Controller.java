@@ -11,12 +11,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -66,6 +68,7 @@ public class Takip_Scene_Controller implements Initializable {
     @FXML private VBox filtre_container;
     @FXML private HBox filtre_btn_container;
     @FXML private HBox header_pie_chart_container;
+    @FXML private ComboBox<String> profil_select;
 
     private PieChart header_pie_chart;
     private ObservableList<PieChart.Data> pie_data;
@@ -140,6 +143,24 @@ public class Takip_Scene_Controller implements Initializable {
                 for( Filtre_Listener listener : filtre_listeners ) listener.on_filtre_set( kapi, data );
             }
         });
+    }
+
+    public void profiller_init( final Profil_Listener plistener ){
+        ObservableList item_list = FXCollections.observableArrayList();
+        try {
+            for( int k = 0; k < User_Config.app_profiller.length(); k++ ){
+                item_list.add( User_Config.app_profiller.getJSONObject(k).getString("profil_ismi") );
+            }
+            profil_select.setItems(item_list);
+            profil_select.getSelectionModel().select(User_Config.app_aktif_profil_index);
+
+            profil_select.valueProperty().addListener((obs, oldVal, newVal) -> {
+                plistener.onchange( newVal, oldVal );
+            });
+        } catch( Exception e ){
+            e.printStackTrace();
+        }
+
     }
 
     public void ayarlar_init(){
@@ -248,16 +269,34 @@ public class Takip_Scene_Controller implements Initializable {
         coklu_tables_container.getChildren().add( otobus_box );
         otobus_kutular_sort();
     }
+
+    public void clear_boxes(){
+        coklu_tables_container.getChildren().clear();
+    }
+
     public void remove_otobus_box( String kod ) {
         try{
+            Otobus_Box item;
+            ArrayList<Integer> silinecekler = new ArrayList<>();
             for( int j = 0; j < coklu_tables_container.getChildren().size(); j++ ){
-                if( coklu_tables_container.getChildren().get(j).getId().equals(kod) ) coklu_tables_container.getChildren().remove(j);
+                item = (Otobus_Box)coklu_tables_container.getChildren().get(j);
+
+                if( item.get_kod().equals(kod) ) silinecekler.add(j);
             }
-            otobus_kutular_sort();
-        } catch( IndexOutOfBoundsException e ){
+            for( int index : silinecekler ){
+                try {
+                    coklu_tables_container.getChildren().remove(index);
+                } catch( IndexOutOfBoundsException e ){
+
+                }
+            }
+        } catch( Exception e ){
             e.printStackTrace();
         }
+        otobus_kutular_sort();
     }
+
+
     public Otobus_Box_Filtre get_filtre_obj(){
         return otobus_box_filtre;
     }
@@ -269,9 +308,10 @@ public class Takip_Scene_Controller implements Initializable {
             Collections.sort(obs_array, new Comparator<Node>(){
                 @Override
                 public int compare( Node vb1, Node vb2 ){
-                    return vb1.getId().compareTo(vb2.getId());
+                    return Integer.valueOf(vb1.getId()).compareTo(Integer.valueOf(vb2.getId()));
                 }
             });
+            //System.out.println(obs_array);
             coklu_tables_container.getChildren().setAll(obs_array);
         } catch( IndexOutOfBoundsException e ){
             e.printStackTrace();

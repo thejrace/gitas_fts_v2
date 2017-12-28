@@ -229,6 +229,10 @@ public class Common {
     }
 
     static class Delta { double x, y; }
+
+
+
+
     public static void make_draggable(Node node) {
         final Delta dragDelta = new Delta();
         node.setOnMousePressed(me -> {
@@ -258,5 +262,7 @@ public class Common {
         });
 
     }
+
+
 
 }

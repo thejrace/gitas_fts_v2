@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * Created by Jeppe on 19.05.2017.
  */
-public class Otobus_Box {
+public class Otobus_Box extends VBox{
 
     private int index;
     private String kod, ruhsat_plaka, aktif_plaka;
@@ -91,7 +91,8 @@ public class Otobus_Box {
     private double gitas_km = 0, iett_km = 0;
     private double hat_gitas_km = 0, hat_iett_km = 0;
     private boolean hat_km_alindi = false;
-    public Otobus_Box( String kod, int index, String ruhsat_plaka, String aktif_plaka ){
+    public Otobus_Box(  String kod, int index, String ruhsat_plaka, String aktif_plaka ){
+        super();
         this.kod = kod;
         this.index = index;
         this.ruhsat_plaka = ruhsat_plaka;
@@ -131,9 +132,9 @@ public class Otobus_Box {
                 ID_OTOBUS_HAT               = "hat";
 
         // [1] ana container
-        ui_container = new VBox();
-        ui_container.setId( this.kod );
-        ui_container.getStyleClass().add(CLASS_OTOBUS_BOX);
+        //ui_container = new VBox();
+        this.setId( String.valueOf(this.index) );
+        this.getStyleClass().add(CLASS_OTOBUS_BOX);
 
         // [1][1] box header
         AnchorPane box_header = new AnchorPane();
@@ -295,7 +296,7 @@ public class Otobus_Box {
 
         // box content elemanlari ekle
         box_content.getChildren().addAll( main_info, info, ozet_cont,nav_cont_test, vd_log_container );
-        ui_container.getChildren().addAll( box_header, box_content );
+        this.getChildren().addAll( box_header, box_content );
     }
 
     private void orer_download( boolean thread ){
@@ -824,7 +825,7 @@ public class Otobus_Box {
 
         btn_vdl_gecmis.setOnMousePressed( ev -> {
             if( vd_log_popup == null ){
-                vd_log_popup = new Obarey_Popup(kod + " VD Log", ui_container.getScene().getRoot());
+                vd_log_popup = new Obarey_Popup(kod + " VD Log", this.getScene().getRoot());
             }
             if( vd_log_popup.ison() ) return;
             Thread th = new Thread(new Runnable() {
@@ -856,7 +857,7 @@ public class Otobus_Box {
         if( User_Config.izin_kontrol( User_Config.IOB_PLAKA_DEGISTIRME ) ) {
             box_header_plaka.setOnMousePressed(event -> {
                 if (plaka_popup == null) {
-                    plaka_popup = new Obarey_Popup(kod + " Plaka Bilgisi", ui_container.getScene().getRoot());
+                    plaka_popup = new Obarey_Popup(kod + " Plaka Bilgisi", this.getScene().getRoot());
                 }
                 if (plaka_popup.ison()) return;
                 Thread plaka_ui_th = new Thread(new Task<String>() {
@@ -928,11 +929,12 @@ public class Otobus_Box {
 
         btn_sefer.setOnMousePressed( ev -> {
             btn_sefer.setDisable(true);
+            Otobus_Box this_ref = this;
             Thread plan_thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     if( sefer_popup == null || sefer_plan_table == null ) {
-                        sefer_popup = new Obarey_Popup(kod + " Sefer Planı", ui_container.getScene().getRoot());
+                        sefer_popup = new Obarey_Popup(kod + " Sefer Planı", this_ref.getScene().getRoot());
                         sefer_popup.init(true);
                         sefer_plan_table = new Filo_Table( kod );
                         sefer_plan_table.init();
@@ -966,7 +968,7 @@ public class Otobus_Box {
 
         btn_mesaj.setOnMousePressed( ev -> {
             if( mesaj_popup == null || popup_mesaj_box == null ) {
-                mesaj_popup = new Obarey_Popup(kod + " Filo Mesajları", ui_container.getScene().getRoot() );
+                mesaj_popup = new Obarey_Popup(kod + " Filo Mesajları", this.getScene().getRoot() );
                 popup_mesaj_box = new Popup_Mesaj_Box( kod );
             }
             if( mesaj_popup.ison() ) return;
@@ -991,7 +993,7 @@ public class Otobus_Box {
 
         btn_iys.setOnMousePressed( ev -> {
             if( iys_popup == null || popup_iys_box == null ) {
-                iys_popup = new Obarey_Popup(kod + " IYS", ui_container.getScene().getRoot());
+                iys_popup = new Obarey_Popup(kod + " IYS", this.getScene().getRoot());
                 popup_iys_box = new Popup_IYS_Box( kod );
             }
             if( iys_popup.ison() ) return;
@@ -1016,10 +1018,11 @@ public class Otobus_Box {
 
         btn_rapor.setOnMousePressed( ev -> {
             if( rapor_popup == null  ) {
-                rapor_popup = new Obarey_Popup(kod + " Rapor", ui_container.getScene().getRoot());
+                rapor_popup = new Obarey_Popup(kod + " Rapor", this.getScene().getRoot());
             }
             if( rapor_popup.ison() ) return;
             btn_rapor.setDisable(true);
+            final Otobus_Box this_ref = this;
             Thread filo_mesaj_th = new Thread( new Task<String>(){
                 @Override
                 protected void succeeded(){
@@ -1029,7 +1032,7 @@ public class Otobus_Box {
                 @Override
                 protected String call(){
                     rapor_popup.init(true);
-                    rapor_filtre_box = new Rapor_Tarih_Filtre_Box( Rapor_Box_Toplam.TOPLAM_OTOBUS, kod, ui_container.getScene().getRoot() );
+                    rapor_filtre_box = new Rapor_Tarih_Filtre_Box( Rapor_Box_Toplam.TOPLAM_OTOBUS, kod, this_ref.getScene().getRoot() );
                     rapor_popup.set_content( rapor_filtre_box );
                     return null;
                 }
@@ -1040,7 +1043,7 @@ public class Otobus_Box {
 
         btn_notlar.setOnMousePressed( ev -> {
             if( not_popup == null || popup_not_box == null ) {
-                not_popup = new Obarey_Popup(kod + " Otobüs Notlar", ui_container.getScene().getRoot() );
+                not_popup = new Obarey_Popup(kod + " Otobüs Notlar", this.getScene().getRoot() );
                 popup_not_box = new Popup_Not_Box( kod, aktif_plaka );
             }
             if( not_popup.ison() ) return;
@@ -1065,7 +1068,7 @@ public class Otobus_Box {
 
         btn_surucu.setOnMousePressed(event -> {
             if( surucu_popup == null || surucu_box == null ) {
-                surucu_popup = new Obarey_Popup(kod + " Sürücü Bilgileri", ui_container.getScene().getRoot());
+                surucu_popup = new Obarey_Popup(kod + " Sürücü Bilgileri", this.getScene().getRoot());
                 surucu_box = new Surucu_Box( kod );
             }
             if( surucu_popup.ison() ) return;
@@ -1256,6 +1259,10 @@ public class Otobus_Box {
         }
     }
 
+    public String get_kod(){
+        return kod;
+    }
+
     public boolean get_filtre_data( String key ){
         return filtre_data.get(key);
     }
@@ -1292,8 +1299,13 @@ public class Otobus_Box {
         listeners.add( listener );
     }
 
-    public VBox get_ui(){
+    /*public VBox get_ui(){
         return this.ui_container;
+    }*/
+
+    public void set_id( int _index ){
+        index = _index;
+        this.setId( String.valueOf(index));
     }
 
 }

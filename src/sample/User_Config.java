@@ -57,6 +57,9 @@ public class User_Config {
 
     public static JSONObject app_ayarlar, app_filtre, app_filo5_data;
     public static JSONArray app_otobusler;
+    public static JSONArray app_profiller;
+    public static String app_aktif_profil;
+    public static int app_aktif_profil_index; // combobox için
     public static String filo5_cookie;
     public static int login_status = 0;
 
@@ -66,6 +69,14 @@ public class User_Config {
             app_filtre = guncel_data.getJSONObject("filtre");
             app_filo5_data = guncel_data.getJSONObject("filo5_data");
             app_otobusler = guncel_data.getJSONArray("otobusler");
+            app_profiller = guncel_data.getJSONArray("app_data_profiller");
+            for( int k = 0; k < app_profiller.length(); k++ ){
+                if(app_profiller.getJSONObject(k).getInt("durum") == 1 ){
+                    User_Config.app_aktif_profil = app_profiller.getJSONObject(k).getString("profil_ismi");
+                    app_aktif_profil_index = k;
+                    break;
+                }
+            }
         } else {
             if( key.equals("ayarlar_data") ){
                 app_ayarlar = guncel_data;
