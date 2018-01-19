@@ -45,11 +45,6 @@ public class User_Config {
                         KAYIT_MOD = 2,
                         CONFIG_YOK_MOD = 3;
 
-    public static int   KAYIT_ONAYBEKLENIYOR = 1,
-                        GIRIS_ONAYBEKLENIYOR = 2,
-                        GIRIS_ONAYLANDI = 3,
-                        HATA = 4,
-                        SIFRE_BOSGELDI = 6;
 
     public static String CONFIG_JSON = "C://temp/config.json", // TODO setup a eklicez bunlari
                          GITAS_JSON = "src/sample/data/gitas.json",
@@ -61,7 +56,6 @@ public class User_Config {
     public static String app_aktif_profil;
     public static int app_aktif_profil_index; // combobox için
     public static String filo5_cookie;
-    public static int login_status = 0;
 
     public static void init_app_data( String key, JSONObject guncel_data ){
         if( key.equals("init") ){

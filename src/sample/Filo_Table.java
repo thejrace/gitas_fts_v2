@@ -156,7 +156,6 @@ public class Filo_Table {
             }
             String bekleme = "0";
             if( onceki_sefer.length() > 0 ) bekleme = String.valueOf(Sefer_Sure.hesapla( onceki_sefer.getString("bitis"), sefer.getString("gidis") ) )+ " DK";
-
             if( aktif_kaynak == 'A' ){
                 if( suruculer_temp.containsKey(sefer.getString("orer") ) ){
                     surucu_isim = suruculer_temp.get(sefer.getString("orer"));
@@ -166,9 +165,6 @@ public class Filo_Table {
             } else {
                 surucu_isim = sefer.getString("surucu");
             }
-
-
-
             sefer_row.getChildren().addAll(
                     new Filo_Table_Sefer_Label( sefer.getString("no"), Filo_Table_Sefer_Label.WTD_37 ).get(),
                     new Filo_Table_Sefer_Label( sefer.getString("guzergah"), Filo_Table_Sefer_Label.WTD_80 ).get(),
@@ -182,6 +178,7 @@ public class Filo_Table {
                     new Filo_Table_Sefer_Label( sefer.getString("bitis"), Filo_Table_Sefer_Label.WTD_60 ).get(),
                     new Filo_Table_Sefer_Label( sefer.getString("durum_kodu"), Filo_Table_Sefer_Label.WTD_37 ).get(),
                     new Filo_Table_Sefer_Label( String.valueOf(Sefer_Sure.hesapla( sefer.getString("gidis"), sefer.getString("bitis") ) )+ " DK", Filo_Table_Sefer_Label.WTD_60 ).get(),
+                    new Filo_Table_Sefer_Label( String.valueOf( Common.dakiklik_puan_hesapla( sefer.getString("orer"), sefer.getString("gidis") ) ), Filo_Table_Sefer_Label.WTD_37 ).get(),
                     new Filo_Table_Sefer_Label( String.valueOf(sefer.getInt("versiyon")), Filo_Table_Sefer_Label.WTD_37 ).get()
             );
             rows.add(sefer_row);
@@ -202,9 +199,6 @@ public class Filo_Table {
     }
 
     public void init(){
-
-
-
         table = new VBox();
         //table.getStyleClass().add( "filo-table-item" );
         main_cont = new ScrollPane();
@@ -214,9 +208,6 @@ public class Filo_Table {
         main_cont.setFitToHeight(true);
         main_cont.setFitToWidth(true);
         main_cont.setContent(table);
-
-
-        //table.setId(kod);
 
         ust_cont = new VBox();
         versiyon_cont = new HBox();
@@ -310,6 +301,7 @@ public class Filo_Table {
                 new Filo_Table_Sefer_Thead_Label( "BİTİŞ", Filo_Table_Sefer_Label.WTD_60 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "DKODU", Filo_Table_Sefer_Label.WTD_37 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "SÜRE", Filo_Table_Sefer_Label.WTD_60 ).get(),
+                new Filo_Table_Sefer_Thead_Label( "SDP", Filo_Table_Sefer_Label.WTD_37 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "VER", Filo_Table_Sefer_Label.WTD_37 ).get()
         );
         thead_container.getChildren().addAll( ust_cont, thead );

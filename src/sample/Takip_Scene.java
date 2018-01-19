@@ -66,6 +66,7 @@ public class Takip_Scene extends Application {
         } catch( Exception e ){
             e.printStackTrace();
         }
+
         // pencere boyutuna gore kutulari dizme event
         controller.screen_resize_cb();
         controller.init_filtre();
@@ -74,105 +75,55 @@ public class Takip_Scene extends Application {
         controller.profiller_init(new Profil_Listener() {
             @Override
             public void onchange(String profil, String prevprofil) {
-                // yeni profilin otobuslerini alip, app_otobuslere atiyoruz
-                // gelen array i loop a alip, durum 0 olanlarin kutularini silip, olanlarin id lerini guncellicez
-                // sort edicez finalde
-
                 controller.clear_boxes();
-                //otobus_kutular.clear();
-
                 Thread filo_mesaj_th = new Thread( new Task<Void>(){
-                    private ArrayList<Otobus_Box> eklenecekler = new ArrayList<>();
-                    private ArrayList<String> silinecekler = new ArrayList<>();
-                    private ArrayList<String> yeni_profil_kodlar = new ArrayList<>();
                     Map<String, Otobus_Box> otobus_kutular_temp = new HashMap<>();
                     @Override
                     protected Void call(){
-
                         Web_Request req = new Web_Request(Web_Request.SERVIS_URL, "&req=profil_action&yeniprofil="+profil+"&eskiprofil="+prevprofil);
                         req.kullanici_pc_parametreleri_ekle();
                         req.action();
                         User_Config.app_otobusler = new JSONObject(req.get_value()).getJSONObject("data").getJSONArray("app_otobusler_data");
                         JSONObject item;
-
                         for( int k = 0; k < User_Config.app_otobusler.length(); k++ ) {
                             item = User_Config.app_otobusler.getJSONObject(k);
-                            yeni_profil_kodlar.add(item.getString("kapi_kodu"));
                             if( otobus_kutular.containsKey(item.getString("kapi_kodu"))){
                                 // var olan kutuysa id guncelle
                                 otobus_kutular.get(item.getString("kapi_kodu")).set_id(item.getInt("sira"));
                                 otobus_kutular_temp.put( item.getString("kapi_kodu"), otobus_kutular.get(item.getString("kapi_kodu")) );
                             } else {
                                 // yeni kutu ekle
-                                System.out.println("ekle " + item.getString("kapi_kodu"));
                                 final Otobus_Box otobus_box = new Otobus_Box(item.getString("kapi_kodu"), item.getInt("sira"), item.getString("ruhsat_plaka"), item.getString("aktif_plaka"));
                                 otobus_kutular_temp.put(item.getString("kapi_kodu"), otobus_box );
+                                final String kapi_kodu = item.getString("kapi_kodu");
+                                otobus_box.add_alarm_listener(new Alarm_Listener() {
+                                    @Override
+                                    public void on_ui_finished(ArrayList<Alarm_Data> alarmlar) {
+                                        controller.alarmlari_guncelle(kapi_kodu, alarmlar, new Alarm_Goruldu_Listener() {
+                                            @Override
+                                            public void goruldu_yap(String key) {
+                                                otobus_box.alarm_goruldu_tetik( key );
+                                            }
+                                        });
+                                    }
+                                });
                                 otobus_box.cookie_guncelle( User_Config.filo5_cookie );
-
                             }
-
                         }
                         return null;
                     }
                     @Override
                     protected void succeeded(){
-
                         for (Map.Entry<String, Otobus_Box> entry : otobus_kutular_temp.entrySet()) {
-                            //System.out.println(entry.getKey());
-
-
-
                             controller.add_otobus_box(entry.getValue());
-
-
-
                         }
                         controller.otobus_kutular_sort();
-
-
-
                         User_Config.app_aktif_profil = profil;
                         otobus_kutular = otobus_kutular_temp;
-
-                        //User_Config.app_aktif_profil = profil;
-                        /*otobus_kutular_init();
-                        for (Map.Entry<String, Otobus_Box> entry : otobus_kutular.entrySet()) {
-                            entry.getValue().cookie_guncelle( User_Config.filo5_cookie );
-                        }*/
-
-
-                        /*for (Map.Entry<String, Otobus_Box> entry : otobus_kutular.entrySet()) {
-                            if( !yeni_profil_kodlar.contains(entry.getKey() ) ){
-                                System.out.println( "sil1: " + entry.getKey() );
-                                silinecekler.add( entry.getKey());
-
-                               try {
-                                    controller.remove_otobus_box(entry.getKey());
-                                } catch( Exception e ){
-                                    e.printStackTrace();
-                                    break;
-                                }
-                            }
-                        }
-                        for( String kod : silinecekler ) otobus_kutular.remove(kod);*/
-
-
-                        /*controller.otobus_kutular_sort();
-                        User_Config.app_aktif_profil = profil;
-
-                        for( Otobus_Box item : eklenecekler ){
-                            controller.add_otobus_box( item );
-                        }*/
-
                     }
-
                 });
                 filo_mesaj_th.setDaemon(true);
                 filo_mesaj_th.start();
-
-
-
-
             }
         });
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -209,7 +160,6 @@ public class Takip_Scene extends Application {
     private void otobus_kutular_init(){
         //temp_elem_index = 0;
         try {
-            //JSONObject config = User_Config.config_oku();
             JSONArray otobusler = User_Config.app_otobusler;
             // hazir tum otobusleri loop ederken arada kutulari da olusturuyoruz
             JSONObject otobus_object;
@@ -347,18 +297,24 @@ public class Takip_Scene extends Application {
             @Override
             public void run() {
                 while( !shutdown ){
-                    req = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_kontrol_toplu");
+                    /*req = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_kontrol_toplu");
+                    //req = new Web_Request(Web_Request.SERVIS_URL, "&req=temp_data_kontrol");
                     req.kullanici_pc_parametreleri_ekle();
                     req.action();
                     JSONArray degisimler = new JSONObject(req.get_value()).getJSONObject("data").getJSONArray("plaka_degisimler");
                     JSONObject item;
                     for( int j = 0; j < degisimler.length(); j++ ){
                         item = degisimler.getJSONObject(j);
-                        otobus_kutular.get( item.getString("kapi_kodu") ).plakalari_guncelle( item.getString("aktif_plaka"), item.getString("ruhsat_plaka") );
-                    }
+                        try {
+                            otobus_kutular.get( item.getString("kapi_kodu") ).plakalari_guncelle( item.getString("aktif_plaka"), item.getString("ruhsat_plaka") );
+                        } catch( NullPointerException e ){
 
-                    if( Common.get_unix() - komple_update_timestamp >= 120 ){
-                        req_komple = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_komple_kontrol_toplu");
+                        }
+                    }*/
+                    JSONObject item;
+                    if( Common.get_unix() - komple_update_timestamp >= 30 ){
+                        //req_komple = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_komple_kontrol_toplu");
+                        req_komple = new Web_Request(Web_Request.SERVIS_URL, "&req=temp_data_download");
                         req_komple.kullanici_pc_parametreleri_ekle();
                         req_komple.action();
                         JSONArray plaka_data = new JSONObject(req_komple.get_value()).getJSONObject("data").getJSONArray("plaka_data");
@@ -375,7 +331,7 @@ public class Takip_Scene extends Application {
                     }
 
                     try {
-                        Thread.sleep(30000 );
+                        Thread.sleep(1000 );
                     } catch( InterruptedException e ){
                         e.printStackTrace();
                     }

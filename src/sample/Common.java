@@ -102,6 +102,19 @@ public class Common {
         }
     }
 
+    public static int dakiklik_puan_hesapla( String orer, String kalkis ){
+        int fark = Sefer_Sure.hesapla(orer, kalkis);
+        if( fark == 0 || (fark >= -1 && fark <= 3) ){
+            return 100;
+        } else if( fark >= -2 && fark <= 5 ){
+            return 75;
+        } else if( fark >= -3 && fark <= 7 ){
+            return 25;
+        } else {
+            return 0;
+        }
+    }
+
     public static LocalDate dp_placeholder(String dateString){
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -229,9 +242,6 @@ public class Common {
     }
 
     static class Delta { double x, y; }
-
-
-
 
     public static void make_draggable(Node node) {
         final Delta dragDelta = new Delta();
