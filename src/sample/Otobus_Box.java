@@ -13,6 +13,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +58,7 @@ public class Otobus_Box extends VBox{
     private Circle led;
     private Button btn_sefer, btn_surucu, btn_alarm, btn_mesaj, btn_harita, btn_rapor, btn_iys, btn_notlar;
     private Button btn_vdl_filo, btn_vdl_plaka, btn_vdl_gecmis; // veri download log
-    private Label lbl_vdl_filo, lbl_vdl_plaka;
+    private Label lbl_vdl_filo, lbl_vdl_plaka, lbl_vdl_hiz;
     private VBox ui_container;
     private VBox box_content;
     private String  ui_led = "VY",
@@ -73,7 +75,8 @@ public class Otobus_Box extends VBox{
                             rapor_popup,
                             plaka_popup,
                             not_popup,
-                            vd_log_popup;
+                            vd_log_popup,
+                            hiz_frame_popup;
 
     private Filo_Table sefer_plan_table;
     private Surucu_Box surucu_box;
@@ -90,6 +93,7 @@ public class Otobus_Box extends VBox{
     private Map<String, Boolean> filtre_data = new HashMap<>();
     private double gitas_km = 0, iett_km = 0;
     private double hat_gitas_km = 0, hat_iett_km = 0;
+    private int hiz = 0;
     private boolean hat_km_alindi = false;
     public Otobus_Box(  String kod, int index, String ruhsat_plaka, String aktif_plaka ){
         super();
@@ -110,6 +114,7 @@ public class Otobus_Box extends VBox{
         create_ui();
         set_event_handlers();
         update_thread_start();
+
     }
 
     private void create_ui(){
@@ -284,9 +289,10 @@ public class Otobus_Box extends VBox{
 
         lbl_vdl_filo = new Label("xx:xx (x)");
         lbl_vdl_plaka = new Label("xx:xx");
+        lbl_vdl_hiz = new Label("HIZ: 0 km/s");
 
-        fd_container.getChildren().addAll( btn_vdl_filo, lbl_vdl_filo, btn_vdl_plaka, lbl_vdl_plaka );
-        sw_container.getChildren().addAll( btn_vdl_gecmis );
+        fd_container.getChildren().addAll( btn_vdl_filo, lbl_vdl_filo, btn_vdl_plaka, lbl_vdl_plaka, btn_vdl_gecmis );
+        sw_container.getChildren().addAll( lbl_vdl_hiz );
         vd_log_container.getChildren().addAll( fd_container, sw_container );
 
         AnchorPane.setLeftAnchor(fd_container, 10.0);
@@ -377,6 +383,7 @@ public class Otobus_Box extends VBox{
                     if( !cookie.equals("INIT") ){
                         sleep = 90000;
                         orer_download( false );
+
                         if( !hat_km_alindi && !hat.equals("#") ){
                             Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=hat_km_download&hat="+hat);
                             request.kullanici_pc_parametreleri_ekle();
@@ -400,6 +407,32 @@ public class Otobus_Box extends VBox{
         });
         th.setDaemon(true);
         th.start();
+
+        Thread hiz_th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while( true ){
+                    Hiz_Download hd = new Hiz_Download(kod, cookie);
+                    hd.yap();
+                    hiz = hd.get_hiz();
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            hiz_label_guncelle();
+                        }
+                    });
+                    try {
+                        Thread.sleep( 55000 );
+                    } catch( InterruptedException e ){
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+        hiz_th.setDaemon(true);
+        hiz_th.start();
+
     }
 
     private void update( JSONArray data, String durak_data ) {
@@ -799,6 +832,25 @@ public class Otobus_Box extends VBox{
 
     }
 
+    private void hiz_label_guncelle(){
+        lbl_vdl_hiz.setText("HIZ: " + hiz + " km/s");
+        //System.out.println(hiz);
+        try{
+            lbl_vdl_hiz.getStyleClass().remove(1);
+        } catch( IndexOutOfBoundsException e ){
+            //e.printStackTrace();
+        }
+        if( hiz == 0 ){
+            lbl_vdl_hiz.setStyle("-fx-text-fill:#c1c1c1");
+        } else if( hiz > 70 ){
+            lbl_vdl_hiz.setStyle("-fx-text-fill:#ff3232");
+        } else if( hiz > 50 && hiz < 70 ){
+            lbl_vdl_hiz.setStyle("-fx-text-fill:#ffd926");
+        } else {
+            lbl_vdl_hiz.setStyle("-fx-text-fill:#00ff36");
+        }
+    }
+
     public synchronized void plakalari_guncelle( String _aktif_plaka, String _ruhsat_plaka ){
         aktif_plaka = _aktif_plaka;
         ruhsat_plaka = _ruhsat_plaka;
@@ -1107,7 +1159,7 @@ public class Otobus_Box extends VBox{
 
         btn_harita.setOnMousePressed(event -> {
             if( harita_popup == null  ) {
-                harita_popup = new Obarey_Popup(kod + " Harita", ui_container.getScene().getRoot());
+                harita_popup = new Obarey_Popup(kod + " Harita", this.getScene().getRoot());
             }
             if( harita_popup.ison() ) return;
             Thread filo_mesaj_th = new Thread( new Task<String>(){
@@ -1156,6 +1208,34 @@ public class Otobus_Box extends VBox{
             filo_mesaj_th.start();
         });
 
+        lbl_vdl_hiz.setOnMousePressed(ev -> {
+            if( hiz_frame_popup == null  ) {
+                hiz_frame_popup = new Obarey_Popup(kod + " Hız Limit Kontrol", this.getScene().getRoot());
+            }
+            if( hiz_frame_popup.ison() ) return;
+            Thread hiz_th = new Thread( new Task<String>(){
+                private WebView web_view;
+                @Override
+                protected void succeeded(){
+                    web_view = new WebView();
+                    web_view.setPrefWidth(600);
+                    web_view.setPrefHeight(650);
+                    WebEngine we = web_view.getEngine();
+                    we.load("http://gitasgaz.com/fts_admin/hiz_limit_kontrol.php?oto="+kod);
+                    hiz_frame_popup.set_content( web_view );
+                    hiz_frame_popup.show( ev.getScreenX(), ev.getScreenY() );
+                }
+                @Override
+                protected String call(){
+                    hiz_frame_popup.init(true);
+                    return null;
+                }
+            });
+            hiz_th.setDaemon(true);
+            hiz_th.start();
+
+
+        });
     }
 
     public void otobus_plaka_kontrol(){
@@ -1568,3 +1648,42 @@ class PDKS_Download extends Filo_Task_Template {
     }
 }
 
+class Hiz_Download extends Filo_Task_Template {
+    private int hiz = 0;
+    public Hiz_Download( String _oto, String _cookie ){
+        cookie = _cookie;
+        oto = _oto;
+    }
+    public void yap(){
+        error = false;
+        // veri yokken nullpointer yemeyek diye resetliyoruz başta
+        System.out.println("Hız download [ " + oto + " ]");
+        org.jsoup.Connection.Response sefer_verileri_req = istek_yap("http://filo5.iett.gov.tr/_FYS/000/harita.php?konu=oto&oto=");
+        Document sefer_doc = parse_html( sefer_verileri_req );
+        sefer_veri_ayikla( sefer_doc );
+    }
+    public void sefer_veri_ayikla( Document document ){
+        if( error ){
+            hiz = 0;
+            return;
+        }
+        try {
+            String sayfa = document.toString();
+            String data_string = sayfa.substring( sayfa.indexOf("veri_ilklendir")+14, sayfa.indexOf("veri_hatcizgi") );
+            String[] exploded = data_string.split("\\|");
+            //System.out.println("SAAT:" + exploded[1]);
+            //System.out.println( oto + " HIZ:" + exploded[4]);
+            hiz = Integer.valueOf(exploded[4]);
+        } catch( NullPointerException e ){
+            e.printStackTrace();
+            System.out.println( "["+Common.get_current_hmin() + "]  "+  oto+ " Hız sefer veri ayıklama hatası. Tekrar deneniyor.");
+            hiz = 0;
+            error = true;
+            //yap();
+        }
+    }
+    public int get_hiz(){
+        return hiz;
+    }
+
+}

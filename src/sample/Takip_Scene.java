@@ -297,41 +297,24 @@ public class Takip_Scene extends Application {
             @Override
             public void run() {
                 while( !shutdown ){
-                    /*req = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_kontrol_toplu");
-                    //req = new Web_Request(Web_Request.SERVIS_URL, "&req=temp_data_kontrol");
-                    req.kullanici_pc_parametreleri_ekle();
-                    req.action();
-                    JSONArray degisimler = new JSONObject(req.get_value()).getJSONObject("data").getJSONArray("plaka_degisimler");
                     JSONObject item;
-                    for( int j = 0; j < degisimler.length(); j++ ){
-                        item = degisimler.getJSONObject(j);
+                    //req_komple = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_komple_kontrol_toplu");
+                    req_komple = new Web_Request(Web_Request.SERVIS_URL, "&req=temp_data_download");
+                    req_komple.kullanici_pc_parametreleri_ekle();
+                    req_komple.action();
+                    System.out.println(req_komple.get_value());
+                    JSONArray plaka_data = new JSONObject(req_komple.get_value()).getJSONObject("data").getJSONArray("plaka_data");
+                    for( int j = 0; j < plaka_data.length(); j++ ){
+                        item = plaka_data.getJSONObject(j);
                         try {
                             otobus_kutular.get( item.getString("kapi_kodu") ).plakalari_guncelle( item.getString("aktif_plaka"), item.getString("ruhsat_plaka") );
                         } catch( NullPointerException e ){
-
+                            // durumu 0 olanlar için nullpointer atıcak, onu yazdirma konsola
+                            //e.printStackTrace();
                         }
-                    }*/
-                    JSONObject item;
-                    if( Common.get_unix() - komple_update_timestamp >= 30 ){
-                        //req_komple = new Web_Request(Web_Request.SERVIS_URL, "&req=plaka_komple_kontrol_toplu");
-                        req_komple = new Web_Request(Web_Request.SERVIS_URL, "&req=temp_data_download");
-                        req_komple.kullanici_pc_parametreleri_ekle();
-                        req_komple.action();
-                        JSONArray plaka_data = new JSONObject(req_komple.get_value()).getJSONObject("data").getJSONArray("plaka_data");
-                        for( int j = 0; j < plaka_data.length(); j++ ){
-                            item = plaka_data.getJSONObject(j);
-                            try {
-                                otobus_kutular.get( item.getString("kapi_kodu") ).plakalari_guncelle( item.getString("aktif_plaka"), item.getString("ruhsat_plaka") );
-                            } catch( NullPointerException e ){
-                                // durumu 0 olanlar için nullpointer atıcak, onu yazdirma konsola
-                                //e.printStackTrace();
-                            }
-                        }
-                        komple_update_timestamp = Common.get_unix();
                     }
-
                     try {
-                        Thread.sleep(1000 );
+                        Thread.sleep(30000 );
                     } catch( InterruptedException e ){
                         e.printStackTrace();
                     }

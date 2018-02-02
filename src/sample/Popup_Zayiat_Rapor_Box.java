@@ -107,14 +107,13 @@ public class Popup_Zayiat_Rapor_Box extends VBox {
                     try {
                         getChildren().remove(2);
                     } catch( IndexOutOfBoundsException e ){
-                        e.printStackTrace();
+                        //e.printStackTrace();
                     }
                     try {
                         getChildren().add( dt );
                     } catch( NullPointerException e ){
-                        e.printStackTrace();
+                        //e.printStackTrace();
                     }
-
                     gunluk_rapor_btn.setDisable(false);
                 }
             });

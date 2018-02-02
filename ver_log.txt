@@ -15,3 +15,9 @@ v2.010H.2 - [22.10.2017]
 v2.010H.3C - [24.11.2017]
     - Captcha ile giriş eklendi.
     - Filoya giriş tek hesapla yapılıyor.
+
+v2.010H.5C - [03.02.2018] 
+    - Filo plana "Sefer Dakiklik Puanı" eklendi sütün olarak.
+    - Filodan hız verileri alınmaya başlandı.
+    - Sunucudan hız kayıtları için popup rapor yapıldı.
+    - Plaka download daha iyi hale getirildi.
