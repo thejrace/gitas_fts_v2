@@ -155,8 +155,6 @@ public class Takip_Scene extends Application {
         ozet_thread();
     }
 
-
-
     private void otobus_kutular_init(){
         //temp_elem_index = 0;
         try {

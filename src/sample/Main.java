@@ -19,6 +19,7 @@ import javafx.stage.StageStyle;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import sample.test.Login_Test;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -42,7 +43,6 @@ public class Main extends Application {
     private boolean onay_kontrol_aktif = false;
     private Timer onay_sayac;
     private Label form_info_notf;
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         root = FXMLLoader.load(getClass().getResource("resources/fxml/start.fxml"));
@@ -161,10 +161,6 @@ public class Main extends Application {
 
 
     }
-
-
-
-
     private void acilis_popup_olustur( ){
         start_container = new VBox();
         start_container.getStyleClass().add("start-wrapper");
@@ -185,7 +181,6 @@ public class Main extends Application {
         start_container.getChildren().addAll( start_row_mor, start_row_gri );
         root.setContent( start_container );
     }
-
     private void form_olustur(){
         scene.getWindow().setHeight( form_height );
         start_container = new VBox();
@@ -233,7 +228,6 @@ public class Main extends Application {
         root.setContent( start_container );
 
     }
-
     private void form_submit( String form_type ){
         String  eposta = input_email.get_input_val(),
                 pass  = input_pass.get_pass_val();
@@ -263,7 +257,8 @@ public class Main extends Application {
                             User_Config.eposta_guncelle( eposta );
                             stage.close();
                             User_Config.init_app_data("init", val.getJSONObject("data") );
-                            Takip_Scene main_scene = new Takip_Scene();
+                            //Takip_Scene main_scene = new Takip_Scene();
+                            Filo_Captcha_Scene main_scene = new Filo_Captcha_Scene();
                             main_scene.start(new Stage());
                         } catch( Exception e ){
                             e.printStackTrace();
@@ -284,7 +279,6 @@ public class Main extends Application {
             //giris_kayit_sunucu_donus_kod_kontrol(  User_Config.giris_kayit_form_submit( eposta, pass ), true  );
         }
     }
-
     public static void main(String[] args) {
         launch(args);
     }
