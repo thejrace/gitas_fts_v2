@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sample.Common;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,8 @@ public class Kahya_Scene extends Application{
         primaryStage.show();
 
 
-
+        Kahya kahya = new Kahya("C-1828");
+        kahya.init();
 
     }
 

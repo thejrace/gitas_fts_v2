@@ -15,9 +15,11 @@ public class Orer_Download extends Filo_Task_Template {
     private JSONArray seferler = new JSONArray();
     private boolean kaydet = false;
     private boolean kahya_flag = false;
+    private boolean hat_tarama_flag = false;
     private ArrayList<String> guzergahlar_data = new ArrayList<>();
     private String hat, aktif_orer = "BEKLEMEDE";
     private int aktif_sefer_index;
+    private String url = "http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&otobus=";
     public Orer_Download( String oto, String cookie ){
         this.oto = oto;
         this.cookie = cookie;
@@ -27,15 +29,23 @@ public class Orer_Download extends Filo_Task_Template {
         kahya_flag = true;
     }
 
+    public void set_hat_tarama( String hat ){
+        url = "http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&hat="+Common.hat_kod_sef( hat );
+        hat_tarama_flag = true;
+        oto = "";
+    }
+
     public void yap(){
         error = false;
         // veri yokken nullpointer yemeyek diye resetliyoruz başta
         System.out.println("ORER download [ " + oto + " ]");
-        org.jsoup.Connection.Response sefer_verileri_req = istek_yap("http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&otobus=");
+        org.jsoup.Connection.Response sefer_verileri_req = istek_yap(url);
         Document sefer_doc = parse_html( sefer_verileri_req );
         sefer_veri_ayikla( sefer_doc );
 
     }
+
+
     public void sefer_veri_ayikla( Document document ){
         if( error ){
             seferler = new JSONArray();
@@ -77,13 +87,18 @@ public class Orer_Download extends Filo_Task_Template {
                     aktif_sefer_verisi = Common.regex_trim(cols.get(3).getAllElements().get(2).attr("title"));
                 }
 
-                if( kahya_flag ){
-
+                if( kahya_flag ) {
                     guzergahlar_data.add(Common.regex_trim(cols.get(3).getAllElements().get(1).text()));
-                    if( Common.regex_trim(cols.get(12).text()).equals("A") ){
+                    if (Common.regex_trim(cols.get(12).text()).equals("A")) {
                         aktif_orer = orer;
                         aktif_sefer_index = i;
                     }
+                } else if( hat_tarama_flag ){
+
+                    if (Common.regex_trim(cols.get(12).text()).equals("A")) {
+                        
+                    }
+
 
                 } else{
                     tek_sefer_data = new Sefer_Data(

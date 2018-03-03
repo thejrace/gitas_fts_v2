@@ -9,17 +9,17 @@ public class Yon_Tayini {
     public static int yap(String hat, int aktif_sefer_index, ArrayList<String> guzergahlar) {
 
         String onceki = "VY", sonraki = "VY";
-        String aktif_sefer = guzergahlar.get(aktif_sefer_index);
+        String aktif_sefer = guzergahlar.get(aktif_sefer_index-1);
         int hat_length = hat.length();
 
         try {
-            onceki = guzergahlar.get(aktif_sefer_index - 1);
+            onceki = guzergahlar.get(aktif_sefer_index - 2);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Önceki sefer yok");
         }
 
         try {
-            sonraki = guzergahlar.get(aktif_sefer_index + 1);
+            sonraki = guzergahlar.get(aktif_sefer_index );
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Sonraki sefer yok");
         }
@@ -106,7 +106,6 @@ public class Yon_Tayini {
 				[HAT]_G/D -- aktif_sefer_index
 				[HAT]_G/D -- sonraki
 			*/
-
             if (onceki_sefer_yon == sonraki_sefer_yon && onceki_sefer_yon == aktif_sefer_yon) {
 				/*
 					# Ring
@@ -137,7 +136,6 @@ public class Yon_Tayini {
     private static int guzergah_orta_harf_al(int hat_length, String guzergah_str) {
         try {
             String orta_harf = guzergah_str.substring(hat_length + 1, hat_length + 2);
-            System.out.println(guzergah_str + "  ----- " + orta_harf);
             if (orta_harf.equals("G")) {
                 return GIDIS;
             } else {

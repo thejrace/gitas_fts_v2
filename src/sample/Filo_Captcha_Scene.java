@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import sample.test.Login_Test;
+import sample.kahya.Kahya_Scene;
 
 public class Filo_Captcha_Scene extends Application {
 
@@ -54,7 +54,7 @@ public class Filo_Captcha_Scene extends Application {
                     try{
                         stage.close();
                         //Takip_Scene main_scene = new Takip_Scene();
-                        Login_Test main_scene = new Login_Test();
+                        Kahya_Scene main_scene = new Kahya_Scene();
                         main_scene.start(new Stage());
                     } catch( Exception e ){
                         e.printStackTrace();
