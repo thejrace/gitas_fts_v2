@@ -15,7 +15,8 @@ import java.net.URL;
 public class Web_Request {
 
     private String url, params, output;
-    public static String MAIN_URL = "http://sadece100.com/fts/";
+    //public static String MAIN_URL = "http://sadece100.com/fts/";
+    public static String MAIN_URL = "http://185.50.69.219/";
     public static String SERVIS_URL = MAIN_URL + "servis2.php";
     public static String SERVIS_URL2 = MAIN_URL + "servis2.php";
 

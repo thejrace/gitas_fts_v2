@@ -20,6 +20,8 @@ public class Orer_Download extends Filo_Task_Template {
     private String hat, aktif_orer = "BEKLEMEDE";
     private int aktif_sefer_index;
     private String url = "http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&otobus=";
+    private String durum_param = "";
+    private String hat_tarama_aktif_oto;
     public Orer_Download( String oto, String cookie ){
         this.oto = oto;
         this.cookie = cookie;
@@ -29,10 +31,15 @@ public class Orer_Download extends Filo_Task_Template {
         kahya_flag = true;
     }
 
-    public void set_hat_tarama( String hat ){
-        url = "http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&hat="+Common.hat_kod_sef( hat );
+    public void set_hat_tarama( String hat, String _oto ){
+        url = "http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&hat="+Common.hat_kod_sef( hat )+durum_param;
         hat_tarama_flag = true;
         oto = "";
+        hat_tarama_aktif_oto = _oto;
+    }
+
+    public void set_durum_param(String durum){
+        durum_param = "&ldurum="+durum;
     }
 
     public void yap(){
@@ -65,14 +72,13 @@ public class Orer_Download extends Filo_Task_Template {
                 return;
             }
             hat = "";
-            String orer;
+            String orer, oto;
             Sefer_Data tek_sefer_data;
             boolean hat_alindi = false;
             aktif_sefer_verisi = "YOK";
-            for( int i = 1; i < rows.size(); i++ ){
+            for( int i = 1; i < rows.size(); i++ ) {
                 row = rows.get(i);
                 cols = row.select("td");
-
                 orer = Common.regex_trim(cols.get(7).getAllElements().get(2).text());
 
                 if( !hat_alindi ){
@@ -82,12 +88,10 @@ public class Orer_Download extends Filo_Task_Template {
                     if( cols.get(1).text().trim().contains("*") ) hat = cols.get(1).text().trim().substring(1, cols.get(1).text().trim().length() - 1);
                     hat_alindi = true;
                 }
-
                 if( cols.get(12).text().replaceAll("\u00A0", "").equals("A") && cols.get(3).getAllElements().size() > 2 ){
                     aktif_sefer_verisi = Common.regex_trim(cols.get(3).getAllElements().get(2).attr("title"));
                 }
-
-                if( kahya_flag ) {
+                if( kahya_flag ){
                     guzergahlar_data.add(Common.regex_trim(cols.get(3).getAllElements().get(1).text()));
                     if (Common.regex_trim(cols.get(12).text()).equals("A")) {
                         aktif_orer = orer;
@@ -95,37 +99,41 @@ public class Orer_Download extends Filo_Task_Template {
                     }
                 } else if( hat_tarama_flag ){
 
-                    if (Common.regex_trim(cols.get(12).text()).equals("A")) {
-                        
+                    oto = Common.regex_trim(cols.get(4).getAllElements().get(2).text());
+                    if( oto.equals(hat_tarama_aktif_oto) ) {
+                        // aktif otoyu bulduktan sonra, loop u durdurup 2 önceki ve 2 sonraki otobusun verilerini listeliyoruz
+
+
+
+
                     }
 
 
-                } else{
+                } else {
                     tek_sefer_data = new Sefer_Data(
-                            Common.regex_trim(cols.get(0).text()),
-                            hat,
-                            Common.regex_trim(cols.get(2).text()),
-                            Common.regex_trim(cols.get(3).getAllElements().get(1).text()),
-                            Common.regex_trim(cols.get(4).getAllElements().get(2).text()),
-                            "",
-                            "",
-                            "",
-                            Common.regex_trim(cols.get(6).text()),
-                            orer,
-                            "",
-                            Common.regex_trim(cols.get(8).text()),
-                            Common.regex_trim(cols.get(9).text()),
-                            Common.regex_trim(cols.get(10).text()),
-                            Common.regex_trim(cols.get(11).text()),
-                            Common.regex_trim(cols.get(12).text()),
-                            cols.get(13).text().substring(5),
-                            "",
-                            1,
-                            0
+                        Common.regex_trim(cols.get(0).text()),
+                        hat,
+                        Common.regex_trim(cols.get(2).text()),
+                        Common.regex_trim(cols.get(3).getAllElements().get(1).text()),
+                        Common.regex_trim(cols.get(4).getAllElements().get(2).text()),
+                        "",
+                        "",
+                        "",
+                        Common.regex_trim(cols.get(6).text()),
+                        orer,
+                        "",
+                        Common.regex_trim(cols.get(8).text()),
+                        Common.regex_trim(cols.get(9).text()),
+                        Common.regex_trim(cols.get(10).text()),
+                        Common.regex_trim(cols.get(11).text()),
+                        Common.regex_trim(cols.get(12).text()),
+                        cols.get(13).text().substring(5),
+                        "",
+                        1,
+                        0
                     );
                     seferler.put(tek_sefer_data.tojson());
                 }
-                cols.clear();
             }
             rows.clear();
         } catch( NullPointerException e ){
