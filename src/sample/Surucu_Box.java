@@ -18,7 +18,7 @@ public class Surucu_Box {
 
     private String oto;
     private VBox surucu_ul, surucu_li;
-    private ArrayList<Surucu> suruculer;
+    private Map<String, Surucu> suruculer;
 
     public Surucu_Box( String _oto ){
         oto = _oto;
@@ -29,21 +29,21 @@ public class Surucu_Box {
         return surucu_ul;
     }
 
-    public void init(  ArrayList<Surucu> _suruculer ){
+    public void init(  Map<String, Surucu> _suruculer ){
         suruculer = _suruculer;
         surucu_ul = new VBox();
 
         surucu_ul.getStylesheets().addAll( Filo_Table.class.getResource("resources/css/common.css").toExternalForm() );
 
-        for( Surucu surucu : suruculer ){
+        for (Map.Entry<String, Surucu> entry : suruculer.entrySet()) {
 
             surucu_li = new VBox();
             surucu_li.getStyleClass().add("popup-surucu-container");
             surucu_li.setAlignment(Pos.CENTER);
 
-            Label lbl_surucu_isim = new Label(surucu.get_isim());
-            Label lbl_surucu_sicil = new Label( "Sicil No: " + surucu.get_sicil_no() );
-            Label lbl_surucu_tel = new Label( "Telefon: " + surucu.get_telefon() );
+            Label lbl_surucu_isim = new Label(entry.getValue().get_isim());
+            Label lbl_surucu_sicil = new Label( "Sicil No: " + entry.getValue().get_sicil_no() );
+            Label lbl_surucu_tel = new Label( "Telefon: " + entry.getValue().get_telefon() );
             lbl_surucu_isim.setAlignment(Pos.CENTER);
             lbl_surucu_sicil.setAlignment(Pos.CENTER);
             lbl_surucu_tel.setAlignment(Pos.CENTER);

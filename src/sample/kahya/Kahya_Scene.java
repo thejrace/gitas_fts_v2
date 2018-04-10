@@ -21,7 +21,7 @@ public class Kahya_Scene extends Application{
         primaryStage.show();
 
 
-        Kahya kahya = new Kahya("C-1828");
+        Kahya kahya = new Kahya("C-1812");
         kahya.init();
 
     }

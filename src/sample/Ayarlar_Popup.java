@@ -309,16 +309,19 @@ public class Ayarlar_Popup {
         VBox cb_grup_2 = new VBox();
         VBox cb_grup_3 = new VBox();
         VBox cb_grup_4 = new VBox();
+        VBox cb_grup_5 = new VBox();
         cb_grup_1.setSpacing(10);
         cb_grup_2.setSpacing(10);
         cb_grup_3.setSpacing(10);
         cb_grup_4.setSpacing(10);
+        cb_grup_5.setSpacing(10);
 
         final CheckBox cb_iptal = new CheckBox("İptal Sefer");
         final CheckBox cb_yarim = new CheckBox("Yarım Sefer");
         final CheckBox cb_sefer_duzeltildi = new CheckBox("Seferler Düzeltildi");
         final CheckBox cb_surucu_degisimi = new CheckBox("Sürücü Değişimi");
         final CheckBox cb_surucu_bilgisi_yok = new CheckBox("Sürücü Bilgisi Yok");
+        final CheckBox cb_surucu_cok_calisti = new CheckBox("Sürücü Çalışma Süre");
         final CheckBox cb_gec_kalabilir = new CheckBox("Geç Kalabilir");
         final CheckBox cb_seferine_baslamadi = new CheckBox("Seferine Başlamadı");
         final CheckBox cb_amir_saat = new CheckBox("Amir Saat");
@@ -339,14 +342,17 @@ public class Ayarlar_Popup {
         if( ayarlar_data.alarm_cb_kontrol(Alarm_Data.NOT_TAMAMLANDI) ) cb_not_tamamlandi.setSelected(true);
         if( ayarlar_data.alarm_cb_kontrol(Alarm_Data.YENI_NOT_BILDIRIMI) ) cb_not_bildirim_eklendi.setSelected(true);
         if( ayarlar_data.alarm_cb_kontrol(Alarm_Data.IYS_UYARISI_VAR) ) cb_iys_uyari.setSelected(true);
+        if( ayarlar_data.alarm_cb_kontrol(Alarm_Data.SURUCU_COK_CALISTI) ) cb_surucu_cok_calisti.setSelected(true);
 
         cb_grup_1.getChildren().addAll(cb_iptal, cb_yarim, cb_sefer_duzeltildi );
         cb_grup_2.getChildren().addAll(cb_surucu_degisimi, cb_surucu_bilgisi_yok, cb_gec_kalabilir );
+
         cb_grup_3.getChildren().addAll(cb_seferine_baslamadi, cb_amir_saat, cb_yeni_not );
         cb_grup_4.getChildren().addAll(cb_not_tamamlandi, cb_not_bildirim_eklendi, cb_iys_uyari );
-        alarm_cb_container.setPrefWidth(600);
+        cb_grup_5.getChildren().addAll( cb_surucu_cok_calisti );
+        alarm_cb_container.setPrefWidth(650);
         alarm_cb_container.setSpacing(15);
-        alarm_cb_container.getChildren().addAll( cb_grup_1, cb_grup_2, cb_grup_3, cb_grup_4);
+        alarm_cb_container.getChildren().addAll( cb_grup_1, cb_grup_2, cb_grup_3, cb_grup_4, cb_grup_5);
         orer_alarm_cont.getChildren().addAll( orer_header, alarm_cb_container );
 
         orer_container.getChildren().addAll( frekans_ayarlar, orer_alarm_cont );
@@ -380,6 +386,7 @@ public class Ayarlar_Popup {
             alarm_str += alarm_str_olustur(cb_not_tamamlandi.isSelected());
             alarm_str += alarm_str_olustur(cb_not_bildirim_eklendi.isSelected());
             alarm_str += alarm_str_olustur(cb_iys_uyari.isSelected());
+            alarm_str += alarm_str_olustur(cb_surucu_cok_calisti.isSelected());
             final String alarm_str_final = alarm_str;
 
             Thread kaydet_th = new Thread( new Task<Void>(){

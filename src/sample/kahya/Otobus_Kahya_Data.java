@@ -120,7 +120,9 @@ public class Otobus_Kahya_Data {
                                 orer_download.yap();
                                 // ilk aldigimiz durak ismi, yeni veride varsa daha durak değişmemiş
                                 // biraz bekleyip tekrar veri indiricez filodan
-                                if (!orer_download.get_aktif_sefer_verisi().contains(aktif_durak_data)) {
+
+                                // todo --> contains kontrolüne sonraki ve onceki durak araması da yaptirip daha hizli yon bulabiliriz
+                                if (!orer_download.get_aktif_sefer_verisi().contains(aktif_durak_data) ) {
                                     // durak degismis, ileri mi geri mi gitmişiz onu bulucaz
                                     aktif_durak_data = orer_download.get_aktif_sefer_verisi().substring(orer_download.get_aktif_sefer_verisi().indexOf("-") + 1, orer_download.get_aktif_sefer_verisi().indexOf(" ("));
                                     // burada distance_flag true yapiyoruz, cunku 1 kere yapiyoruz, olmazsa tekrar kontrol

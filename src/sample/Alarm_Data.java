@@ -27,7 +27,8 @@ public class Alarm_Data {
                         NOT_VAR = 8,
                         NOT_TAMAMLANDI = 9,
                         YENI_NOT_BILDIRIMI = 10,
-                        IYS_UYARISI_VAR = 11;
+                        IYS_UYARISI_VAR = 11,
+                        SURUCU_COK_CALISTI = 12;
 
 
     public static String    MESAJ_IPTAL = "Sefer iptalleri var!",
@@ -41,12 +42,14 @@ public class Alarm_Data {
                             MESAJ_IYS_UYARISI_VAR = "IYS uyarısı var!",
                             MESAJ_NOT_VAR = "Yeni not var!",
                             MESAJ_NOT_TAMAMLANDI = "Not tamamlandı!",
-                            MESAJ_NOT_BILDIRIMI = "Yeni not bildirimi var!";
+                            MESAJ_NOT_BILDIRIMI = "Yeni not bildirimi var!",
+                            MESAJ_SURUCU_COK_CALISTI = "%%ISIM%% çalışma süre limitini aştı.";
 
     public static int   KIRMIZI = 1,
                         TURUNCU = 2,
                         MAVI = 3,
-                        YESIL = 4;
+                        YESIL = 4,
+                        SURUCU_FLIP_FLOP = 5;
 
 
 

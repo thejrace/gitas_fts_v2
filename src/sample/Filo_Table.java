@@ -84,7 +84,7 @@ public class Filo_Table {
                         sefer_plan_table.init();
                         sefer_plan_table.versiyon_sec( k_ref );
                         sefer_plan_table.set_data( son_aktif_data, new JSONArray() );
-                        sefer_plan_table.update_data(  );
+                        sefer_plan_table.update_data( suruculer_temp );
                         sefer_plan_table.update_ui();
                         sefer_popup.set_content( sefer_plan_table.get() );
                         Platform.runLater(new Runnable() {
@@ -112,12 +112,13 @@ public class Filo_Table {
     public boolean get_eski_veri_goruntuleniyor(){
         return eski_veri_goruntuleniyor;
     }
-    public void update_data(){
+    public void update_data( Map<String, String> _suruculer_temp ){
 
+        suruculer_temp = _suruculer_temp;
         JSONObject sefer, onceki_sefer = new JSONObject();
         rows.clear();
 
-        if( aktif_kaynak == 'A' ){
+        /*if( aktif_kaynak == 'A' ){
             Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_surucu_data&oto="+kod+"&baslangic=&bitis=" );
             request.kullanici_pc_parametreleri_ekle();
             request.action();
@@ -125,7 +126,7 @@ public class Filo_Table {
             for( int j = 0; j < sdata.length(); j++ ){
                 suruculer_temp.put( sdata.getJSONObject(j).getString("orer"), sdata.getJSONObject(j).getString("surucu") );
             }
-        }
+        }*/
         String surucu_isim;
         for( int x = 0; x < son_aktif_data.length(); x++ ){
             sefer = son_aktif_data.getJSONObject(x);
@@ -247,7 +248,7 @@ public class Filo_Table {
                         public void run() {
                             try {
                                 set_data( canli_data, new JSONArray() );
-                                update_data();
+                                update_data( suruculer_temp );
                                 Platform.runLater(new Runnable() {
                                     @Override
                                     public void run() {
@@ -318,7 +319,7 @@ public class Filo_Table {
                 request.action();
                 JSONObject data = new JSONObject(request.get_value()).getJSONObject("data");
                 set_data( data.getJSONArray("orer_data"), data.getJSONArray("orer_versiyon_data") );
-                update_data();
+                update_data( suruculer_temp );
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {

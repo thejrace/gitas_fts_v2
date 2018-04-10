@@ -44,7 +44,8 @@ public class Otobus_Box extends VBox{
     private String cookie = "INIT", bolge;
     private Orer_Download orer_download;
     private PDKS_Download pdks_download;
-    private ArrayList<Surucu> suruculer = new ArrayList<>();
+    private Map<String, Surucu> suruculer = new HashMap<>();
+    private Map<String, String> surucu_pdks_data = new HashMap<>();
     private ArrayList<String> filo_vdl_log = new ArrayList<>();
 
     private Label   main_info,
@@ -380,11 +381,9 @@ public class Otobus_Box extends VBox{
                 }
                 sleep = 90000;
                 while( run ){
-
                     if( !cookie.equals("INIT") ){
                         sleep = 90000;
                         orer_download( false );
-
                         if( !hat_km_alindi && !hat.equals("#") ){
                             Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=hat_km_download&hat="+hat);
                             request.kullanici_pc_parametreleri_ekle();
@@ -433,6 +432,65 @@ public class Otobus_Box extends VBox{
         });
         hiz_th.setDaemon(true);
         hiz_th.start();
+
+        Thread surucu_pdks_download = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while( true ){
+
+                    Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=pdks_detay&oto="+kod );
+                    request.kullanici_pc_parametreleri_ekle();
+                    request.action();
+                    JSONArray data = new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("pdks_data");
+                    int size = data.length();
+                    if( size > 0 ){
+                        suruculer = new HashMap<>();
+                        JSONObject surucu_item;
+                        for( int j = 0; j < size; j++ ){
+                            surucu_item = data.getJSONObject(j);
+                            suruculer.put(surucu_item.getString("isim"), new Surucu( surucu_item.getString("sicil_no"), surucu_item.getString("isim"), surucu_item.getString("telefon") ) );
+                        }
+                    }
+
+
+                    request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_surucu_data&oto="+kod+"&baslangic=&bitis=" );
+                    request.kullanici_pc_parametreleri_ekle();
+                    request.action();
+                    JSONArray sdata = new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("orer_data");
+
+
+                    JSONObject item;
+                    ArrayList<String> kontrol = new ArrayList<>();
+                    for( int j = 0; j < sdata.length(); j++ ){
+                        item = sdata.getJSONObject(j);
+                        surucu_pdks_data.put( item.getString("orer"), item.getString("surucu") );
+                        if( !item.getString("durum").equals("T") ) continue;
+                        if( !kontrol.contains( item.getString("surucu"))){
+                            try {
+                                suruculer.get(item.getString("surucu")).set_orer( item.getString("orer") );
+                                kontrol.add(item.getString("surucu"));
+                            } catch( NullPointerException e ){
+
+                            }
+                        } else {
+                            suruculer.get(item.getString("surucu")).set_bitis( item.getString("bitis") );
+                        }
+                    }
+                    for (Map.Entry<String, Surucu> entry : suruculer.entrySet()) {
+                        if( Sefer_Sure.hesapla( entry.getValue().get_orer(), entry.getValue().get_bitis() ) / 60 >= 10 ){
+                            alarm_kontrol(new Alarm_Data(Alarm_Data.SURUCU_COK_CALISTI, Alarm_Data.SURUCU_FLIP_FLOP, kod, Alarm_Data.MESAJ_SURUCU_COK_CALISTI.replace("%%ISIM%%", entry.getKey()), "-1"));
+                        }
+                    }
+                    try {
+                        Thread.sleep( 900000 );
+                    } catch( InterruptedException e ){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        surucu_pdks_download.setDaemon(true);
+        surucu_pdks_download.start();
 
     }
 
@@ -826,7 +884,6 @@ public class Otobus_Box extends VBox{
         });
         th.setDaemon(true);
         th.start();
-
     }
 
     private void hiz_label_guncelle(){
@@ -999,7 +1056,7 @@ public class Otobus_Box extends VBox{
                     }
                     sefer_plan_table.set_canli_data( new_data );
                     sefer_plan_table.set_data( new_data, new JSONArray() );
-                    sefer_plan_table.update_data();
+                    sefer_plan_table.update_data( surucu_pdks_data );
                     sefer_plan_table.update_ui();
                     sefer_popup.set_content( sefer_plan_table.get() );
                     Platform.runLater(new Runnable() {
@@ -1131,20 +1188,6 @@ public class Otobus_Box extends VBox{
                 }
                 @Override
                 protected String call(){
-
-                    Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=pdks_detay&oto="+kod );
-                    request.kullanici_pc_parametreleri_ekle();
-                    request.action();
-                    JSONArray data = new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("pdks_data");
-                    int size = data.length();
-                    if( size > 0 ){
-                        suruculer = new ArrayList<>();
-                        JSONObject surucu_item;
-                        for( int j = 0; j < size; j++ ){
-                            surucu_item = data.getJSONObject(j);
-                            suruculer.add(new Surucu( surucu_item.getString("sicil_no"), surucu_item.getString("isim"), surucu_item.getString("telefon") ) );
-                        }
-                    }
                     surucu_popup.init(true);
                     surucu_box.init( suruculer );
                     return null;
@@ -1218,7 +1261,7 @@ public class Otobus_Box extends VBox{
                     web_view.setPrefWidth(600);
                     web_view.setPrefHeight(650);
                     WebEngine we = web_view.getEngine();
-                    we.load("http://gitasgaz.com/fts_admin/hiz_limit_kontrol.php?oto="+kod);
+                    we.load(Web_Request.FTS_ADMIN_URL+"hiz_limit_kontrol.php?oto="+kod);
                     hiz_frame_popup.set_content( web_view );
                     hiz_frame_popup.show( ev.getScreenX(), ev.getScreenY() );
                 }

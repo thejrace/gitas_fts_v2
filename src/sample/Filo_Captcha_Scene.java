@@ -53,8 +53,8 @@ public class Filo_Captcha_Scene extends Application {
                 public void on_refresh() {
                     try{
                         stage.close();
-                        //Takip_Scene main_scene = new Takip_Scene();
-                        Kahya_Scene main_scene = new Kahya_Scene();
+                        Takip_Scene main_scene = new Takip_Scene();
+                        //Kahya_Scene main_scene = new Kahya_Scene();
                         main_scene.start(new Stage());
                     } catch( Exception e ){
                         e.printStackTrace();

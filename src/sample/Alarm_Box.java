@@ -58,6 +58,8 @@ public class Alarm_Box extends VBox {
                 style_class = "mavi";
             } else if( alarm.get_oncelik() == Alarm_Data.YESIL ){
                 style_class = "yesil";
+            } else {
+                style_class = "kirmizi";
             }
 
             Label lbl_mesaj = new Label( alarm.get_kod() + " " + alarm.get_mesaj() + " [ "+alarm.get_tarih()+" ] ");

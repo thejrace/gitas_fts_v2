@@ -25,7 +25,7 @@ public class Kahya {
             @Override
             public void run() {
 
-                Otobus_Kahya_Data aktif_otobus = new Otobus_Kahya_Data("C-1904");
+                Otobus_Kahya_Data aktif_otobus = new Otobus_Kahya_Data(oto);
                 aktif_otobus.set_aktif_otobus_flag();
                 aktif_otobus.yon_bul();
                 aktif_otobus.add_listener(new Kahya_Hat_Download_Listener() {
