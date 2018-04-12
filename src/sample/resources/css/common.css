@@ -466,6 +466,10 @@
     -fx-text-fill:#ac9331;
 }
 
+.alarm-label-mor {
+    -fx-text-fill: #ac0884;
+}
+
 .tab-pane *.tab-header-area *.tab-header-background {
   -fx-background-color:#242424;
 

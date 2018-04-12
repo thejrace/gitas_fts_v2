@@ -161,7 +161,7 @@ public class Takip_Scene extends Application {
             JSONArray otobusler = User_Config.app_otobusler;
             // hazir tum otobusleri loop ederken arada kutulari da olusturuyoruz
             JSONObject otobus_object;
-            for( int j = 0; j < /*otobusler.length()*/ 3; j++ ){
+            for( int j = 0; j < otobusler.length(); j++ ){
                 otobus_object = otobusler.getJSONObject(j);
                 String kod = otobus_object.getString("kapi_kodu");
                 final Otobus_Box box_item = new Otobus_Box( kod,  otobus_object.getInt("sira"), otobus_object.getString("ruhsat_plaka"), otobus_object.getString("aktif_plaka"));

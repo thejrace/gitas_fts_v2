@@ -49,7 +49,8 @@ public class Alarm_Data {
                         TURUNCU = 2,
                         MAVI = 3,
                         YESIL = 4,
-                        SURUCU_FLIP_FLOP = 5;
+                        SURUCU_FLIP_FLOP = 5,
+                        MAVI_FLIP_FLOP = 6;
 
 
 

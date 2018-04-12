@@ -259,6 +259,19 @@ public class Ayarlar_Popup {
         orer_frekans_input_cont.getChildren().addAll( orer_lbl, alarm_kaybolma_frekans );
         frekans_ayarlar.getChildren().add( orer_frekans_input_cont );
 
+        orer_frekans_input_cont = new HBox();
+        orer_frekans_input_cont.setAlignment(Pos.CENTER);
+        orer_frekans_input_cont.setSpacing(5);
+        orer_lbl = new Label("Sürücü Çalışma Saati");
+        orer_lbl.setWrapText(true);
+        orer_lbl.getStyleClass().addAll("cbeyaz", "fs11", "fbold");
+        orer_lbl.setPrefWidth(100);
+        final TextField surucu_calisma_saati = new TextField();
+        surucu_calisma_saati.getStyleClass().addAll("input-kucuk", "grigrad");
+        surucu_calisma_saati.setText(String.valueOf(User_Config.app_ayarlar.getInt("surucu_calisma_saati")));
+        orer_frekans_input_cont.getChildren().addAll( orer_lbl, surucu_calisma_saati );
+        frekans_ayarlar.getChildren().add( orer_frekans_input_cont );
+
 
         /*
 
@@ -362,7 +375,8 @@ public class Ayarlar_Popup {
         kaydet.setOnMousePressed(ev->{
             kaydet.setDisable(true);
             final String alarm_frekans_val = alarm_freakans.getText(),
-                    alarm_kaybolma_frekans_val = alarm_kaybolma_frekans.getText();
+                    alarm_kaybolma_frekans_val = alarm_kaybolma_frekans.getText(),
+                    surucu_calisma_saati_val = surucu_calisma_saati.getText();
             /*final String  orer_frekans_val = orer_frekans_input.getText(),
                     mesaj_frekans_val = mesaj_frekans_input.getText(),
                     iys_frekans_val = iys_frekans_input.getText();
@@ -402,6 +416,7 @@ public class Ayarlar_Popup {
                         new_data.put("izinler",  izinler_cache );
                         new_data.put("alarm_frekans", alarm_frekans_val );
                         new_data.put("alarm_kaybolma_frekans", alarm_kaybolma_frekans_val );
+                        new_data.put("surucu_calisma_saati", surucu_calisma_saati_val );
                         User_Config.init_app_data("ayarlar_data", new_data );
                         for( Ayarlar_Listener listener : listeners ) {
                             listener.alarm_ayarlar_degisim( alarm_str_final );
@@ -414,7 +429,7 @@ public class Ayarlar_Popup {
                 @Override
                 protected Void call(){
 
-                    request = new Web_Request(Web_Request.SERVIS_URL, "&req=ayar_guncelleme&alarmlar="+alarm_str_final+"&orer_frekans=0&mesaj_frekans=0&iys_frekans=0&alarm_frekans="+alarm_frekans_val+"&alarm_kaybolma_frekans="+alarm_kaybolma_frekans_val );
+                    request = new Web_Request(Web_Request.SERVIS_URL, "&req=ayar_guncelleme&alarmlar="+alarm_str_final+"&orer_frekans=0&mesaj_frekans=0&iys_frekans=0&alarm_frekans="+alarm_frekans_val+"&alarm_kaybolma_frekans="+alarm_kaybolma_frekans_val+"&surucu_calisma_saati="+surucu_calisma_saati_val );
                     request.kullanici_pc_parametreleri_ekle();
                     request.action();
 

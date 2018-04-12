@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -7,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 
@@ -58,8 +61,10 @@ public class Alarm_Box extends VBox {
                 style_class = "mavi";
             } else if( alarm.get_oncelik() == Alarm_Data.YESIL ){
                 style_class = "yesil";
-            } else {
-                style_class = "kirmizi";
+            } else if( alarm.get_oncelik() == Alarm_Data.SURUCU_FLIP_FLOP ){
+                style_class = "mor";
+            } else if( alarm.get_oncelik() == Alarm_Data.MAVI_FLIP_FLOP ){
+                style_class = "mavi";
             }
 
             Label lbl_mesaj = new Label( alarm.get_kod() + " " + alarm.get_mesaj() + " [ "+alarm.get_tarih()+" ] ");
@@ -68,11 +73,26 @@ public class Alarm_Box extends VBox {
             alarm_li.getChildren().addAll( img, lbl_mesaj );
 
             this.getChildren().add( alarm_li );
-            li_count++;
+            if( alarm.get_oncelik() == Alarm_Data.SURUCU_FLIP_FLOP || alarm.get_oncelik() == Alarm_Data.MAVI_FLIP_FLOP ){
+                FadeTransition fadeTransition = new FadeTransition(Duration.millis(500));
+                fadeTransition.setNode( lbl_mesaj );
+                fadeTransition.setFromValue(1.0f);
+                fadeTransition.setToValue(0.1f);
+                fadeTransition.setCycleCount(Timeline.INDEFINITE);
+                fadeTransition.setAutoReverse(true);
+                fadeTransition.play();
 
+                FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(500));
+                fadeTransition2.setNode( img );
+                fadeTransition2.setFromValue(1.0f);
+                fadeTransition2.setToValue(0.1f);
+                fadeTransition2.setCycleCount(Timeline.INDEFINITE);
+                fadeTransition2.setAutoReverse(true);
+                fadeTransition2.play();
+            }
+            li_count++;
             alarm_li.setOnMousePressed( ev -> {
                 silinen_count++;
-
                 HBox li = (HBox) this.lookup( "#" + alarm.get_key() );
                 //alarm.goruldu(true);
                 listener.goruldu_yap( alarm.get_key() );
@@ -83,7 +103,6 @@ public class Alarm_Box extends VBox {
                     this.setVisible(false);
                     this.getChildren().clear();
                 }
-
             });
 
 

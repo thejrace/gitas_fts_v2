@@ -7,76 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$10$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11$1$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11$1$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$8$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$8$2.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/gitas_fts_v2_jar/gitas_fts_v2.jar" afterPath="$PROJECT_DIR$/out/artifacts/gitas_fts_v2_jar/gitas_fts_v2.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$2$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$2$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$3$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$3$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$3.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Table.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$2$1$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$2$1$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$2$1$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$2$1$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$2$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$2$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$3.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$10.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$10.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$13.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$13.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$14.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$14.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$15.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$15.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$16.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$16.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$17.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$17.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$18.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$18.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$19.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$19.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$2.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$20.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$20.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$21.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$21.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$3.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$4.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$5.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$6$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$6$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$6.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$7.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$8.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$9.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$9.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene$5$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene$5$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene$5.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene$6.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Web_Request.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Web_Request.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/kahya/Kahya$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/kahya/Kahya$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/kahya/Kahya.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/kahya/Kahya.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/kahya/Kahya_Scene.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/kahya/Kahya_Scene.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/kahya/Otobus_Kahya_Data$1.class" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/kahya/Otobus_Kahya_Data$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Alarm_Box.java" afterPath="$PROJECT_DIR$/src/sample/Alarm_Box.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Alarm_Data.java" afterPath="$PROJECT_DIR$/src/sample/Alarm_Data.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Ayarlar_Popup.java" afterPath="$PROJECT_DIR$/src/sample/Ayarlar_Popup.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Filo_Captcha_Scene.java" afterPath="$PROJECT_DIR$/src/sample/Filo_Captcha_Scene.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Filo_Table.java" afterPath="$PROJECT_DIR$/src/sample/Filo_Table.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Main.java" afterPath="$PROJECT_DIR$/src/sample/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Otobus_Box.java" afterPath="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Surucu.java" afterPath="$PROJECT_DIR$/src/sample/Surucu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Surucu_Box.java" afterPath="$PROJECT_DIR$/src/sample/Surucu_Box.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Takip_Scene.java" afterPath="$PROJECT_DIR$/src/sample/Takip_Scene.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Web_Request.java" afterPath="$PROJECT_DIR$/src/sample/Web_Request.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/kahya/Kahya.java" afterPath="$PROJECT_DIR$/src/sample/kahya/Kahya.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/kahya/Kahya_Scene.java" afterPath="$PROJECT_DIR$/src/sample/kahya/Kahya_Scene.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/kahya/Otobus_Kahya_Data.java" afterPath="$PROJECT_DIR$/src/sample/kahya/Otobus_Kahya_Data.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/resources/css/common.css" afterPath="$PROJECT_DIR$/src/sample/resources/css/common.css" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -142,8 +79,76 @@
       <file leaf-file-name="Alarm_Box.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Box.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="69" column="44" lean-forward="false" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="44" />
+            <state relative-caret-position="473">
+              <caret line="77" column="52" lean-forward="true" selection-start-line="77" selection-start-column="52" selection-end-line="77" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Ayarlar_Popup.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/Ayarlar_Popup.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="521">
+              <caret line="423" column="25" lean-forward="true" selection-start-line="423" selection-start-column="25" selection-end-line="423" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="common.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/resources/css/common.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="665">
+              <caret line="468" column="18" lean-forward="true" selection-start-line="468" selection-start-column="18" selection-end-line="468" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Otobus_Box.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="500">
+              <caret line="820" column="94" lean-forward="false" selection-start-line="820" selection-start-column="80" selection-end-line="820" selection-end-column="94" />
+              <folding>
+                <element signature="e#3145#3161#0" expanded="true" />
+                <element signature="method#create_ui#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#orer_download#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#orer_download_inner#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#update_ui#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#plaka_download#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#hiz_label_guncelle#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#plakalari_guncelle#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#set_event_handlers#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="e#42138#43301#0" expanded="false" />
+                <element signature="e#43429#47188#0" expanded="false" />
+                <element signature="e#54152#57093#0" expanded="false" />
+                <element signature="method#otobus_plaka_kontrol#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#hat_detay_olustur#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#alarm_goruldu_tetik#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#get_alarmlar#0;class#Otobus_Box#0" expanded="false" />
+                <element signature="method#update_led#0;class#Otobus_Box#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Alarm_Data.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Data.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="752">
+              <caret line="52" column="43" lean-forward="false" selection-start-line="52" selection-start-column="43" selection-end-line="52" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Takip_Scene.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="163" column="32" lean-forward="true" selection-start-line="163" selection-start-column="32" selection-end-line="163" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -216,7 +221,6 @@
         <option value="$PROJECT_DIR$/src/sample/resources/css/gitas_main.css" />
         <option value="$PROJECT_DIR$/src/sample/Alarm_Popup.java" />
         <option value="$PROJECT_DIR$/src/sample/resources/fxml/test.fxml" />
-        <option value="$PROJECT_DIR$/src/sample/resources/css/common.css" />
         <option value="$PROJECT_DIR$/src/sample/resources/fxml/login_tekli.fxml" />
         <option value="$PROJECT_DIR$/src/sample/Filo_Captcha_Tekli_Scene.java" />
         <option value="$PROJECT_DIR$/src/sample/Filo_Login_Task.java" />
@@ -254,13 +258,14 @@
         <option value="$PROJECT_DIR$/src/sample/Web_Request.java" />
         <option value="$PROJECT_DIR$/src/sample/Filo_Captcha_Scene.java" />
         <option value="$PROJECT_DIR$/src/sample/Filo_Table.java" />
-        <option value="$PROJECT_DIR$/src/sample/Takip_Scene.java" />
         <option value="$PROJECT_DIR$/src/sample/Surucu.java" />
         <option value="$PROJECT_DIR$/src/sample/Surucu_Box.java" />
+        <option value="$PROJECT_DIR$/src/sample/resources/css/common.css" />
+        <option value="$PROJECT_DIR$/src/sample/Ayarlar_Popup.java" />
+        <option value="$PROJECT_DIR$/src/sample/Takip_Scene.java" />
+        <option value="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
         <option value="$PROJECT_DIR$/src/sample/Alarm_Data.java" />
         <option value="$PROJECT_DIR$/src/sample/Alarm_Box.java" />
-        <option value="$PROJECT_DIR$/src/sample/Ayarlar_Popup.java" />
-        <option value="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
       </list>
     </option>
   </component>
@@ -425,7 +430,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -463,6 +467,14 @@
               <item name="gitas_fts_v2" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="sample" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gitas_fts_v2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gitas_fts_v2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="sample" type="462c0819:PsiDirectoryNode" />
               <item name="Ayarlar_Popup.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
             <path>
@@ -473,8 +485,9 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -955,12 +968,13 @@
       <workItem from="1521200442298" duration="2066000" />
       <workItem from="1521482451331" duration="782000" />
       <workItem from="1523302173339" duration="4063000" />
-      <workItem from="1523387021152" duration="6248000" />
+      <workItem from="1523387021152" duration="6296000" />
+      <workItem from="1523533552222" duration="5125000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="343591000" />
+    <option name="totallyTimeSpent" value="348764000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -983,12 +997,12 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32790446" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28121606" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33659065" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14712153" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14872068" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1136,13 +1150,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="112">
           <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/resources/css/common.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9712">
-          <caret line="607" column="25" lean-forward="false" selection-start-line="607" selection-start-column="19" selection-end-line="607" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -1307,9 +1314,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="957">
           <caret line="101" column="77" lean-forward="false" selection-start-line="101" selection-start-column="64" selection-end-line="101" selection-end-column="77" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1380,7 +1384,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
           <caret line="56" column="9" lean-forward="false" selection-start-line="56" selection-start-column="9" selection-end-line="56" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1388,7 +1391,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
           <caret line="321" column="44" lean-forward="false" selection-start-line="321" selection-start-column="44" selection-end-line="321" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1396,24 +1398,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="27" column="21" lean-forward="false" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
-          <folding>
-            <element signature="e#479#480#0" expanded="true" />
-            <element signature="e#506#507#0" expanded="true" />
-            <element signature="e#537#538#0" expanded="true" />
-            <element signature="e#565#566#0" expanded="true" />
-            <element signature="e#607#608#0" expanded="true" />
-            <element signature="e#635#636#0" expanded="true" />
-            <element signature="e#679#680#0" expanded="true" />
-            <element signature="e#709#710#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Data.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="784">
-          <caret line="51" column="45" lean-forward="false" selection-start-line="51" selection-start-column="45" selection-end-line="51" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1421,44 +1405,58 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/resources/css/common.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="665">
+          <caret line="468" column="18" lean-forward="true" selection-start-line="468" selection-start-column="18" selection-end-line="468" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="116" column="100" lean-forward="false" selection-start-line="116" selection-start-column="24" selection-end-line="116" selection-end-column="100" />
+        <state relative-caret-position="144">
+          <caret line="163" column="32" lean-forward="true" selection-start-line="163" selection-start-column="32" selection-end-line="163" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Ayarlar_Popup.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1296">
-          <caret line="388" column="64" lean-forward="false" selection-start-line="388" selection-start-column="64" selection-end-line="388" selection-end-column="64" />
+        <state relative-caret-position="521">
+          <caret line="423" column="25" lean-forward="true" selection-start-line="423" selection-start-column="25" selection-end-line="423" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Data.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="752">
+          <caret line="52" column="43" lean-forward="false" selection-start-line="52" selection-start-column="43" selection-end-line="52" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="477" column="21" lean-forward="false" selection-start-line="477" selection-start-column="21" selection-end-line="477" selection-end-column="21" />
+        <state relative-caret-position="500">
+          <caret line="820" column="94" lean-forward="false" selection-start-line="820" selection-start-column="80" selection-end-line="820" selection-end-column="94" />
           <folding>
             <element signature="e#3145#3161#0" expanded="true" />
             <element signature="method#create_ui#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#orer_download#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#orer_download_inner#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="method#update#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#update_ui#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#plaka_download#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#hiz_label_guncelle#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#plakalari_guncelle#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#set_event_handlers#0;class#Otobus_Box#0" expanded="false" />
-            <element signature="e#42024#43187#0" expanded="false" />
-            <element signature="e#43315#47074#0" expanded="false" />
-            <element signature="e#54038#56979#0" expanded="false" />
+            <element signature="e#42138#43301#0" expanded="false" />
+            <element signature="e#43429#47188#0" expanded="false" />
+            <element signature="e#54152#57093#0" expanded="false" />
             <element signature="method#otobus_plaka_kontrol#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#hat_detay_olustur#0;class#Otobus_Box#0" expanded="false" />
             <element signature="method#alarm_goruldu_tetik#0;class#Otobus_Box#0" expanded="false" />
@@ -1470,8 +1468,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Alarm_Box.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="69" column="44" lean-forward="false" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="44" />
+        <state relative-caret-position="473">
+          <caret line="77" column="52" lean-forward="true" selection-start-line="77" selection-start-column="52" selection-end-line="77" selection-end-column="52" />
           <folding />
         </state>
       </provider>

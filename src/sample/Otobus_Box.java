@@ -477,9 +477,11 @@ public class Otobus_Box extends VBox{
                         }
                     }
                     for (Map.Entry<String, Surucu> entry : suruculer.entrySet()) {
-                        if( Sefer_Sure.hesapla( entry.getValue().get_orer(), entry.getValue().get_bitis() ) / 60 >= 10 ){
-                            alarm_kontrol(new Alarm_Data(Alarm_Data.SURUCU_COK_CALISTI, Alarm_Data.SURUCU_FLIP_FLOP, kod, Alarm_Data.MESAJ_SURUCU_COK_CALISTI.replace("%%ISIM%%", entry.getKey()), "-1"));
-                        }
+                        try {
+                            if( Sefer_Sure.hesapla( entry.getValue().get_orer(), entry.getValue().get_bitis() ) / 60 >= 10 ){
+                                alarm_kontrol(new Alarm_Data(Alarm_Data.SURUCU_COK_CALISTI, Alarm_Data.SURUCU_FLIP_FLOP, kod, Alarm_Data.MESAJ_SURUCU_COK_CALISTI.replace("%%ISIM%%", entry.getKey()), "-1"));
+                            }
+                        } catch ( NullPointerException e ){ }
                     }
                     try {
                         Thread.sleep( 900000 );
@@ -816,7 +818,7 @@ public class Otobus_Box extends VBox{
         }
         int suruculer_size = suruculer.size();
         if ( suruculer_size == 0 ) {
-            alarm_kontrol(new Alarm_Data(Alarm_Data.BELIRSIZ_SURUCU, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_BELIRSIZ_SURUCU, "1"));
+            alarm_kontrol(new Alarm_Data(Alarm_Data.BELIRSIZ_SURUCU, Alarm_Data.MAVI_FLIP_FLOP, kod, Alarm_Data.MESAJ_BELIRSIZ_SURUCU, "1"));
         } else if( suruculer_size == 1 ) {
             // surucu bilgisi gelmişse önceki alarmi kaldir
             String alarm_id = "";
