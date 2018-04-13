@@ -65,6 +65,7 @@ public class Takip_Scene_Controller implements Initializable {
     @FXML private Button btn_filtre_kapi;
     @FXML private Button btn_filtre_kaydet;
     @FXML private Button btn_filtre_zayi;
+    @FXML private Button btn_filtre_scl;
     @FXML private VBox filtre_container;
     @FXML private HBox filtre_btn_container;
     @FXML private HBox header_pie_chart_container;
@@ -135,7 +136,8 @@ public class Takip_Scene_Controller implements Initializable {
                 btn_filtre_sifirla,
                 btn_filtre_kapi,
                 btn_filtre_kaydet,
-                btn_filtre_zayi
+                btn_filtre_zayi,
+                btn_filtre_scl
         );
         otobus_box_filtre.add_listener(new Filtre_Listener() {
             @Override

@@ -54,6 +54,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
+
         User_Config.filo5_cookie = "INIT";
 
         acilis_popup_olustur();

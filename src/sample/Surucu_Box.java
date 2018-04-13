@@ -1,39 +1,28 @@
 package sample;
 
-import javafx.application.Platform;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * Created by Obarey on 17.02.2017.
  */
-public class Surucu_Box {
+public class Surucu_Box extends VBox {
 
     private String oto;
-    private VBox surucu_ul, surucu_li;
-    private Map<String, Surucu> suruculer;
 
     public Surucu_Box( String _oto ){
+        super();
         oto = _oto;
-
     }
 
-    public VBox get_ui(){
-        return surucu_ul;
-    }
 
-    public void init(  Map<String, Surucu> _suruculer ){
-        suruculer = _suruculer;
-        surucu_ul = new VBox();
+    public void init(  Map<String, Surucu> suruculer ){
 
-        surucu_ul.getStylesheets().addAll( Filo_Table.class.getResource("resources/css/common.css").toExternalForm() );
+        VBox surucu_li;
+        this.getStylesheets().addAll( Filo_Table.class.getResource("resources/css/common.css").toExternalForm() );
 
         for (Map.Entry<String, Surucu> entry : suruculer.entrySet()) {
 
@@ -44,15 +33,17 @@ public class Surucu_Box {
             Label lbl_surucu_isim = new Label(entry.getValue().get_isim());
             Label lbl_surucu_sicil = new Label( "Sicil No: " + entry.getValue().get_sicil_no() );
             Label lbl_surucu_tel = new Label( "Telefon: " + entry.getValue().get_telefon() );
+            Label lbl_surucu_calisma_saati = new Label( String.valueOf(Sefer_Sure.hesapla_uzun( entry.getValue().get_orer(), entry.getValue().get_bitis() ) / 60 ) + " saattir çalışıyor." );
             lbl_surucu_isim.setAlignment(Pos.CENTER);
             lbl_surucu_sicil.setAlignment(Pos.CENTER);
             lbl_surucu_tel.setAlignment(Pos.CENTER);
             lbl_surucu_isim.getStyleClass().add("popup-surucu-isim");
             lbl_surucu_sicil.getStyleClass().add("popup-surucu-info");
             lbl_surucu_tel.getStyleClass().add("popup-surucu-info");
+            lbl_surucu_calisma_saati.getStyleClass().add("popup-surucu-info");
 
-            surucu_li.getChildren().addAll( lbl_surucu_isim, lbl_surucu_tel, lbl_surucu_sicil );
-            surucu_ul.getChildren().add( surucu_li );
+            surucu_li.getChildren().addAll( lbl_surucu_isim, lbl_surucu_tel, lbl_surucu_sicil, lbl_surucu_calisma_saati );
+            this.getChildren().add( surucu_li );
 
         }
 

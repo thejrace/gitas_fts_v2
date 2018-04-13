@@ -295,6 +295,13 @@
                                     <String fx:value="filtre-button-aktif" />
                                  </styleClass>
                               </Button>
+
+                              <Button fx:id="btn_filtre_scl" layoutX="139.0" layoutY="16.0" mnemonicParsing="false" text="SCL">
+                                 <styleClass>
+                                    <String fx:value="filtre-button" />
+                                    <String fx:value="filtre-button-aktif" />
+                                 </styleClass>
+                              </Button>
                            </children>
                         </HBox>
                         <HBox layoutX="210.0" layoutY="10.0" styleClass="filtre-item-container">

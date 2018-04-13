@@ -26,7 +26,8 @@ public class Otobus_Box_Filtre {
                             FD_NOT = "NOT",
                             FD_IYS = "IYS",
                             FD_PLAKA = "PLAKA",
-                            FD_ZAYI = "ZAYI";
+                            FD_ZAYI = "ZAYI",
+                            FD_SCL = "SÇL";
     public static String    VE = "VE",
                             VEYA = "VEYA";
 
@@ -36,9 +37,9 @@ public class Otobus_Box_Filtre {
 
     private ArrayList<String> filtre_data = new ArrayList<>();
     private ArrayList<Filtre_Listener> listeners = new ArrayList<>();
-    private Button bolgea, bolgeb, bolgec, st, sb, sa, si, sy, uyari_not, uyari_plaka, uyari_iys, sifirla_btn, kapi_btn, kaydet_btn, zayi_btn;
+    private Button bolgea, bolgeb, bolgec, st, sb, sa, si, sy, uyari_not, uyari_plaka, uyari_iys, sifirla_btn, kapi_btn, kaydet_btn, zayi_btn, scl_btn;
 
-    public Otobus_Box_Filtre( Button _bolgea, Button _bolgeb, Button _bolgec, Button _st, Button _sb, Button _sa, Button _si, Button _sy, Button _uyari_not, Button _uyari_plaka, Button _uyari_iys, Button _sifirla_btn, Button _kapi_btn, Button _kaydet_btn, Button _zayi_btn  ){
+    public Otobus_Box_Filtre( Button _bolgea, Button _bolgeb, Button _bolgec, Button _st, Button _sb, Button _sa, Button _si, Button _sy, Button _uyari_not, Button _uyari_plaka, Button _uyari_iys, Button _sifirla_btn, Button _kapi_btn, Button _kaydet_btn, Button _zayi_btn, Button _scl_btn  ){
 
         bolgea = _bolgea;
         bolgeb = _bolgeb;
@@ -55,6 +56,7 @@ public class Otobus_Box_Filtre {
         kapi_btn = _kapi_btn;
         kaydet_btn = _kaydet_btn;
         zayi_btn = _zayi_btn;
+        scl_btn = _scl_btn;
 
         sifirla();
 
@@ -65,6 +67,10 @@ public class Otobus_Box_Filtre {
 
         zayi_btn.setOnMousePressed( ev -> {
             eksin( FD_ZAYI, zayi_btn );
+        });
+
+        scl_btn.setOnMousePressed( ev -> {
+            eksin( FD_SCL, scl_btn );
         });
 
         kaydet_btn.setOnMousePressed( ev -> {
@@ -82,6 +88,8 @@ public class Otobus_Box_Filtre {
             if( filtre_data.contains(FD_DIPTAL) ) { g2 += "1"; } else { g2 += "0"; }
             if( filtre_data.contains(FD_DYARIM) ) { g2 += "1"; } else { g2 += "0"; }
 
+
+            if( filtre_data.contains(FD_SCL) ) { g3 += "1"; } else { g3 += "0"; }
             if( filtre_data.contains(FD_ZAYI) ) { g3 += "1"; } else { g3 += "0"; }
             if( filtre_data.contains(FD_NOT) ) { g3 += "1"; } else { g3 += "0"; }
             if( filtre_data.contains(FD_PLAKA) ) { g3 += "1"; } else { g3 += "0"; }
@@ -179,10 +187,11 @@ public class Otobus_Box_Filtre {
         if( kayit_str.charAt(4) == '1' ) { filtre_data.add(FD_DYARIM); button_aktif(sy); } else { button_pasif(sy); }
 
         kayit_str = config.getString("g3");
-        if( kayit_str.charAt(0) == '1' ) { filtre_data.add(FD_ZAYI); button_aktif(zayi_btn); } else { button_pasif(zayi_btn); }
-        if( kayit_str.charAt(1) == '1' ) { filtre_data.add(FD_NOT); button_aktif(uyari_not); } else { button_pasif(uyari_not); }
-        if( kayit_str.charAt(2) == '1' ) { filtre_data.add(FD_PLAKA); button_aktif(uyari_plaka); } else {  button_pasif(uyari_plaka); }
-        if( kayit_str.charAt(3) == '1' ) { filtre_data.add(FD_IYS); button_aktif(uyari_iys); } else { button_pasif(uyari_iys); }
+        if( kayit_str.charAt(0) == '1' ) { filtre_data.add(FD_SCL); button_aktif(scl_btn); } else { button_pasif(scl_btn); }
+        if( kayit_str.charAt(1) == '1' ) { filtre_data.add(FD_ZAYI); button_aktif(zayi_btn); } else { button_pasif(zayi_btn); }
+        if( kayit_str.charAt(2) == '1' ) { filtre_data.add(FD_NOT); button_aktif(uyari_not); } else { button_pasif(uyari_not); }
+        if( kayit_str.charAt(3) == '1' ) { filtre_data.add(FD_PLAKA); button_aktif(uyari_plaka); } else {  button_pasif(uyari_plaka); }
+        if( kayit_str.charAt(4) == '1' ) { filtre_data.add(FD_IYS); button_aktif(uyari_iys); } else { button_pasif(uyari_iys); }
 
         kapi = config.getString("filtre_kapi");
         kapi_btn.setText(kapi);

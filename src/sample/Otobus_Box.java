@@ -109,6 +109,7 @@ public class Otobus_Box extends VBox{
         filtre_data.put(Otobus_Box_Filtre.FD_NOT, false);
         filtre_data.put(Otobus_Box_Filtre.FD_PLAKA, false);
         filtre_data.put(Otobus_Box_Filtre.FD_ZAYI, false);
+        filtre_data.put(Otobus_Box_Filtre.FD_SCL, false);
 
         ekstra_ozet.put(Otobus_Box_Filtre.FD_NOT, 0);
         ekstra_ozet.put(Otobus_Box_Filtre.FD_IYS, 0);
@@ -452,12 +453,10 @@ public class Otobus_Box extends VBox{
                         }
                     }
 
-
                     request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_surucu_data&oto="+kod+"&baslangic=&bitis=" );
                     request.kullanici_pc_parametreleri_ekle();
                     request.action();
                     JSONArray sdata = new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("orer_data");
-
 
                     JSONObject item;
                     ArrayList<String> kontrol = new ArrayList<>();
@@ -478,8 +477,11 @@ public class Otobus_Box extends VBox{
                     }
                     for (Map.Entry<String, Surucu> entry : suruculer.entrySet()) {
                         try {
-                            if( Sefer_Sure.hesapla( entry.getValue().get_orer(), entry.getValue().get_bitis() ) / 60 >= 10 ){
+                            if( Sefer_Sure.hesapla_uzun( entry.getValue().get_orer(), entry.getValue().get_bitis() ) / 60 >= User_Config.app_ayarlar.getInt("surucu_calisma_saati") ){
                                 alarm_kontrol(new Alarm_Data(Alarm_Data.SURUCU_COK_CALISTI, Alarm_Data.SURUCU_FLIP_FLOP, kod, Alarm_Data.MESAJ_SURUCU_COK_CALISTI.replace("%%ISIM%%", entry.getKey()), "-1"));
+                                filtre_data.put(Otobus_Box_Filtre.FD_SCL, true);
+                            } else {
+                                filtre_data.put(Otobus_Box_Filtre.FD_SCL, false);
                             }
                         } catch ( NullPointerException e ){ }
                     }
@@ -659,7 +661,7 @@ public class Otobus_Box extends VBox{
                     // son sefer yarım kalmis
 
                     alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_YARIM, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_YARIM, sefer_no));
-                    System.out.println("[ " + kod + " ALARM ]" + "SEFER YARIM KALDIIIII");
+                    //System.out.println("[ " + kod + " ALARM ]" + "SEFER YARIM KALDIIIII");
 
                     ui_main_notf = "Sefer Yarım Kaldı";
                     ui_notf = "Durum Kodu: " + sefer_durum_kodu;
@@ -687,7 +689,7 @@ public class Otobus_Box extends VBox{
                     // seferler duzeltilmemişse durum iptal diyoruz
                     if (!sonraki_seferler_duzeltilmis) {
 
-                        System.out.println("[ " + kod + " ALARM ]" + "SEFER İPTAAAAAAl");
+                        //System.out.println("[ " + kod + " ALARM ]" + "SEFER İPTAAAAAAl");
                         alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_IPTAL, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_IPTAL, "1"));
 
                         ui_main_notf = "Sefer İptal";
@@ -716,7 +718,7 @@ public class Otobus_Box extends VBox{
                     ui_led = Sefer_Data.DIPTAL;
 
                     alarm_kontrol(new Alarm_Data(Alarm_Data.SEFER_IPTAL, Alarm_Data.KIRMIZI, kod, Alarm_Data.MESAJ_IPTAL, "1"));
-                    System.out.println("[ " + kod + " ALARM ]" + "SEFER İPTAAAAAAl");
+                    //System.out.println("[ " + kod + " ALARM ]" + "SEFER İPTAAAAAAl");
 
                 }
             }
@@ -1184,7 +1186,7 @@ public class Otobus_Box extends VBox{
             Thread filo_surucu_th = new Thread( new Task<String>(){
                 @Override
                 protected void succeeded(){
-                    surucu_popup.set_content( surucu_box.get_ui() );
+                    surucu_popup.set_content( surucu_box );
                     surucu_popup.show( event.getScreenX(), event.getScreenY() );
                     btn_surucu.setDisable(false);
                 }
