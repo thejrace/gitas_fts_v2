@@ -268,12 +268,15 @@ public class Takip_Scene extends Application {
                     lojik = lojik && otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_IYS);
                 if (filtre_str_vals.contains(Otobus_Box_Filtre.FD_ZAYI))
                     lojik = lojik && otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_ZAYI);
+                if (filtre_str_vals.contains(Otobus_Box_Filtre.FD_SCL))
+                    lojik = lojik && otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_SCL);
             } else {
                 lojik = filtre_str_vals.contains("D" + otobus_box.get_durum()) ||
                         filtre_str_vals.contains(entry.getKey().substring(0, 1)) ||
                         (filtre_str_vals.contains(Otobus_Box_Filtre.FD_NOT) && otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_NOT)) &&
                                 (filtre_str_vals.contains(Otobus_Box_Filtre.FD_PLAKA) && otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_PLAKA)) &&
                                 (filtre_str_vals.contains(Otobus_Box_Filtre.FD_IYS) && otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_IYS)) &&
+                                (filtre_str_vals.contains(Otobus_Box_Filtre.FD_SCL) && otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_SCL)) &&
                                 (filtre_str_vals.contains(Otobus_Box_Filtre.FD_ZAYI) && otobus_box.get_filtre_data(Otobus_Box_Filtre.FD_ZAYI));
             }
             if( lojik ){

@@ -13,7 +13,7 @@
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>C:\Users\Jeppe-PC\Desktop\app_ico.ico</icon>
+  <icon>E:\Bunker\Jester&apos;s Files\2018 Upgrade Oncesi\Desktop\app_ico.ico</icon>
   <singleInstance>
     <mutexName>gtfs_2010h1</mutexName>
     <windowTitle>Gitaş Filo Takip Sistemi</windowTitle>

@@ -23,7 +23,7 @@ public class Surucu_Box extends VBox {
 
         VBox surucu_li;
         this.getStylesheets().addAll( Filo_Table.class.getResource("resources/css/common.css").toExternalForm() );
-
+        this.getChildren().clear();
         for (Map.Entry<String, Surucu> entry : suruculer.entrySet()) {
 
             surucu_li = new VBox();
@@ -33,17 +33,21 @@ public class Surucu_Box extends VBox {
             Label lbl_surucu_isim = new Label(entry.getValue().get_isim());
             Label lbl_surucu_sicil = new Label( "Sicil No: " + entry.getValue().get_sicil_no() );
             Label lbl_surucu_tel = new Label( "Telefon: " + entry.getValue().get_telefon() );
-            Label lbl_surucu_calisma_saati = new Label( String.valueOf(Sefer_Sure.hesapla_uzun( entry.getValue().get_orer(), entry.getValue().get_bitis() ) / 60 ) + " saattir çalışıyor." );
-            lbl_surucu_isim.setAlignment(Pos.CENTER);
-            lbl_surucu_sicil.setAlignment(Pos.CENTER);
-            lbl_surucu_tel.setAlignment(Pos.CENTER);
-            lbl_surucu_isim.getStyleClass().add("popup-surucu-isim");
-            lbl_surucu_sicil.getStyleClass().add("popup-surucu-info");
-            lbl_surucu_tel.getStyleClass().add("popup-surucu-info");
-            lbl_surucu_calisma_saati.getStyleClass().add("popup-surucu-info");
+            try {
+                Label lbl_surucu_calisma_saati = new Label( String.valueOf(Sefer_Sure.hesapla_uzun( entry.getValue().get_orer(), entry.getValue().get_bitis() ) / 60 ) + " saattir çalışıyor." );
+                lbl_surucu_isim.setAlignment(Pos.CENTER);
+                lbl_surucu_sicil.setAlignment(Pos.CENTER);
+                lbl_surucu_tel.setAlignment(Pos.CENTER);
+                lbl_surucu_isim.getStyleClass().add("popup-surucu-isim");
+                lbl_surucu_sicil.getStyleClass().add("popup-surucu-info");
+                lbl_surucu_tel.getStyleClass().add("popup-surucu-info");
+                lbl_surucu_calisma_saati.getStyleClass().add("popup-surucu-info");
+                surucu_li.getChildren().addAll( lbl_surucu_isim, lbl_surucu_tel, lbl_surucu_sicil, lbl_surucu_calisma_saati );
+                this.getChildren().add( surucu_li );
+            } catch( Exception e ){
+                e.printStackTrace();
+            }
 
-            surucu_li.getChildren().addAll( lbl_surucu_isim, lbl_surucu_tel, lbl_surucu_sicil, lbl_surucu_calisma_saati );
-            this.getChildren().add( surucu_li );
 
         }
 
