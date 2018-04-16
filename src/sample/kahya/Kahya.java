@@ -1,13 +1,6 @@
 package sample.kahya;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-import sample.Common;
-import sample.Sefer_Data;
-import sample.User_Config;
-import sample.Web_Request;
-
-import java.util.ArrayList;
 
 public class Kahya {
 

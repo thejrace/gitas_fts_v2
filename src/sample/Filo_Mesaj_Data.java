@@ -1,14 +1,10 @@
 package sample;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 /**
  * Created by Obarey on 13.02.2017.
  */
+@Deprecated
 public class Filo_Mesaj_Data {
 
     private String mesaj, kaynak, tarih, oto, plaka, surucu, saat;

@@ -3,9 +3,6 @@ package sample;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;

@@ -7,10 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
-
 /**
  * Created by Jeppe on 15.03.2017.
  */

@@ -2,10 +2,6 @@ package sample;
 
 import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 /**
  * Created by Obarey on 17.01.2017.
  */

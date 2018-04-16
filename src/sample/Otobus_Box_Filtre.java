@@ -3,12 +3,7 @@ package sample;
 import javafx.concurrent.Task;
 import javafx.scene.control.Button;
 import org.json.JSONObject;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by Jeppe on 27.04.2017.

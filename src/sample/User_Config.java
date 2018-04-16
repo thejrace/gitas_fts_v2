@@ -3,10 +3,7 @@ package sample;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Jeppe on 18.05.2017.

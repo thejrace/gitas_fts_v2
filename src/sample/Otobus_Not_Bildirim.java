@@ -1,10 +1,5 @@
 package sample;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 /**
  * Created by Jeppe on 21.04.2017.
  */

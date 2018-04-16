@@ -2,13 +2,11 @@ package sample;
 
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

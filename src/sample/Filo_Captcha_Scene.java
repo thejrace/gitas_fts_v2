@@ -12,7 +12,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import sample.kahya.Kahya_Scene;
 
 public class Filo_Captcha_Scene extends Application {
 
