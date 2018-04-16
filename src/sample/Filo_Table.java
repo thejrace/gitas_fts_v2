@@ -1,67 +1,44 @@
 package sample;
 
 import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.lang.management.PlatformLoggingMXBean;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Text;
 
 /**
  * Created by Obarey on 30.01.2017.
  */
 public class Filo_Table {
-
     private VBox table;
-    private HBox thead, versiyon_cont;
-    private VBox height_cont, ust_cont;
-    private HBox dp_container;
+    private HBox versiyon_cont;
+    private VBox height_cont;
     private ArrayList<HBox> rows = new ArrayList<>();
-    private String kod;
-    private boolean eski_veri_goruntuleniyor = false;
+    private String kod, tarih = Common.get_current_date();
     private JSONArray versiyonlar;
     private boolean versiyon_birden_fazla;
     private int versiyon = 0;
     private boolean dp_gizle = false;
     private char aktif_kaynak = 'A';
-    private GButton kaynak_btn, dp_getir;
+    private GButton kaynak_btn, dp_getir, print_btn;
     private ScrollPane main_cont;
-
-
     // eski veriler incelendikten sonra aktif gune dondugu zaman db den almiyoruz veriyi
     // cunku 1 saat kadar gecmis olabilir db senkrona gore
     // popup acildiginda aldigimiz en son veriyi tutuyoruz
     private JSONArray son_aktif_data = new JSONArray();
     private JSONArray canli_data = new JSONArray();
     private Map<String, String> suruculer_temp = new HashMap<>();
-
-
-
-
     public Filo_Table( String kod ){
         this.kod = kod;
     }
-
     public void update_ui(){
         try {
             height_cont.getChildren().clear();
@@ -102,15 +79,11 @@ public class Filo_Table {
             e.printStackTrace();
         }
     }
-
     public void versiyon_sec( int ver ){
         versiyon = ver;
     }
     public void dp_gizle(){
         dp_gizle = true;
-    }
-    public boolean get_eski_veri_goruntuleniyor(){
-        return eski_veri_goruntuleniyor;
     }
     public void update_data( Map<String, String> _suruculer_temp ){
 
@@ -157,12 +130,9 @@ public class Filo_Table {
             }
             String bekleme = "0";
             if( onceki_sefer.length() > 0 ) bekleme = String.valueOf(Sefer_Sure.hesapla( onceki_sefer.getString("bitis"), sefer.getString("gidis") ) )+ " DK";
+
             if( aktif_kaynak == 'A' ){
-                if( suruculer_temp.containsKey(sefer.getString("orer") ) ){
-                    surucu_isim = suruculer_temp.get(sefer.getString("orer"));
-                } else {
-                    surucu_isim = "BELIRSIZ SURUCU";
-                }
+                surucu_isim = suruculer_temp.getOrDefault(sefer.getString("orer"), "BELIRSIZ SURUCU");
             } else {
                 surucu_isim = sefer.getString("surucu");
             }
@@ -198,7 +168,6 @@ public class Filo_Table {
             versiyon_birden_fazla = true;
         }
     }
-
     public void init(){
         table = new VBox();
         //table.getStyleClass().add( "filo-table-item" );
@@ -210,7 +179,7 @@ public class Filo_Table {
         main_cont.setFitToWidth(true);
         main_cont.setContent(table);
 
-        ust_cont = new VBox();
+        VBox ust_cont = new VBox();
         versiyon_cont = new HBox();
         versiyon_cont.setSpacing(10);
         versiyon_cont.setPadding(new Insets(0,0,10,0));
@@ -222,10 +191,39 @@ public class Filo_Table {
         veri_kaynak_cont.setPadding(new Insets(10, 0, 10, 0));
 
         kaynak_btn = new GButton("SUNUCUDAN AL", GButton.CMORK );
-        veri_kaynak_cont.getChildren().addAll(kaynak_btn);
+        print_btn = new GButton("EXCEL", GButton.CMORK);
+        veri_kaynak_cont.getChildren().addAll(kaynak_btn, print_btn);
+
+
+        print_btn.setOnMousePressed( ev -> {
+            print_btn.setText("İşlem Yapılıyor...");
+            print_btn.setDisable(true);
+            kaynak_btn.setDisable(true);
+            dp_getir.setDisable(true);
+            Thread th = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Excel_Filo_Plan test = new Excel_Filo_Plan(tarih);
+                    test.set_oto_flag(kod);
+                    test.set_data( son_aktif_data, suruculer_temp, aktif_kaynak );
+                    test.init(true, true, true, true, true, true);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            print_btn.setDisable(false);
+                            kaynak_btn.setDisable(false);
+                            dp_getir.setDisable(false);
+                            print_btn.setText("EXCEL");
+                        }
+                    });
+                }
+            });
+            th.setDaemon(true);
+            th.start();
+        });
 
         table.getStylesheets().addAll( Filo_Table.class.getResource("resources/css/common.css").toExternalForm() );
-        dp_container = new HBox();
+        HBox dp_container = new HBox();
         if( !dp_gizle ){
             dp_container.setAlignment(Pos.CENTER);
             dp_container.setPadding(new Insets(0, 0, 10, 0 ));
@@ -240,8 +238,10 @@ public class Filo_Table {
             kaynak_btn.setOnMousePressed( ev -> {
                 kaynak_btn.setDisable(true);
                 dp_getir.setDisable(true);
+                print_btn.setDisable(true);
                 if( aktif_kaynak == 'S' ){
                     aktif_kaynak = 'A';
+                    tarih = Common.get_current_date();
                     // aktif filodan canlı veriyi al
                     Thread th = new Thread(new Runnable() {
                         @Override
@@ -255,6 +255,7 @@ public class Filo_Table {
                                         update_ui();
                                         kaynak_btn.setDisable(false);
                                         dp_getir.setDisable(false);
+                                        print_btn.setDisable(false);
                                         kaynak_btn.setText("SUNUCUDAN AL");
                                     }
                                 });
@@ -277,6 +278,7 @@ public class Filo_Table {
             dp_getir.setOnMousePressed(ev -> {
                 // arşiv görüntüleniyorsa kaynak otomatik sunucu olacak
                 kaynak_btn.setDisable(true);
+                print_btn.setDisable(true);
                 dp_getir.setDisable(true);
                 aktif_kaynak = 'S';
                 kaynak_btn.setText("AKTİF GÜNE DÖN");
@@ -288,7 +290,7 @@ public class Filo_Table {
 
         VBox thead_container = new VBox();
 
-        thead = new HBox();
+        HBox thead = new HBox();
         thead.getChildren().addAll(
                 new Filo_Table_Sefer_Thead_Label( "NO", Filo_Table_Sefer_Label.WTD_37 ).get(),
                 new Filo_Table_Sefer_Thead_Label( "YÖN", Filo_Table_Sefer_Label.WTD_80 ).get(),
@@ -309,8 +311,13 @@ public class Filo_Table {
         //height_cont.getChildren().add(thead);
         table.getChildren().addAll( thead_container, height_cont );
     }
+    private void sunucu_veri_download( String _tarih ){
+        if( _tarih.equals("AT") ){
+            tarih = Common.get_current_date();
+        } else {
+            tarih = _tarih;
+        }
 
-    private void sunucu_veri_download( String tarih ){
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -326,6 +333,7 @@ public class Filo_Table {
                         update_ui();
                         kaynak_btn.setDisable(false);
                         dp_getir.setDisable(false);
+                        print_btn.setDisable(false);
                     }
                 });
             }
@@ -333,7 +341,6 @@ public class Filo_Table {
         th.setDaemon(true);
         th.start();
     }
-
     public ScrollPane get(){
        return main_cont;
 

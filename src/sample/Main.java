@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.print.PrinterJob;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -22,6 +23,14 @@ import javax.print.*;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.Destination;
+import javax.print.attribute.standard.MediaSize;
+import javax.print.attribute.standard.MediaSizeName;
+import java.awt.print.PageFormat;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Optional;
 import java.util.Timer;
@@ -59,30 +68,6 @@ public class Main extends Application {
         } catch( Exception e ){
             e.printStackTrace();
         }
-
-
-        /*PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
-        DocPrintJob job = services[2].createPrintJob();
-        URL url = new URL(
-                "https://www.google.com.tr/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png");
-        DocFlavor flavor = DocFlavor.URL.PNG;
-        Doc doc = new SimpleDoc(url, flavor, null);
-        PrintRequestAttributeSet attrs = new HashPrintRequestAttributeSet();
-        attrs.add(new Copies(1));
-        job.print(doc, attrs);*/
-
-       /* PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
-        PrintService svc = PrintServiceLookup.lookupDefaultPrintService();
-        PrintRequestAttributeSet attrs = new HashPrintRequestAttributeSet();
-        PrintService selection = ServiceUI.printDialog(
-                null, 100, 100, services, svc, null, attrs);
-        DocPrintJob job = selection.createPrintJob();
-        URL url = new URL(
-                "https://www.google.com.tr/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png");
-        DocFlavor flavor = DocFlavor.URL.PNG;
-        Doc doc = new SimpleDoc(url, flavor, null);
-        attrs.add(new Copies(1));
-        job.print(doc, attrs);*/
 
 
         User_Config.filo5_cookie = "INIT";
@@ -307,3 +292,20 @@ public class Main extends Application {
         launch(args);
     }
 }
+
+/*
+*         PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
+        PrintService svc = PrintServiceLookup.lookupDefaultPrintService();
+        PrintRequestAttributeSet attrs = new HashPrintRequestAttributeSet();
+        PrintService selection = ServiceUI.printDialog(
+                null, 100, 100, services, svc, null, attrs);
+
+
+        FileInputStream fis = new FileInputStream("C:/temp/ORER_Tablo_2018-04-15.xls");
+        Doc pdfDoc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.AUTOSENSE, null);
+        DocPrintJob printJob = selection.createPrintJob();
+        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+        aset.add(MediaSizeName.ISO_A4);
+        printJob.print(pdfDoc, aset);
+        fis.close();
+*/

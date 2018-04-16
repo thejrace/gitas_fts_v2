@@ -1,6 +1,5 @@
 package sample;
 
-import com.sun.org.apache.bcel.internal.ExceptionConstants;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -8,7 +7,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -161,7 +159,7 @@ public class Takip_Scene extends Application {
             JSONArray otobusler = User_Config.app_otobusler;
             // hazir tum otobusleri loop ederken arada kutulari da olusturuyoruz
             JSONObject otobus_object;
-            for( int j = 0; j < otobusler.length(); j++ ){
+            for( int j = 0; j < /*otobusler.length()*/ 3; j++ ){
                 otobus_object = otobusler.getJSONObject(j);
                 String kod = otobus_object.getString("kapi_kodu");
                 final Otobus_Box box_item = new Otobus_Box( kod,  otobus_object.getInt("sira"), otobus_object.getString("ruhsat_plaka"), otobus_object.getString("aktif_plaka"));

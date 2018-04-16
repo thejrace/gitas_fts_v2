@@ -6,8 +6,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;

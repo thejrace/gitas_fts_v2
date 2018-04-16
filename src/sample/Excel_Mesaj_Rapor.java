@@ -1,5 +1,6 @@
 package sample;
 
+import jxl.CellView;
 import jxl.Workbook;
 import jxl.write.*;
 import org.json.JSONArray;
@@ -133,6 +134,20 @@ public class Excel_Mesaj_Rapor {
                                 son_stil = aktif_stil;
                             }
                         }
+
+                        CellView cv = excelSheet.getColumnView(3);
+                        cv.setSize(8200);
+                        excelSheet.setColumnView(3, cv);
+
+                        cv = excelSheet.getColumnView(2);
+                        cv.setSize(4000);
+                        excelSheet.setColumnView(2, cv);
+
+                        cv = excelSheet.getColumnView(1);
+                        cv.setSize(4000);
+                        excelSheet.setColumnView(1, cv);
+
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

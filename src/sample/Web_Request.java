@@ -75,7 +75,7 @@ public class Web_Request {
         } catch (Exception e) {
             System.out.println("İstek yapılırken bir hata oluştu. Tekrar deneniyor.");
             e.printStackTrace();
-            action();
+            //action();
         } finally {
             if (connection != null) {
                 connection.disconnect();

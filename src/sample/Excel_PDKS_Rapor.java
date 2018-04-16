@@ -1,5 +1,6 @@
 package sample;
 
+import jxl.CellView;
 import jxl.Workbook;
 import jxl.write.*;
 import org.json.JSONArray;
@@ -49,6 +50,7 @@ public class Excel_PDKS_Rapor {
 
                         label = new Label(0, 0, "OTO", cFormat);
                         excelSheet.addCell(label);
+
 
                         label = new Label(1, 0, "RUHSAT PLAKA", cFormat);
                         excelSheet.addCell(label);
@@ -122,6 +124,21 @@ public class Excel_PDKS_Rapor {
                                 son_stil = aktif_stil;
                             }
                         }
+
+                        // sürücü isimleri sıgmıyor, o yuzden genislet col u
+                        CellView cv = excelSheet.getColumnView(3);
+                        cv.setSize(8200);
+                        excelSheet.setColumnView(3, cv);
+
+                        cv = excelSheet.getColumnView(1);
+                        cv.setSize(4000);
+                        excelSheet.setColumnView(1, cv);
+
+                        cv = excelSheet.getColumnView(2);
+                        cv.setSize(4000);
+                        excelSheet.setColumnView(2, cv);
+
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

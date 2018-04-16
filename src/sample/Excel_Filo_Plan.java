@@ -1,21 +1,17 @@
 package sample;
 
-import javafx.scene.paint.Color;
+import jxl.CellView;
 import jxl.Workbook;
-import jxl.format.*;
 import jxl.format.Alignment;
 import jxl.write.*;
 import jxl.write.Border;
 import jxl.write.BorderLineStyle;
 import jxl.write.Colour;
-import jxl.write.Number;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,11 +22,66 @@ public class Excel_Filo_Plan {
 
 
 
-    private String tarih, tarih_ters;
+    private String tarih, tarih_ters, oto, excel_isim_extra = "";
+    private boolean oto_flag;
+    private JSONArray oto_data = new JSONArray();
     public Excel_Filo_Plan( String tarih ){
         String[] tarihler = tarih.split("-");
         this.tarih = tarih;
-        this.tarih_ters = tarihler[2]+"-"+tarihler[1]+"-"+tarihler[0];
+        try {
+            this.tarih_ters = tarihler[2]+"-"+tarihler[1]+"-"+tarihler[0];
+        } catch( ArrayIndexOutOfBoundsException e ){
+
+        }
+    }
+
+    public void set_oto_flag( String _oto ){
+        oto_flag = true;
+        oto = _oto;
+    }
+    public void set_data( JSONArray _data, Map<String, String> _suruculer_temp, char _kaynak  ){
+        JSONObject sefer;
+        String plaka = "Veri Yok";
+        for( int k = 0; k < User_Config.app_otobusler.length(); k++ ){
+            if( User_Config.app_otobusler.getJSONObject(k).getString("kapi_kodu").equals(oto)){
+                plaka = User_Config.app_otobusler.getJSONObject(k).getString("aktif_plaka");
+            }
+        }
+        for( int x = 0; x < _data.length(); x++ ) {
+            sefer = _data.getJSONObject(x);
+            String surucu_isim;
+            if( _kaynak == 'A' ){
+                if( _suruculer_temp.containsKey(sefer.getString("orer") ) ){
+                    surucu_isim = _suruculer_temp.get(sefer.getString("orer"));
+                } else {
+                    surucu_isim = "BELIRSIZ SURUCU";
+                }
+            } else {
+                surucu_isim = sefer.getString("surucu");
+            }
+            JSONObject _sefer_data = new JSONObject();
+            _sefer_data.put( "oto", oto );
+            _sefer_data.put("no", sefer.getString("no"));
+            _sefer_data.put("hat", sefer.getString("hat"));
+            _sefer_data.put("servis", sefer.getString("servis"));
+            _sefer_data.put("guzergah", sefer.getString("guzergah"));
+            _sefer_data.put("orer", sefer.getString("orer"));
+            _sefer_data.put("gelis", sefer.getString("gelis"));
+            _sefer_data.put("bitis", sefer.getString("bitis"));
+            _sefer_data.put("gidis", sefer.getString("gidis"));
+            _sefer_data.put("tahmin", sefer.getString("tahmin"));
+            _sefer_data.put("amir", sefer.getString("amir"));
+            _sefer_data.put("surucu", surucu_isim );
+            _sefer_data.put("durum_kodu", sefer.getString("durum_kodu"));
+            _sefer_data.put("durum", sefer.getString("durum"));
+            _sefer_data.put("plaka", plaka);
+            oto_data.put(_sefer_data);
+        }
+        if( _kaynak == 'A' ){
+            excel_isim_extra = "_AKTIF_FILO_VERI";
+        } else {
+            excel_isim_extra = "_SUNUCU";
+        }
     }
 
     public boolean init( boolean cb_tamam, boolean cb_bekleyen, boolean cb_aktif, boolean cb_iptal, boolean cb_yarim, boolean cb_plaka ){
@@ -38,19 +89,23 @@ public class Excel_Filo_Plan {
         WritableWorkbook myFirstWbook = null;
         try {
             try {
+                JSONArray data;
+                if( oto_flag ){
+                    myFirstWbook = Workbook.createWorkbook(new File("C:\\temp\\"+oto+"_ORER_Tablo_"+tarih+excel_isim_extra+".xls"));
+                    data = oto_data;
+                } else {
+                    myFirstWbook = Workbook.createWorkbook(new File("C:\\temp\\ORER_Tablo_"+tarih+".xls"));
 
-                Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto=OBAREY&excel=true&baslangic="+tarih+"&bitis=" );
-                request.kullanici_pc_parametreleri_ekle();
-                request.action();
-                JSONArray data = new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("orer_data");
+                    Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=orer_download&oto=OBAREY&excel=true&baslangic="+tarih+"&bitis=" );
+                    request.kullanici_pc_parametreleri_ekle();
+                    request.action();
+                    data = new JSONObject(request.get_value()).getJSONObject("data").getJSONArray("orer_data");
+                }
+                WritableSheet excelSheet = myFirstWbook.createSheet("ORER Tablo", 0);
 
                 int row = 1, col = 0;
                 String onceki_sefer_bitis = "", son_oto = "", amir_str;
-
                 if( data.length() == 0 ) return false;
-
-                myFirstWbook = Workbook.createWorkbook(new File("C:\\temp\\ORER_Tablo_"+tarih+".xls"));
-                WritableSheet excelSheet = myFirstWbook.createSheet("ORER Tablo", 0);
 
                 myFirstWbook.setColourRGB(Colour.ROSE, 244, 188, 188);
                 myFirstWbook.setColourRGB(Colour.RED, 255, 232, 232);
@@ -221,6 +276,19 @@ public class Excel_Filo_Plan {
                     son_oto = res.getString("oto");
                     row++;
                 }
+
+                CellView cv = excelSheet.getColumnView(7);
+                cv.setSize(8200);
+                excelSheet.setColumnView(7, cv);
+
+                cv = excelSheet.getColumnView(1);
+                cv.setSize(4000);
+                excelSheet.setColumnView(1, cv);
+
+                cv = excelSheet.getColumnView(6);
+                cv.setSize(4000);
+                excelSheet.setColumnView(6, cv);
+
 
             } catch( JSONException e ){
                 e.printStackTrace();

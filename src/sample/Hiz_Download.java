@@ -27,7 +27,10 @@ public class Hiz_Download extends Filo_Task_Template {
             String[] exploded = data_string.split("\\|");
             //System.out.println("SAAT:" + exploded[1]);
             //System.out.println( oto + " HIZ:" + exploded[4]);
-            hiz = Integer.valueOf(exploded[4]);
+            try {
+                hiz = Integer.valueOf(exploded[4]);
+            } catch( ArrayIndexOutOfBoundsException e ){
+            }
         } catch( NullPointerException e ){
             e.printStackTrace();
             System.out.println( "["+Common.get_current_hmin() + "]  "+  oto+ " Hız sefer veri ayıklama hatası. Tekrar deneniyor.");

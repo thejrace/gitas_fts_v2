@@ -1,15 +1,14 @@
 package sample;
 
+import jxl.CellView;
 import jxl.Workbook;
 import jxl.write.*;
 import jxl.write.Colour;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -116,6 +115,19 @@ public class Excel_Surucu_Rapor {
                         son_stil = aktif_stil;
                     }
                 }
+
+                CellView cv = excelSheet.getColumnView(0);
+                cv.setSize(8200);
+                excelSheet.setColumnView(0, cv);
+
+                cv = excelSheet.getColumnView(5);
+                cv.setSize(4000);
+                excelSheet.setColumnView(5, cv);
+
+                cv = excelSheet.getColumnView(6);
+                cv.setSize(4000);
+                excelSheet.setColumnView(6, cv);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
