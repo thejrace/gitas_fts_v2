@@ -135,7 +135,6 @@ public class Excel_Surucu_Rapor {
                                     excelSheet.addCell(label);
                                 }
                             } catch( JSONException | NullPointerException e ){}
-
                             double sefer_sure = 0;
                             try {
                                 for( int j = 0; j < res.getJSONArray("gidisler").length(); j++ ){
@@ -147,7 +146,6 @@ public class Excel_Surucu_Rapor {
                                 label = new Label(8, row, "Veri Yok", aktif_stil);
                                 excelSheet.addCell(label);
                             }
-
                             row++;
                             ekli_suruculer.add(key);
                             son_oto = res.getString("oto");
@@ -155,7 +153,6 @@ public class Excel_Surucu_Rapor {
                         } catch( JSONException e ){
                             e.printStackTrace();
                         }
-
                     }
                 }
 

@@ -198,47 +198,7 @@
     <favorites_list name="JavaFxApplication" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Otobus_Box.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="844">
-              <caret line="488" column="37" selection-start-line="488" selection-start-column="37" selection-end-line="488" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Excel_Surucu_Rapor.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/sample/Excel_Surucu_Rapor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="130" column="105" selection-start-line="130" selection-start-column="105" selection-end-line="130" selection-end-column="105" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Surucu_Box.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Surucu_Box.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="42" column="112" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="112" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Secenekler_Popup.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Secenekler_Popup.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8041">
-              <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -818,12 +778,12 @@
       <workItem from="1523904899162" duration="2789000" />
       <workItem from="1523957916348" duration="2411000" />
       <workItem from="1523977941923" duration="1203000" />
-      <workItem from="1524056328693" duration="9214000" />
+      <workItem from="1524056328693" duration="10632000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="385530000" />
+    <option name="totallyTimeSpent" value="386948000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -836,7 +796,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32899022" />
@@ -848,11 +807,11 @@
       <window_info anchor="right" id="Maven Projects" order="4" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32899022" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.29411766" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.29411766" />
       <window_info anchor="bottom" id="Terminal" order="15" weight="0.33659065" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.17324094" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.17324094" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -1279,6 +1238,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Surucu_Box.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="42" column="112" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="112" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Excel_Surucu_Rapor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="897">
+          <caret line="136" column="79" selection-start-line="136" selection-start-column="79" selection-end-line="136" selection-end-column="79" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Secenekler_Popup.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-8041">
@@ -1290,23 +1266,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="844">
           <caret line="488" column="37" selection-start-line="488" selection-start-column="37" selection-end-line="488" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Surucu_Box.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="42" column="112" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="112" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Excel_Surucu_Rapor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="130" column="105" selection-start-line="130" selection-start-column="105" selection-end-line="130" selection-end-column="105" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
