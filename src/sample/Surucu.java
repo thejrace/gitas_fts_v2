@@ -1,11 +1,15 @@
 package sample;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jeppe on 09.07.2017.
  */
 public class Surucu {
 
     private String sicil_no, isim, telefon, orer, bitis;
+    private ArrayList<String> gidisler = new ArrayList<>();
+    private ArrayList<String> bitisler = new ArrayList<>();
     public Surucu( String _sicil_no, String _isim, String _telefon ){
         sicil_no = _sicil_no;
         isim = _isim;
@@ -16,6 +20,19 @@ public class Surucu {
         isim = _isim;
         orer = _orer;
         bitis = _bitis;
+    }
+
+    public void add_bitis( String _data ){
+        bitisler.add(_data);
+    }
+    public void add_gidis( String _data ){
+        gidisler.add(_data);
+    }
+    public ArrayList<String> get_gidisler(){
+        return gidisler;
+    }
+    public ArrayList<String> get_bitisler(){
+        return bitisler;
     }
 
     public String get_orer(){

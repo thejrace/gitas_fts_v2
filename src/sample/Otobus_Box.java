@@ -36,7 +36,6 @@ public class Otobus_Box extends VBox{
     private boolean run = true;
     private String cookie = "INIT", bolge;
     private Orer_Download orer_download;
-    private PDKS_Download pdks_download;
     private Map<String, Surucu> suruculer = new HashMap<>();
     private Map<String, String> surucu_pdks_data = new HashMap<>();
     private ArrayList<String> filo_vdl_log = new ArrayList<>();
@@ -51,10 +50,9 @@ public class Otobus_Box extends VBox{
                     box_header_hat,
                     box_header_plaka;
     private Circle led;
-    private Button btn_sefer, btn_surucu, btn_alarm, btn_mesaj, btn_harita, btn_rapor, btn_iys, btn_notlar;
+    private Button btn_sefer, btn_surucu, btn_mesaj, btn_harita, btn_rapor, btn_iys, btn_notlar;
     private Button btn_vdl_filo, btn_vdl_plaka, btn_vdl_gecmis; // veri download log
     private Label lbl_vdl_filo, lbl_vdl_plaka, lbl_vdl_hiz;
-    private VBox ui_container;
     private VBox box_content;
     private String  ui_led = "VY",
                     ui_notf,
@@ -235,8 +233,6 @@ public class Otobus_Box extends VBox{
 
         btn_sefer = new Button( "PLAN");
         btn_sefer.getStyleClass().add( CLASS_NAV_BTN );
-        btn_alarm = new Button( "#");
-        btn_alarm.getStyleClass().add( CLASS_NAV_BTN );
         btn_mesaj = new Button( "MESAJ");
         btn_mesaj.getStyleClass().add( CLASS_NAV_BTN );
         btn_surucu = new Button( "SÜRÜCÜ");
@@ -457,15 +453,18 @@ public class Otobus_Box extends VBox{
                         item = sdata.getJSONObject(j);
                         surucu_pdks_data.put( item.getString("orer"), item.getString("surucu") );
                         if( !item.getString("durum").equals("T") ) continue;
+                        // try catch BELIRSIZ SURUCU icin
+                        try {
+                            suruculer.get(item.getString("surucu")).add_gidis(item.getString("gidis"));
+                            suruculer.get(item.getString("surucu")).add_bitis(item.getString("bitis"));
+                        } catch( NullPointerException e ){}
                         if( !kontrol.contains( item.getString("surucu"))){
                             try {
                                 suruculer.get(item.getString("surucu")).set_orer( item.getString("orer") );
                                 kontrol.add(item.getString("surucu"));
-                            } catch( NullPointerException e ){
-
-                            }
+                            } catch( NullPointerException e ){}
                         } else {
-                            suruculer.get(item.getString("surucu")).set_bitis( item.getString("bitis") );
+                            if( !item.getString("bitis").equals("") ) suruculer.get(item.getString("surucu")).set_bitis( item.getString("bitis") );
                         }
                     }
                     for (Map.Entry<String, Surucu> entry : suruculer.entrySet()) {
@@ -488,7 +487,6 @@ public class Otobus_Box extends VBox{
         });
         surucu_pdks_download.setDaemon(true);
         surucu_pdks_download.start();
-
     }
 
     private void update( JSONArray data, String durak_data ) {
@@ -834,7 +832,7 @@ public class Otobus_Box extends VBox{
 
     }
 
-    public void update_ui(){
+    private void update_ui(){
         Platform.runLater(new Runnable() {
             @Override
             public void run(){
@@ -1408,9 +1406,6 @@ public class Otobus_Box extends VBox{
         cookie = yeni_cookie;
     }
 
-    public String get_bolge(){
-        return bolge;
-    }
 
     public void add_alarm_listener( Alarm_Listener listener ){
         listeners.add( listener );
