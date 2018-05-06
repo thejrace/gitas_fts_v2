@@ -590,18 +590,12 @@ public class Otobus_Box extends VBox{
             sefer_durum_kodu = sefer.getString("durum_kodu");
             sefer_amir = sefer.getString("amir");
 
-
             // hat ve güzergah verisini al
             // aktif sefer yokmuş gibi burada sadece hatti aliyoruz
             if (!hat_verisi_alindi) {
                 ui_hat_data = sefer_hat;
                 hat_verisi_alindi = true;
             }
-
-
-
-
-
             sonraki_sefer = null;
             // bir sonraki sefer varsa aliyoruz verisini
             if (!data.isNull(j + 1)) sonraki_sefer = data.getJSONObject(j + 1);

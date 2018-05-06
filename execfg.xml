@@ -2,7 +2,7 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>E:\gitas_fts_v2\out\artifacts\gitas_fts_v2_jar\gitas_fts_v2.jar</jar>
+  <jar>F:\gitas_fts_v2\out\artifacts\gitas_fts_v2_jar\gitas_fts_v2.jar</jar>
   <outfile>C:\Users\Jeppe-PC\Desktop\Gitas Filo Takip Sistemi v2.010H.5C.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
@@ -13,7 +13,7 @@
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>E:\Bunker\Jester&apos;s Files\2018 Upgrade Oncesi\Desktop\app_ico.ico</icon>
+  <icon>F:\gitas_fts_v2\app_ico.ico</icon>
   <singleInstance>
     <mutexName>gtfs_2010h1</mutexName>
     <windowTitle>Gitaş Filo Takip Sistemi</windowTitle>
