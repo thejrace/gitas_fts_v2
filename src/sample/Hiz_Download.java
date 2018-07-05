@@ -12,7 +12,9 @@ public class Hiz_Download extends Filo_Task_Template {
         error = false;
         // veri yokken nullpointer yemeyek diye resetliyoruz başta
         System.out.println("Hız download [ " + oto + " ]");
-        org.jsoup.Connection.Response sefer_verileri_req = istek_yap("http://filo5.iett.gov.tr/_FYS/000/harita.php?konu=oto&oto=");
+        //org.jsoup.Connection.Response sefer_verileri_req = istek_yap("http://filo5.iett.gov.tr/_FYS/000/harita.php?konu=oto&oto=");
+        org.jsoup.Connection.Response sefer_verileri_req = istek_yap("https://filotakip.iett.gov.tr/_FYS/000/harita.php?konu=oto&oto=");
+
         Document sefer_doc = parse_html( sefer_verileri_req );
         sefer_veri_ayikla( sefer_doc );
     }
@@ -21,6 +23,7 @@ public class Hiz_Download extends Filo_Task_Template {
             hiz = 0;
             return;
         }
+
         try {
             String sayfa = document.toString();
             String data_string = sayfa.substring( sayfa.indexOf("veri_ilklendir")+14, sayfa.indexOf("veri_hatcizgi") );

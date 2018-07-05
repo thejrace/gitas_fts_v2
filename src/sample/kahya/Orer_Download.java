@@ -19,7 +19,8 @@ public class Orer_Download extends Filo_Task_Template {
     private ArrayList<String> guzergahlar_data = new ArrayList<>();
     private String hat, aktif_orer = "BEKLEMEDE";
     private int aktif_sefer_index;
-    private String url = "http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&otobus=";
+    private String url_old = "http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&otobus=";
+    private String url = "https://filotakip.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&otobus=";
     private String durum_param = "";
     private String hat_tarama_aktif_oto;
     public Orer_Download( String oto, String cookie ){
@@ -79,13 +80,23 @@ public class Orer_Download extends Filo_Task_Template {
             for( int i = 1; i < rows.size(); i++ ) {
                 row = rows.get(i);
                 cols = row.select("td");
-                orer = Common.regex_trim(cols.get(7).getAllElements().get(2).text());
+                orer = Common.regex_trim(cols.get(9).getAllElements().get(2).text());
 
                 if( !hat_alindi ){
-                    hat = cols.get(1).text().trim();
+                    /*hat = cols.get(1).text().trim();
                     if( cols.get(1).text().trim().contains("!")  ) hat = cols.get(1).text().trim().substring(1, cols.get(1).text().trim().length() - 1 );
                     if( cols.get(1).text().trim().contains("#") ) hat = cols.get(1).text().trim().substring(1, cols.get(1).text().trim().length() - 1 );
-                    if( cols.get(1).text().trim().contains("*") ) hat = cols.get(1).text().trim().substring(1, cols.get(1).text().trim().length() - 1);
+                    if( cols.get(1).text().trim().contains("*") ) hat = cols.get(1).text().trim().substring(1, cols.get(1).text().trim().length() - 1);*/
+                    hat = cols.get(2).text().trim();
+                    if( cols.get(2).text().trim().contains("!")  ){
+                        hat = cols.get(2).text().trim().substring(3, cols.get(2).text().trim().length() - 1 );
+                    } else if( cols.get(2).text().trim().contains("#") ) {
+                        hat = cols.get(2).text().trim().substring(3, cols.get(2).text().trim().length() - 1 );
+                    } else  if( cols.get(2).text().trim().contains("*") ){
+                        hat = cols.get(2).text().trim().substring(3, cols.get(2).text().trim().length() - 1);
+                    } else {
+                        hat = hat.substring(2, hat.length());
+                    }
                     hat_alindi = true;
                 }
                 if( cols.get(12).text().replaceAll("\u00A0", "").equals("A") && cols.get(3).getAllElements().size() > 2 ){
@@ -110,27 +121,63 @@ public class Orer_Download extends Filo_Task_Template {
 
 
                 } else {
-                    tek_sefer_data = new Sefer_Data(
-                        Common.regex_trim(cols.get(0).text()),
-                        hat,
-                        Common.regex_trim(cols.get(2).text()),
-                        Common.regex_trim(cols.get(3).getAllElements().get(1).text()),
-                        Common.regex_trim(cols.get(4).getAllElements().get(2).text()),
+                    /*tek_sefer_data = new Sefer_Data(
+                        Common.regex_trim(cols.get(0).text()), // no
+                        hat, // hat
+                        Common.regex_trim(cols.get(2).text()), // servis
+                        Common.regex_trim(cols.get(3).getAllElements().get(1).text()), // guzergah
+                        Common.regex_trim(cols.get(4).getAllElements().get(2).text()), // oto
                         "",
                         "",
                         "",
-                        Common.regex_trim(cols.get(6).text()),
-                        orer,
+                        Common.regex_trim(cols.get(6).text()), // gelis
+                        orer, // orer
                         "",
-                        Common.regex_trim(cols.get(8).text()),
-                        Common.regex_trim(cols.get(9).text()),
-                        Common.regex_trim(cols.get(10).text()),
-                        Common.regex_trim(cols.get(11).text()),
-                        Common.regex_trim(cols.get(12).text()),
-                        cols.get(13).text().substring(5),
+                        Common.regex_trim(cols.get(8).text()), // amir
+                        Common.regex_trim(cols.get(9).text()), // gidis
+                        Common.regex_trim(cols.get(10).text()), // tahmin
+                        Common.regex_trim(cols.get(11).text()), // bitis
+                        Common.regex_trim(cols.get(12).text()), // durum
+                        cols.get(13).text().substring(5), // durum kodu
                         "",
                         1,
                         0
+                    );*/
+
+                    String d_dk = "";
+                    String durum = "";
+                    String dk = "";
+                    try {
+                        d_dk = cols.get(14).text();
+                        durum = d_dk.substring(0,1);
+                        dk = d_dk.substring(2, d_dk.length());
+
+                    } catch (StringIndexOutOfBoundsException e ){
+                        //e.printStackTrace();
+                    }
+                    System.out.println("["+durum+"]");
+                    System.out.println("["+dk+"]");
+                    tek_sefer_data = new Sefer_Data(
+                            Common.regex_trim(cols.get(0).text()), // no
+                            hat, // hat
+                            Common.regex_trim(cols.get(3).text()), // servis
+                            Common.regex_trim(cols.get(4).getAllElements().get(1).text()), // guzergah
+                            Common.regex_trim(cols.get(5).text()), // oto
+                            "",
+                            "",
+                            "",
+                            Common.regex_trim(cols.get(8).text()), // gelis
+                            orer, // orer
+                            "",
+                            Common.regex_trim(cols.get(10).text()), // amir
+                            Common.regex_trim(cols.get(11).text()), // gidis
+                            Common.regex_trim(cols.get(12).text()), // tahmin
+                            Common.regex_trim(cols.get(13).text()), // bitis
+                            durum,
+                            dk,
+                            "",
+                            1,
+                            0
                     );
                     seferler.put(tek_sefer_data.tojson());
                 }

@@ -240,30 +240,34 @@ public class Main extends Application {
                 private JSONObject val;
                 @Override
                 protected void succeeded(){
-                    alt_notf.setText(val.getString("text"));
-                    if( val.getInt("ok") == 0 ){
-                        input_email.setDisable(false);
-                        input_pass.setDisable(false);
-                        giris_button.setDisable(false);
-                        //kayit_button.setDisable(false);
-                    } else {
-                        try {
+                    try {
+                        alt_notf.setText(val.getString("text"));
+                        if( val.getInt("ok") == 0 ){
+                            input_email.setDisable(false);
+                            input_pass.setDisable(false);
+                            giris_button.setDisable(false);
+                            //kayit_button.setDisable(false);
+                        } else {
                             User_Config.eposta_guncelle( eposta );
                             stage.close();
                             User_Config.init_app_data("init", val.getJSONObject("data") );
                             //Takip_Scene main_scene = new Takip_Scene();
                             Filo_Captcha_Scene main_scene = new Filo_Captcha_Scene();
                             main_scene.start(new Stage());
-                        } catch( Exception e ){
-                            e.printStackTrace();
                         }
+                    } catch( Exception e ){
+                        e.printStackTrace();
                     }
                 }
                 @Override
                 protected Void call(){
                     Web_Request req = new Web_Request( Web_Request.SERVIS_URL , "&req=form&form_type="+form_type+"&eposta="+eposta+"&pass="+pass+"&bilgisayar_adi="+Common.bilgisayar_adini_al()+"&bilgisayar_hash="+ DigestUtils.sha256Hex(Common.bilgisayar_adini_al()) );
                     req.action();
-                    val = new JSONObject(req.get_value());
+                    try {
+                        val = new JSONObject(req.get_value());
+                    } catch( JSONException e ){
+                        e.printStackTrace();
+                    }
                     return null;
                 }
             });
