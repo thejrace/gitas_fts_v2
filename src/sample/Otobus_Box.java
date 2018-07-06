@@ -726,8 +726,14 @@ public class Otobus_Box extends VBox{
                     ui_main_notf = "Aktif Sefer " + sefer_orer + " (T " + sefer_tahmin + ")";
                 }
 
-                if (!durak_data.equals("YOK")) {
-                    ui_notf = durak_data.substring(16, durak_data.indexOf(" ("));
+                if ( !durak_data.equals("") && !durak_data.equals("YOK") ) {
+                    //ui_notf = durak_data.substring(16, durak_data.indexOf(" ("));
+                    try {
+                        ui_notf = durak_data.substring(0, durak_data.indexOf("("));
+                    } catch ( StringIndexOutOfBoundsException e ){
+
+                    }
+
                 } else {
                     ui_notf = "Durak bilgisi yok.";
                 }

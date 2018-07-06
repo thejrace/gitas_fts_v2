@@ -8,45 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FTS EXE ARŞİV/Gitas Filo Takip Sistemi v2.010H.5C.exe" beforeDir="false" afterPath="$PROJECT_DIR$/FTS EXE ARŞİV/Gitas Filo Takip Sistemi v2.010H.5C.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FTS EXE ARŞİV/Gitas Filo Takip Sistemi v2.010H.5C_1.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Captcha_Controller$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Captcha_Controller$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Captcha_Controller$2$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Captcha_Controller$2$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Captcha_Controller$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Captcha_Controller$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Captcha_Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Filo_Captcha_Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Hiz_Download.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Hiz_Download.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$10.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$11.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12$1$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12$1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12$1$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$12.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$13$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$13$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$13$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$13$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$13.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$14.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$15.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$16.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$17.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$17.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$18.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$18.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$19.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$19.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$20.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$20.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$21.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$21.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$22.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$22.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$9$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$9$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$9$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$9$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Otobus_Box.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/Takip_Scene.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/kahya/Orer_Download.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/gitas_fts_v2/sample/kahya/Orer_Download.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Filo_Captcha_Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Filo_Captcha_Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Hiz_Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Hiz_Download.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Takip_Scene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Takip_Scene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Otobus_Box.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Otobus_Box.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/kahya/Orer_Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/kahya/Orer_Download.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -110,73 +73,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="223" column="5" lean-forward="true" selection-start-line="223" selection-start-column="5" selection-end-line="223" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Filo_Captcha_Scene.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Filo_Captcha_Scene.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="56" column="54" selection-start-line="56" selection-start-column="54" selection-end-line="56" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Filo_Captcha_Controller.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Filo_Captcha_Controller.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="109" column="34" selection-start-line="109" selection-start-column="34" selection-end-line="109" selection-end-column="34" />
-              <folding>
-                <element signature="e#9666#9667#0" expanded="true" />
-                <element signature="e#9707#9708#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Takip_Scene.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="161" column="56" selection-start-line="161" selection-start-column="56" selection-end-line="161" selection-end-column="56" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#8498#8499#0" expanded="true" />
-                <element signature="e#8597#8598#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Orer_Download.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Orer_Download.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/kahya/Orer_Download.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="438">
-              <caret line="98" column="59" selection-start-line="98" selection-start-column="59" selection-end-line="98" selection-end-column="59" />
-              <folding>
-                <element signature="e#5909#5910#0" expanded="true" />
-                <element signature="e#5940#5941#0" expanded="true" />
-                <element signature="e#5984#5985#0" expanded="true" />
-                <element signature="e#6025#6026#0" expanded="true" />
-                <element signature="e#6073#6074#0" expanded="true" />
-                <element signature="e#6112#6113#0" expanded="true" />
-                <element signature="e#6141#6142#0" expanded="true" />
-                <element signature="e#6167#6168#0" expanded="true" />
-                <element signature="e#6203#6204#0" expanded="true" />
-                <element signature="e#6236#6237#0" expanded="true" />
-                <element signature="e#6276#6277#0" expanded="true" />
-                <element signature="e#6316#6317#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="489">
+              <caret line="157" column="44" selection-start-line="157" selection-start-column="44" selection-end-line="157" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -184,8 +85,8 @@
       <file leaf-file-name="Otobus_Box.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="380" selection-start-line="380" selection-end-line="380" />
+            <state relative-caret-position="234">
+              <caret line="731" column="24" lean-forward="true" selection-start-line="731" selection-start-column="24" selection-end-line="731" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -199,11 +100,25 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Takip_Scene.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="161" column="32" lean-forward="true" selection-start-line="161" selection-start-column="32" selection-end-line="161" selection-end-column="32" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#8492#8493#0" expanded="true" />
+                <element signature="e#8591#8592#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Filo_Task_Template.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Filo_Task_Template.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="527">
-              <caret line="36" column="1" lean-forward="true" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="1" />
+              <caret line="36" column="1" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -211,8 +126,8 @@
       <file leaf-file-name="Sefer_Data.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Sefer_Data.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="75" column="12" lean-forward="true" selection-start-line="75" selection-start-column="12" selection-end-line="94" selection-end-column="24" />
+            <state relative-caret-position="1275">
+              <caret line="75" column="12" selection-start-line="75" selection-start-column="12" selection-end-line="94" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -317,13 +232,13 @@
         <option value="$PROJECT_DIR$/src/sample/Surucu.java" />
         <option value="$PROJECT_DIR$/src/sample/Surucu_Box.java" />
         <option value="$PROJECT_DIR$/src/sample/Excel_Surucu_Rapor.java" />
-        <option value="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
         <option value="$PROJECT_DIR$/src/sample/Main.java" />
-        <option value="$PROJECT_DIR$/src/sample/Takip_Scene.java" />
         <option value="$PROJECT_DIR$/src/sample/Filo_Captcha_Scene.java" />
         <option value="$PROJECT_DIR$/src/sample/Hiz_Download.java" />
         <option value="$PROJECT_DIR$/src/sample/Filo_Captcha_Controller.java" />
+        <option value="$PROJECT_DIR$/src/sample/Otobus_Box.java" />
         <option value="$PROJECT_DIR$/src/sample/kahya/Orer_Download.java" />
+        <option value="$PROJECT_DIR$/src/sample/Takip_Scene.java" />
       </list>
     </option>
   </component>
@@ -353,6 +268,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -382,9 +300,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -815,12 +730,21 @@
       <workItem from="1526827205460" duration="167000" />
       <workItem from="1526830623581" duration="1211000" />
       <workItem from="1530053110272" duration="25000" />
-      <workItem from="1530793252250" duration="8338000" />
+      <workItem from="1530793252250" duration="9794000" />
+      <workItem from="1530876144170" duration="1113000" />
     </task>
+    <task id="LOCAL-00001" summary="update">
+      <created>1530806434470</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1530806434470</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="420385000" />
+    <option name="totallyTimeSpent" value="422954000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -833,6 +757,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32899022" />
@@ -843,19 +768,19 @@
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50053304" side_tool="true" weight="0.2875817" />
       <window_info anchor="right" id="Maven Projects" order="4" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.29411766" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32899022" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.29411766" />
       <window_info anchor="bottom" id="Terminal" order="15" weight="0.33659065" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.17377399" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.17537314" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="5" />
       <window_info anchor="right" id="Theme Preview" order="9" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39869282" />
       <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39869282" />
       <window_info anchor="right" id="JetGradle" order="6" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -890,12 +815,12 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Messages" order="7" weight="0.32790446" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info id="Favorites" order="6" />
       <window_info anchor="bottom" id="Problems" order="13" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info id="Nl-Palette" order="2" />
       <window_info anchor="right" id="Maven Projects" order="4" />
       <window_info anchor="bottom" id="Terminal" order="14" weight="0.33659065" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32873806" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.15351813" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -905,7 +830,7 @@
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Coverage" order="11" side_tool="true" weight="0.32995737" />
-      <window_info id="Favorites" order="6" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32873806" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3995657" />
     </layout-to-restore>
   </component>
@@ -914,6 +839,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1221,15 +1150,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Sefer_Data.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="75" column="12" lean-forward="true" selection-start-line="75" selection-start-column="12" selection-end-line="94" selection-end-column="24" />
+        <state relative-caret-position="1275">
+          <caret line="75" column="12" selection-start-line="75" selection-start-column="12" selection-end-line="94" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Filo_Task_Template.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
-          <caret line="36" column="1" lean-forward="true" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="1" />
+          <caret line="36" column="1" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Filo_Captcha_Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1043">
+          <caret line="162" column="33" lean-forward="true" selection-start-line="162" selection-start-column="33" selection-end-line="162" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Filo_Captcha_Scene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="751">
+          <caret line="56" column="54" selection-start-line="56" selection-start-column="54" selection-end-line="56" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="223" column="5" selection-start-line="223" selection-start-column="5" selection-end-line="223" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="731" column="24" lean-forward="true" selection-start-line="731" selection-start-column="24" selection-end-line="731" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/kahya/Orer_Download.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="157" column="44" selection-start-line="157" selection-start-column="44" selection-end-line="157" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -1240,70 +1207,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Otobus_Box.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="380" selection-start-line="380" selection-end-line="380" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="223" column="5" lean-forward="true" selection-start-line="223" selection-start-column="5" selection-end-line="223" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Filo_Captcha_Scene.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="56" column="54" selection-start-line="56" selection-start-column="54" selection-end-line="56" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Filo_Captcha_Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="109" column="34" selection-start-line="109" selection-start-column="34" selection-end-line="109" selection-end-column="34" />
-          <folding>
-            <element signature="e#9666#9667#0" expanded="true" />
-            <element signature="e#9707#9708#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Takip_Scene.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="161" column="56" selection-start-line="161" selection-start-column="56" selection-end-line="161" selection-end-column="56" />
+        <state relative-caret-position="374">
+          <caret line="161" column="32" lean-forward="true" selection-start-line="161" selection-start-column="32" selection-end-line="161" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8498#8499#0" expanded="true" />
-            <element signature="e#8597#8598#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/kahya/Orer_Download.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="98" column="59" selection-start-line="98" selection-start-column="59" selection-end-line="98" selection-end-column="59" />
-          <folding>
-            <element signature="e#5909#5910#0" expanded="true" />
-            <element signature="e#5940#5941#0" expanded="true" />
-            <element signature="e#5984#5985#0" expanded="true" />
-            <element signature="e#6025#6026#0" expanded="true" />
-            <element signature="e#6073#6074#0" expanded="true" />
-            <element signature="e#6112#6113#0" expanded="true" />
-            <element signature="e#6141#6142#0" expanded="true" />
-            <element signature="e#6167#6168#0" expanded="true" />
-            <element signature="e#6203#6204#0" expanded="true" />
-            <element signature="e#6236#6237#0" expanded="true" />
-            <element signature="e#6276#6277#0" expanded="true" />
-            <element signature="e#6316#6317#0" expanded="true" />
+            <element signature="e#8492#8493#0" expanded="true" />
+            <element signature="e#8591#8592#0" expanded="true" />
           </folding>
         </state>
       </provider>

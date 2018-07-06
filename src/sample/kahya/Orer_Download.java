@@ -99,9 +99,8 @@ public class Orer_Download extends Filo_Task_Template {
                     }
                     hat_alindi = true;
                 }
-                if( cols.get(12).text().replaceAll("\u00A0", "").equals("A") && cols.get(3).getAllElements().size() > 2 ){
-                    aktif_sefer_verisi = Common.regex_trim(cols.get(3).getAllElements().get(2).attr("title"));
-                }
+
+
                 if( kahya_flag ){
                     guzergahlar_data.add(Common.regex_trim(cols.get(3).getAllElements().get(1).text()));
                     if (Common.regex_trim(cols.get(12).text()).equals("A")) {
@@ -155,8 +154,11 @@ public class Orer_Download extends Filo_Task_Template {
                     } catch (StringIndexOutOfBoundsException e ){
                         //e.printStackTrace();
                     }
-                    System.out.println("["+durum+"]");
-                    System.out.println("["+dk+"]");
+
+                    if( durum.equals("A") ){
+                        aktif_sefer_verisi = cols.get(15).text();
+                    }
+
                     tek_sefer_data = new Sefer_Data(
                             Common.regex_trim(cols.get(0).text()), // no
                             hat, // hat

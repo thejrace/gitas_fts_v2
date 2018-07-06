@@ -162,7 +162,7 @@ public class Filo_Captcha_Controller implements Initializable {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            web_view_init( User_Config.app_filo5_data.getJSONObject("A").getString("login"), User_Config.app_filo5_data.getJSONObject("A").getString("pass"));
+                            web_view_init( User_Config.app_filo5_data.getJSONObject("F").getString("login"), User_Config.app_filo5_data.getJSONObject("F").getString("pass"));
                         }
                     });
                 } catch( IOException e ){
