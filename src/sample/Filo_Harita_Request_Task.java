@@ -52,7 +52,9 @@ public class Filo_Harita_Request_Task {
         web_view = new WebView();
         if (type == TAKIP_HARITA) {
             try {
-                url = new URL("http://filo5.iett.gov.tr/_FYS/000/cevrimDisi.php?gzg=" + hat_guz + "&kapino=" + oto + "&hiz=&saat=&sure=60&limit=-1&ara=ARA"); // 00:00 dan itibaren
+                //url = new URL("http://filo5.iett.gov.tr/_FYS/000/cevrimDisi.php?gzg=" + hat_guz + "&kapino=" + oto + "&hiz=&saat=&sure=60&limit=-1&ara=ARA"); // 00:00 dan itibaren
+                url = new URL("https://filotakip.iett.gov.tr/_FYS/000/cevrimDisi.php?gzg="+hat_guz+"&kapino="+oto+"&hiz=0&saat=16:15&sure=60&limit=-1&ara=ARA"); // 00:00 dan itibaren
+
             } catch( MalformedURLException e ){
                 e.printStackTrace();
             }
@@ -110,6 +112,7 @@ public class Filo_Harita_Request_Task {
             web_view.setMaxHeight(512);
             try {
                 org.jsoup.Connection.Response js_con = Jsoup.connect("http://filo.iett.gov.tr/akyolbil/uyg.php?abc=1&talep=5&grup=3&hat="+oto)
+
                         .cookie("PHPSESSID", User_Config.filo5_cookie)
                         .method(org.jsoup.Connection.Method.POST)
                         .execute();
@@ -144,7 +147,9 @@ public class Filo_Harita_Request_Task {
             web_view.setPrefWidth(790);
             web_view.setMaxWidth(790);
             try {
-                url = new URL( "http://filo5.iett.gov.tr/_FYS/000/harita.php?konu=hat&hat="+hat_guz ); // 00:00 dan itibaren
+                //url = new URL( "http://filo5.iett.gov.tr/_FYS/000/harita.php?konu=hat&hat="+hat_guz ); // 00:00 dan itibaren
+                url = new URL( "https://filotakip.iett.gov.tr/_FYS/000/harita.php?konu=hat&hat="+hat_guz ); // 00:00 dan itibaren
+
             } catch( MalformedURLException e ){
                 e.printStackTrace();
             }

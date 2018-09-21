@@ -61,6 +61,7 @@ public class Filo_Captcha_Controller implements Initializable {
         WebEngine we = wv_1.getEngine();
         try {
             URL url = new URL("https://filotakip.iett.gov.tr/login.php");
+            //URL url = new URL("ttp://filo5.iett.gov.tr/login.php?sayfa=");
             we.setJavaScriptEnabled(true);
             we.getLoadWorker().stateProperty().addListener(
                     (ObservableValue<? extends Worker.State> observable,
@@ -152,7 +153,8 @@ public class Filo_Captcha_Controller implements Initializable {
                 try{
                     System.out.println( "Filo phpsessid alınıyor..");
                     // random phpssid
-                    res = Jsoup.connect("http://filo5.iett.gov.tr/login.php?sayfa=/_FYS.php&aday=x")
+                    //res = Jsoup.connect("http://filo5.iett.gov.tr/login.php?sayfa=/_FYS.php&aday=x")
+                    res = Jsoup.connect("https://filotakip.iett.gov.tr/login.php")
                             .method(org.jsoup.Connection.Method.POST)
                             .timeout(0)
                             .execute();
