@@ -635,7 +635,7 @@ public class Otobus_Box extends VBox{
                         if (iptal_sonrasi_sefer.getString("durum").equals(Sefer_Data.DBEKLEYEN)) {
                             ui_led = Sefer_Data.DBEKLEYEN;
                             ui_main_notf = "Seferini Bekliyor";
-                            if (!iptal_sonrasi_sefer.getString("amir").equals("") && !iptal_sonrasi_sefer.getString("amir").equals("[ 10 5 2 ]")) {
+                            if (!iptal_sonrasi_sefer.getString("amir").equals("") && !iptal_sonrasi_sefer.getString("amir").equals("[ 10 5 2 ]") && !iptal_sonrasi_sefer.getString("amir").equals("[10 5 2]")) {
                                 ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("amir") + " ( Amir )";
                             } else {
                                 ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("orer");
@@ -689,7 +689,7 @@ public class Otobus_Box extends VBox{
                         if (iptal_sonrasi_sefer.getString("durum").equals(Sefer_Data.DBEKLEYEN)) {
                             ui_led = Sefer_Data.DBEKLEYEN;
                             ui_main_notf = "Seferini Bekliyor";
-                            if (!iptal_sonrasi_sefer.getString("amir").equals("") && !iptal_sonrasi_sefer.getString("amir").equals("[ 10 5 2 ]")) {
+                            if (!iptal_sonrasi_sefer.getString("amir").equals("") && !iptal_sonrasi_sefer.getString("amir").equals("[ 10 5 2 ]") && !iptal_sonrasi_sefer.getString("amir").equals("[10 5 2]")) {
                                 ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("amir") + " ( Amir )";
                             } else {
                                 ui_notf = "Bir sonraki sefer " + iptal_sonrasi_sefer.getString("orer");
@@ -739,7 +739,7 @@ public class Otobus_Box extends VBox{
                 }
                 if (sonraki_sefer != null && !sefer_tahmin.equals("")) {
                     // gec kalip kalmama kontrolu
-                    if (!sonraki_sefer.getString("amir").equals("") && !sonraki_sefer.getString("amir").equals("[ 10 5 2 ]")) {
+                    if (!sonraki_sefer.getString("amir").equals("") && !sonraki_sefer.getString("amir").equals("[ 10 5 2 ]") && !sonraki_sefer.getString("amir").equals("[10 5 2]") ) {
                         // bir sonraki sefere amir saat atamis
                         if (Sefer_Sure.hesapla(sefer_tahmin, sonraki_sefer.getString("amir")) < 0) {
                             // amir saat atamis ama gene de geç kalacak
@@ -764,7 +764,7 @@ public class Otobus_Box extends VBox{
                         // sonraki seferi var ve durumu bekleyense, bekleyen seferin saatini aliyoruz
                         ui_led = Sefer_Data.DBEKLEYEN;
                         ui_main_notf = "Seferini Bekliyor";
-                        if (!sonraki_sefer.getString("amir").equals("") && !sonraki_sefer.getString("amir").equals("[ 10 5 2 ]")) {
+                        if (!sonraki_sefer.getString("amir").equals("") && !sonraki_sefer.getString("amir").equals("[ 10 5 2 ]") && !sonraki_sefer.getString("amir").equals("[10 5 2]")) {
                             // eger amir saat atamişsa
                             ui_notf = "Bir sonraki sefer: " + sonraki_sefer.getString("amir") + " ( Amir )";
                             alarm_kontrol(new Alarm_Data(Alarm_Data.AMIR_SAAT_ATADI, Alarm_Data.MAVI, kod, Alarm_Data.MESAJ_AMIR_SAAT_ATADI, sefer_no));
