@@ -33,7 +33,7 @@ public class Otobus_Box extends VBox{
     private int index;
     private String kod, ruhsat_plaka, aktif_plaka;
     private String hat = "#", aktif_guzergah = "";
-    private boolean run = true;
+    private boolean run = true, pdks_thread_flag = true, hiz_thread_flag = true;
     private String cookie = "INIT", bolge;
     private Orer_Download orer_download;
     private Map<String, Surucu> suruculer = new HashMap<>();
@@ -297,6 +297,14 @@ public class Otobus_Box extends VBox{
         this.getChildren().addAll( box_header, box_content );
     }
 
+    // herşeyi durdur - temizle
+    public void free(){
+        pdks_thread_flag = false;
+        hiz_thread_flag = false;
+        run = false;
+        System.out.println(kod + " durdur!");
+    }
+
     private void orer_download( boolean thread ){
 
         Platform.runLater(new Runnable() {
@@ -401,7 +409,7 @@ public class Otobus_Box extends VBox{
         Thread hiz_th = new Thread(new Runnable() {
             @Override
             public void run() {
-                while( true ){
+                while( hiz_thread_flag ){
                     Hiz_Download hd = new Hiz_Download(kod, cookie);
                     hd.yap();
                     hiz = hd.get_hiz();
@@ -426,7 +434,7 @@ public class Otobus_Box extends VBox{
         Thread surucu_pdks_download = new Thread(new Runnable() {
             @Override
             public void run() {
-                while( true ){
+                while( pdks_thread_flag ){
 
                     Web_Request request = new Web_Request(Web_Request.SERVIS_URL, "&req=pdks_detay&oto="+kod );
                     request.kullanici_pc_parametreleri_ekle();

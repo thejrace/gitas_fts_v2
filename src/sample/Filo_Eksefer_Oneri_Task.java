@@ -81,7 +81,7 @@ public class Filo_Eksefer_Oneri_Task extends Task<ArrayList<Oneri_Sefer_Data>> {
         Elements cols  = null;
         try {
             String hat_kod;
-            String durum, orer;
+            String durum = "", orer;
             boolean oneri_oto_var;
             ArrayList<Otobus_Data> sefer_otolar_temp;
             Oneri_Sefer_Data oneri_sefer_data;
@@ -89,10 +89,11 @@ public class Filo_Eksefer_Oneri_Task extends Task<ArrayList<Oneri_Sefer_Data>> {
             for( int k = 0; k < hatlar_data.length(); k++ ){
                 hat_kod = hatlar_data.getString(k);
                 try {
-                    js_con = Jsoup.connect("http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&hat=" + Common.hat_kod_sef(hat_kod))
+                    //js_con = Jsoup.connect("http://filo5.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&hat=" + Common.hat_kod_sef(hat_kod))
+                    js_con = Jsoup.connect("https://filotakip.iett.gov.tr/_FYS/000/sorgu.php?konum=ana&konu=sefer&hat=" + Common.hat_kod_sef(hat_kod))
                             .cookie("PHPSESSID", User_Config.filo5_cookie)
                             .method(org.jsoup.Connection.Method.POST)
-                            .timeout(0)
+                            .timeout(45000)
                             .execute();
 
                     sefer_doc = js_con.parse();
@@ -103,35 +104,60 @@ public class Filo_Eksefer_Oneri_Task extends Task<ArrayList<Oneri_Sefer_Data>> {
                     rows = table.select("tr");
                     System.out.println(hat_kod + " ek sefer  veri işleniyor.." + " " + rows.size());
                     for (int i = 1; i < rows.size(); i++) {
+
+
                         oneri_oto_var = false;
                         sefer_otolar_temp = new ArrayList<>();
                         row = rows.get(i);
                         cols = row.select("td");
 
-                        durum = cols.get(12).text().replaceAll("\u00A0", "");
-                        orer = cols.get(7).getAllElements().get(2).text().replaceAll("\u00A0", "");
+                        /*durum = cols.get(12).text().replaceAll("\u00A0", "");
+                        orer = cols.get(7).getAllElements().get(2).text().replaceAll("\u00A0", "");*/
+
+                        orer = Common.regex_trim(cols.get(9).getAllElements().get(2).text());
+                        String d_dk = "";
+                        String dk = "";
+                        try {
+                            d_dk = cols.get(14).text();
+                            durum = d_dk.substring(0,1);
+                        } catch (StringIndexOutOfBoundsException e ){
+                            e.printStackTrace();
+                        }
+
                         // sefer iptal veya yarimsa VE orer i geçmemişse işlem yapicaz
                         if( ( durum.equals("I") || durum.equals("Y") ) && !Sefer_Sure.gecmis( Common.get_current_hmin(), orer )  ){
-                            // bolgedeki otobuslerden son seferi, iptal seferin orer ine uyanlari listelemek icin
-                            // son orer listemizi kontrol edicez seferin orer ile karşılaştırıp
-                            for (Map.Entry<String, Otobus_Data> otobus_item : otobusler_data.entrySet()) {
-                                if( !Sefer_Sure.gecmis( otobus_item.getValue().get_son_orer(), orer ) && Sefer_Sure.hesapla( otobus_item.getValue().get_son_orer(), orer ) > 60 ){
-                                    // son orer, iptal seferin baslangicindan geride yani ok
-                                    if( !oneri_oto_var ) oneri_oto_var = true;
-                                    // otobusun kodunu listeledik
-                                    sefer_otolar_temp.add( otobus_item.getValue() );
+                            try {
+                                dk = d_dk.substring(2, d_dk.length());
+                            } catch( StringIndexOutOfBoundsException e ){
+                                dk = "YOK";
+                            }
+
+
+                                // bolgedeki otobuslerden son seferi, iptal seferin orer ine uyanlari listelemek icin
+                                // son orer listemizi kontrol edicez seferin orer ile karşılaştırıp
+                                for (Map.Entry<String, Otobus_Data> otobus_item : otobusler_data.entrySet()) {
+                                    if( !Sefer_Sure.gecmis( otobus_item.getValue().get_son_orer(), orer ) && Sefer_Sure.hesapla( otobus_item.getValue().get_son_orer(), orer ) > 60 ){
+                                        // son orer, iptal seferin baslangicindan geride yani ok
+                                        if( !oneri_oto_var ) oneri_oto_var = true;
+                                        // otobusun kodunu listeledik
+                                        sefer_otolar_temp.add( otobus_item.getValue() );
+                                    }
                                 }
-                            }
-                            // otobus - sonorer listemizi kontrol ettikten sonra uyum olan varsa
-                            // output a ekliyoruz veriyi
-                            if( oneri_oto_var ){
-                                oneri_sefer_data = new Oneri_Sefer_Data( cols.get(3).getAllElements().get(1).text().replaceAll("\u00A0", ""), orer, durum, cols.get(13).text().substring(5), cols.get(4).getAllElements().get(2).text().replaceAll("\u00A0", "" ) );
-                                oneri_sefer_data.oto_ekle( sefer_otolar_temp );
-                                output.add( oneri_sefer_data );
-                            }
+                                // otobus - sonorer listemizi kontrol ettikten sonra uyum olan varsa
+                                // output a ekliyoruz veriyi
+                                if( oneri_oto_var ){
+
+                                        oneri_sefer_data = new Oneri_Sefer_Data( Common.regex_trim(cols.get(4).getAllElements().get(1).text()), orer, durum, dk, Common.regex_trim(cols.get(5).text()) );
+                                        oneri_sefer_data.oto_ekle( sefer_otolar_temp );
+                                        output.add( oneri_sefer_data );
+
+
+                                }
+
+
                         }
                     }
-                } catch (IOException | NullPointerException e) {
+                } catch (Exception e) {
                     System.out.println("Ek sefer veri alım hatası.");
                     e.printStackTrace();
                     error = true;

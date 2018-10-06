@@ -74,6 +74,9 @@ public class Takip_Scene extends Application {
             @Override
             public void onchange(String profil, String prevprofil) {
                 controller.clear_boxes();
+                for (Map.Entry<String, Otobus_Box> entry : otobus_kutular.entrySet()) {
+                    entry.getValue().free();
+                }
                 Thread filo_mesaj_th = new Thread( new Task<Void>(){
                     Map<String, Otobus_Box> otobus_kutular_temp = new HashMap<>();
                     @Override
@@ -85,11 +88,11 @@ public class Takip_Scene extends Application {
                         JSONObject item;
                         for( int k = 0; k < User_Config.app_otobusler.length(); k++ ) {
                             item = User_Config.app_otobusler.getJSONObject(k);
-                            if( otobus_kutular.containsKey(item.getString("kapi_kodu"))){
+                            /*if( otobus_kutular.containsKey(item.getString("kapi_kodu"))){
                                 // var olan kutuysa id guncelle
                                 otobus_kutular.get(item.getString("kapi_kodu")).set_id(item.getInt("sira"));
                                 otobus_kutular_temp.put( item.getString("kapi_kodu"), otobus_kutular.get(item.getString("kapi_kodu")) );
-                            } else {
+                            } else {*/
                                 // yeni kutu ekle
                                 final Otobus_Box otobus_box = new Otobus_Box(item.getString("kapi_kodu"), item.getInt("sira"), item.getString("ruhsat_plaka"), item.getString("aktif_plaka"));
                                 otobus_kutular_temp.put(item.getString("kapi_kodu"), otobus_box );
@@ -106,7 +109,7 @@ public class Takip_Scene extends Application {
                                     }
                                 });
                                 otobus_box.cookie_guncelle( User_Config.filo5_cookie );
-                            }
+                            //}
                         }
                         return null;
                     }
