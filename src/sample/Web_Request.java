@@ -16,7 +16,7 @@ public class Web_Request {
 
     private String url, params, output;
     //public static String MAIN_URL = "http://sadece100.com/fts/";
-    public static String MAIN_URL = "http://178.18.206.163/web_servis/";
+    public static String MAIN_URL = "http://www.gitsistem.com:81/";
     public static String FTS_ADMIN_URL = "http://ahsaphobby.net/fts_admin/";
     public static String SERVIS_URL = MAIN_URL + "servis2.php";
     public static String SERVIS_URL2 = MAIN_URL + "servis2.php";
